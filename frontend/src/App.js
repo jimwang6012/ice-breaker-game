@@ -1,7 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
 
+import socketClient from "socket.io-client";
+const SERVER = "http://localhost:8080/";
+
+
 function App() {
+  let socket = socketClient(SERVER);
+  socket.on('connection', () => {
+      console.log("connected")
+  });
   return (
     <div className="App">
       <header className="App-header">
