@@ -1,5 +1,7 @@
 {
+  "name": "backend",
   "type": "module",
+  "version": "0.1.0",
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.3",

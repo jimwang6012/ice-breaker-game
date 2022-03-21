@@ -1,9 +1,13 @@
 {
   "name": "root",
   "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
   "devDependencies": {
     "husky": "^7.0.0",
-    "lerna": "^4.0.0",
     "lint-staged": "^12.3.7",
     "npm-run-all": "^4.1.5",
     "prettier": "2.6.0"
@@ -12,12 +16,12 @@
     "*.{js,css,md,jsx}": "prettier --write"
   },
   "scripts": {
-    "build": "lerna run build",
-    "prepare": "husky install",
-    "start": "lerna run --parallel start",
-    "start:dev": "lerna run --parallel start:dev",
-    "test": "lerna run --parallel test",
-    "postinstall": "run-s setup:*",
-    "setup:npm": "lerna bootstrap"
+    "frontend": "yarn workspace frontend start",
+    "backend": "yarn workspace backend start",
+    "start": "concurrently  --kill-others-on-fail \"yarn backend\" \"yarn frontend\"",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "concurrently": "^7.0.0"
   }
 }
