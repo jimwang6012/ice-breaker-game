@@ -1,14 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
 
 import socketClient from "socket.io-client";
 const SERVER = "http://localhost:8080/";
 
-
 function App() {
   let socket = socketClient(SERVER);
-  socket.on('connection', () => {
-      console.log("connected")
+  socket.on("connection", () => {
+    console.log("connected");
   });
   return (
     <div className="App">
@@ -23,7 +22,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Test Auto Lint again
         </a>
       </header>
     </div>
