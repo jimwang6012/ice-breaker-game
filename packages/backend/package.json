@@ -1,7 +1,11 @@
 {
   "type": "module",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.17.3",
     "socket.io": "^4.4.1"
+  },
+  "scripts": {
+    "start": "node server.js"
   }
 }
