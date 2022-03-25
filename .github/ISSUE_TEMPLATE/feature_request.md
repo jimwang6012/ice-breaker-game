@@ -1,10 +1,9 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
-
+title: ""
+labels: ""
+assignees: ""
 ---
 
 **Is your feature request related to a problem? Please describe.**
@@ -25,6 +24,6 @@ Add any other context or screenshots about the feature request here.
 
 ### Checklist:
 
-- [ ] I have double checked that the issue does not currently exist. 
+- [ ] I have double checked that the issue does not currently exist.
 - [ ] I have added the appropriate labels (e.g. feature, front-end, back-end).
 - [ ] I have added this to the project
