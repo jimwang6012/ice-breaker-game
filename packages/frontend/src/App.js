@@ -1,31 +1,30 @@
 import logo from "./logo.svg";
 import "./App.css";
-
+import { Routes, Route } from "react-router-dom";
 import socketClient from "socket.io-client";
+import { useEffect } from "react";
 const SERVER = "http://localhost:8080/";
 
 function App() {
+  //TODO: example usage of socket connection, to be removed
   let socket = socketClient(SERVER);
-  socket.on("connection", () => {
-    console.log("connected");
-  });
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("connected");
+    });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Test Auto Lint again
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <div>
+            <h1>hi</h1>
+          </div>
+        }
+      ></Route>
+    </Routes>
   );
 }
 
