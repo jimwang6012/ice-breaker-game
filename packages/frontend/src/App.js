@@ -3,6 +3,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import socketClient from "socket.io-client";
 import { useEffect } from "react";
+import HomePage from "./page/HomePage";
 const SERVER = "http://localhost:8080/";
 
 function App() {
@@ -20,10 +21,11 @@ function App() {
         path="/"
         element={
           <div>
-            <h1>hi</h1>
+            <h1 className="text-red-500">hi</h1>
           </div>
         }
       ></Route>
+      <Route path="home" element={<HomePage />} />
     </Routes>
   );
 }
