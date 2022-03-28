@@ -6,11 +6,13 @@ import { useEffect } from "react";
 
 import { Button } from "@mantine/core";
 import HomePage from "./page/HomePage";
+import { IdlePage } from "./page/IdlePage";
 const SERVER = "http://localhost:8080/";
 
 function App() {
   // TODO: example usage of socket connection, to be removed
   let socket = socketClient(SERVER);
+  let isHost = true;
   useEffect(() => {
     socket.on("connect", () => {
       console.log("connected");
@@ -30,6 +32,9 @@ function App() {
         }
       ></Route>
       <Route path="home" element={<HomePage />} />
+      <Route path=":code">
+        <Route path="idle" element={<IdlePage isHost={isHost} />} />
+      </Route>
     </Routes>
   );
 }
