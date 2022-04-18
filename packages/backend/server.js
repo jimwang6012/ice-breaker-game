@@ -2,6 +2,17 @@ import express from "express";
 import path from "path";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import {
+  BoardBreakOn,
+  BoardMovementOn,
+  CreateRoomOn,
+  JoinRoomOn,
+  MessageOn,
+  StartGameOn,
+} from "./socket/on.js";
+import { initSocketServer, getSocketIO } from "./socket/index.js";
+
+const ROOMS = new Map();
 
 // Setup Express
 const app = express();
@@ -12,16 +23,17 @@ const PORT = process.env.PORT || 8080;
 app.use(express.json());
 
 // Setup our routes.
+initSocketServer(httpServer);
 
-const io = new Server(httpServer, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-  },
-});
+const io = getSocketIO();
 
 io.on("connection", (socket) => {
-  console.log("client connected");
+  CreateRoomOn(socket);
+  JoinRoomOn(socket);
+  StartGameOn(socket);
+  MessageOn(socket);
+  BoardMovementOn(socket);
+  BoardBreakOn(socket);
 });
 
 // When we make a GET request to '/hello', send back this HTML content.

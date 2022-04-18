@@ -18,7 +18,9 @@
   "scripts": {
     "frontend": "yarn workspace frontend start",
     "backend": "yarn workspace backend start",
+    "backend:dev": "yarn workspace backend start:dev",
     "start": "concurrently  --kill-others-on-fail \"yarn backend\" \"yarn frontend\"",
+    "start:dev": "concurrently  --kill-others-on-fail \"yarn backend:dev\" \"yarn frontend\"",
     "prepare": "husky install"
   },
   "dependencies": {
