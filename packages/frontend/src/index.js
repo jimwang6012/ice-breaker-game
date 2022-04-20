@@ -11,6 +11,7 @@ ReactDOM.render(
     <BrowserRouter>
       <MantineProvider
         emotionOptions={{ key: "mantine", prepend: false }}
+        withCSSVariables
         theme={{
           colors: {
             ice: [

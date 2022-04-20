@@ -4,6 +4,7 @@ import HomePage from "./page/HomePage";
 import NamePage from "./page/NamePage";
 import SocketExample from "./socketEample";
 import { IdlePage } from "./page/IdlePage";
+import RoomPageLayout from "./page/RoomPageLayout";
 
 const SERVER = "http://localhost:8080/";
 
@@ -25,8 +26,9 @@ function App() {
       ></Route>
 
       <Route path="home" element={<HomePage />} />
+
       <Route path="name" element={<NamePage />} />
-      <Route path=":code">
+      <Route path=":code" element={<RoomPageLayout />}>
         <Route path="idle" element={<IdlePage isHost={isHost} />} />
       </Route>
       <Route path="test" element={<SocketExample />} />
