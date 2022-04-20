@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { Button } from "@mantine/core";
 import HomePage from "./page/HomePage";
+import NamePage from "./page/NamePage";
 import SocketExample from "./socketEample";
 import { IdlePage } from "./page/IdlePage";
 
@@ -22,7 +23,9 @@ function App() {
           </div>
         }
       ></Route>
+
       <Route path="home" element={<HomePage />} />
+      <Route path="name" element={<NamePage />} />
       <Route path=":code">
         <Route path="idle" element={<IdlePage isHost={isHost} />} />
       </Route>
