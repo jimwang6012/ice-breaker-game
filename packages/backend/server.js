@@ -9,6 +9,7 @@ import {
   JoinRoomOn,
   MessageOn,
   StartGameOn,
+  UserDisconnectOn,
 } from "./socket/on.js";
 import { initSocketServer, getSocketIO } from "./socket/index.js";
 
@@ -34,6 +35,7 @@ io.on("connection", (socket) => {
   MessageOn(socket);
   BoardMovementOn(socket);
   BoardBreakOn(socket);
+  UserDisconnectOn(socket);
 });
 
 // When we make a GET request to '/hello', send back this HTML content.

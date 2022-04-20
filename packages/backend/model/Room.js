@@ -39,5 +39,10 @@ export class Room {
     };
   }
 
-  // playerMoveMent() {}
+  /**
+   * @param {string} id - user's socket id
+   */
+  removePlayer(id) {
+    this.players.delete(id);
+  }
 }

@@ -21,3 +21,15 @@ export function BoardUpdate(roomId, boardState) {
 export function PlayerUpdate(roomId, playerState) {
   getSocketIO().to(roomId).emit("player-update", playerState);
 }
+
+export function RoomClosed(roomId) {
+  getSocketIO().to(roomId).emit("room-closed");
+}
+
+/**
+ * @param {String} roomId - the room id
+ * @param {String} socketId - the current boardState
+ */
+export function MemberJoin(roomId, socketId) {
+  getSocketIO().to(roomId).emit("member-join", { socketID: socketId });
+}

@@ -1,9 +1,12 @@
 import { Socket } from "socket.io";
 import { Player } from "../model/Player.js";
 import { Room } from "../model/Room.js";
-import { BoardUpdate, PlayerUpdate } from "../socket/emit.js";
-import { getSocketIO } from "../socket/index.js";
-import { Colors } from "../util/color.js";
+import {
+  BoardUpdate,
+  MemberJoin,
+  PlayerUpdate,
+  RoomClosed,
+} from "../socket/emit.js";
 import { generateString } from "./util.js";
 
 /**
@@ -28,6 +31,7 @@ export class RoomManager {
 
   /**
    * @return {Room} the room
+   * @param {string} roomId
    */
   static getRoom(roomId) {
     return rooms.get(roomId);
@@ -43,12 +47,35 @@ export class RoomManager {
     if (room && room.isOpen) {
       socket.join(roomId);
       console.log(socket.id + " joined room " + roomId);
-      getSocketIO().to(roomId).emit("member-join", { socketID: socket.id });
       room.addPlayer(new Player(socket.id, name));
+      MemberJoin(roomId, socket.id);
+      PlayerUpdate(roomId, room.playersToDto());
       console.log(rooms);
       console.log(roomId);
     } else {
       console.log("Can't find room");
+    }
+  }
+
+  /**
+   * remove the player from the room
+   * @param {Socket} socket, user's socket
+   * @param {string} roomId - id of the room
+   */
+  static leaveRoom(socket, roomId) {
+    console.log(`${socket.id} is leaving ${roomId}`);
+
+    const room = rooms.get(roomId);
+    if (room) {
+      if (room.hostId === socket.id) {
+        // if the host left, delete the room
+        RoomManager.deleteRoom(socket, roomId);
+      } else {
+        room.removePlayer(socket.id);
+        PlayerUpdate(roomId, room.playersToDto());
+      }
+    } else {
+      console.log("Can't find room for #leaveRoom");
     }
   }
 
@@ -62,9 +89,14 @@ export class RoomManager {
     // only host can delete its room
     if (room.hostId == socket.id) {
       rooms.delete(roomId);
+      console.log(`${socket.id} host is deleting ${roomId}`);
+      RoomClosed(roomId);
     }
   }
 
+  /**
+   * @param {string} roomId
+   */
   static startGame(roomId) {
     let room = rooms.get(roomId);
     room.isOpen = false;
@@ -73,15 +105,27 @@ export class RoomManager {
     PlayerUpdate(roomId, room.playersToDto());
   }
 
+  /**
+   * @param {string} roomId
+   * @param {string} playerId
+   * @param {number} x
+   * @param {number} y
+   * @param {string} direction
+   */
   static movePlayer(roomId, playerId, x, y, direction) {
     let room = rooms.get(roomId);
-    let player = room.players.get(playerId);
+    let player = room?.players.get(playerId);
     player.x = x;
     player.y = y;
     player.direction = direction;
     PlayerUpdate(roomId, room.playersToDto());
   }
 
+  /**
+   * @param {string} roomId
+   * @param {number} x
+   * @param {number} y
+   */
   static breakTile(roomId, x, y) {
     let room = rooms.get(roomId);
     room.board.break(x, y);

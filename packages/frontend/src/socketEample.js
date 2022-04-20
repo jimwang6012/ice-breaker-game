@@ -13,7 +13,6 @@ export default function SocketExample() {
   //TODO: example usage of socket connection, to be removed
   const [board, setBoard] = useState([[]]);
   const [players, setPlayers] = useState(null);
-  const [members, setMembers] = useState("");
   const [x, setX] = useState("0");
   const [roomId, setRoomId] = useState("");
   const [y, setY] = useState("0");
@@ -22,14 +21,23 @@ export default function SocketExample() {
     socket.on("connect", () => {
       console.log("connected");
     });
+
     socket.on("member-join", ({ socketID }) => {
-      setMembers(members + " " + socketID);
+      alert(socketID + "hasJoined");
     });
+
+    socket.on("room-closed", () => {
+      alert("Room closed");
+    });
+
     socket.on("board-update", (board) => {
       setBoard(board);
+      console.log(board);
     });
+
     socket.on("player-update", (players) => {
       setPlayers(players);
+      console.log(players);
     });
   }, []);
 
@@ -79,7 +87,6 @@ export default function SocketExample() {
 
       <TestChatSample roomID={roomId} socket={socket}></TestChatSample>
 
-      <p>{members}</p>
       <p>{JSON.stringify(board)}</p>
       <p>{JSON.stringify(players)}</p>
     </>

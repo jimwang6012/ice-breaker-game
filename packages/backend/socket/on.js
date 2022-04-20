@@ -62,3 +62,15 @@ export function BoardBreakOn(socket) {
     RoomManager.breakTile(roomId, x, y);
   });
 }
+
+/**
+ * @param {Socket} socket - user socket
+ */
+export function UserDisconnectOn(socket) {
+  socket.on("disconnecting", () => {
+    socket.rooms.forEach((room) => {
+      console.log("Disconnecting from" + room);
+      RoomManager.leaveRoom(socket, room);
+    });
+  });
+}
