@@ -1,7 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AppContext } from "../AppContextProvider";
 
 function HomePage() {
   const [pin, setPin] = useState("");
+  const navigate = useNavigate();
+  const { setIsHost, setRoomId } = useContext(AppContext);
+  const createGame = () => {
+    setIsHost(true);
+    navigate("/name");
+  };
+  const joinGame = () => {
+    setRoomId(pin);
+    navigate("/name");
+  };
+
   return (
     <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8 opacity-90">
       {/* left square */}
@@ -16,14 +29,18 @@ function HomePage() {
               onChange={(e) => setPin(e.target.value)}
             />
             <button
+              onClick={joinGame}
               className="px-6 py-3 text-xl font-semibold text-white rounded-lg bg-ice-6 hover:bg-ice-5"
-              onClick={() => console.log(pin)}
             >
               Join Room
             </button>
           </div>
         </div>
-        <button className="px-6 py-3 text-xl font-semibold text-white rounded-lg bg-ice-6 hover:bg-ice-5">
+
+        <button
+          onClick={createGame}
+          className="px-6 py-3 text-xl font-semibold text-white rounded-lg bg-ice-6 hover:bg-ice-5"
+        >
           Create Game
         </button>
       </div>

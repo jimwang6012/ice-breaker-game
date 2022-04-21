@@ -1,9 +1,34 @@
 import React, { useContext, useState } from "react";
-import { AuthContext } from "../Auth-context";
+import { useLocation, useNavigate } from "react-router-dom";
+import { AppContext } from "../AppContextProvider";
+import socket from "../Socket";
 
 function NamePage() {
-  const [name, setName] = useState("");
-  const { onChange } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { isHost, setRoomId, roomId, handlers, name, setName } =
+    useContext(AppContext);
+
+  const toHome = () => {
+    navigate("/home");
+  };
+
+  const createRoom = () => {
+    socket.connect();
+    socket.emit("create-room", { name: name }, (room) => {
+      alert("Room " + room.roomId + " Created by " + name);
+      setRoomId(room.roomId);
+      handlers.setState(room.players);
+      setName(name);
+      navigate("/" + room.roomId.toString() + "/idle");
+    });
+  };
+
+  const joinRoom = () => {
+    socket.connect();
+    socket.emit("join-room", { roomId, name });
+    navigate("/" + roomId.toString() + "/idle");
+  };
+
   return (
     <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8 opacity-90">
       {/* left square */}
@@ -18,18 +43,31 @@ function NamePage() {
               placeholder="Enter your name"
               onChange={(e) => {
                 setName(e.target.value);
-                onChange(e.target.value);
               }}
             />
-            <button
-              className="px-6 py-3 text-xl font-semibold text-white rounded-lg bg-ice-6 hover:bg-ice-5"
-              onClick={() => console.log(name)}
-            >
-              Confirm
-            </button>
+            {isHost ? (
+              <button
+                onClick={createRoom}
+                className="px-6 py-3 text-xl font-semibold text-white rounded-lg bg-ice-6 hover:bg-ice-5"
+              >
+                {" "}
+                Confirm
+              </button>
+            ) : (
+              <button
+                onClick={joinRoom}
+                className="px-6 py-3 text-xl font-semibold text-white rounded-lg bg-ice-6 hover:bg-ice-5"
+              >
+                {" "}
+                Confirm
+              </button>
+            )}
           </div>
         </div>
-        <button className="px-6 py-3 text-xl font-semibold text-white rounded-lg bg-ice-6 hover:bg-ice-5">
+        <button
+          onClick={toHome}
+          className="px-6 py-3 text-xl font-semibold text-white rounded-lg bg-ice-6 hover:bg-ice-5"
+        >
           Back
         </button>
       </div>

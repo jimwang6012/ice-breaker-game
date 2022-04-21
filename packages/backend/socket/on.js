@@ -8,11 +8,12 @@ import { Socket } from "socket.io";
  */
 export function CreateRoomOn(socket) {
   socket.on("create-room", ({ name }, callback) => {
-    let roomId = RoomManager.createRoom(socket, name);
+    let room = RoomManager.createRoom(socket, name);
     if (callback) {
-      callback(roomId);
+      let players = room.playersToDto();
+      callback({ roomId: room.roomId, ...players });
     }
-    console.log("room created " + roomId + " by " + socket.id);
+    console.log("room created " + room.roomId + " by " + socket.id);
   });
 }
 
@@ -39,7 +40,7 @@ export function StartGameOn(socket) {
  */
 export function MessageOn(socket) {
   socket.on("send-message", ({ roomID, chatMessage }, callback) => {
-    console.log(chatMessage + "in " + roomID);
+    console.log(chatMessage + " in " + roomID);
     MessageToChat(roomID, chatMessage);
   });
 }
@@ -69,7 +70,7 @@ export function BoardBreakOn(socket) {
 export function UserDisconnectOn(socket) {
   socket.on("disconnecting", () => {
     socket.rooms.forEach((room) => {
-      console.log("Disconnecting from" + room);
+      console.log("Disconnecting from " + room);
       RoomManager.leaveRoom(socket, room);
     });
   });

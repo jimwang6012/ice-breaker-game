@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { Outlet } from "react-router-dom";
-import { Text, ScrollArea, Group, ColorPicker } from "@mantine/core";
+import { Text, ScrollArea, Group, TextInput } from "@mantine/core";
+import { useInputState, useListState } from "@mantine/hooks";
 import { createStyles } from "@mantine/core";
 import Avatar from "react-avatar";
+import { AppContext } from "../AppContextProvider";
+import socket from "../Socket";
 
 export default function RoomPageLayout() {
   const { classes } = useStyles();
+
   return (
     <div className={classes.roomPage}>
       {/* This is the section of the room layout that shows the game page and idle page. */}
@@ -16,7 +20,6 @@ export default function RoomPageLayout() {
       <div className={classes.rightSection}>
         <PlayerList />
         <MessageList />
-        <InputArea />
       </div>
     </div>
   );
@@ -25,6 +28,14 @@ export default function RoomPageLayout() {
 //player list componenet
 function PlayerList() {
   const { classes } = useStyles();
+  const { handlers, players } = useContext(AppContext);
+  useEffect(() => {
+    socket.on("player-update", (data) => {
+      console.log(data.players);
+      handlers.setState(data.players);
+    });
+  }, []);
+
   return (
     <div className={classes.playerList}>
       <Text size="lg" style={{ paddingBottom: 5 }}>
@@ -39,46 +50,56 @@ function PlayerList() {
           thumb: classes.thumb,
         }}
       >
-        <PlayerItem></PlayerItem>
-        <PlayerItem></PlayerItem>
-        <PlayerItem></PlayerItem>
-        <PlayerItem></PlayerItem>
-        <PlayerItem></PlayerItem>
-        <PlayerItem></PlayerItem>
-        <PlayerItem></PlayerItem>
-        <PlayerItem></PlayerItem>
-        <PlayerItem></PlayerItem>
-        <PlayerItem></PlayerItem>
-        <PlayerItem></PlayerItem>
-        <PlayerItem></PlayerItem>
+        {players.map((p, index) => (
+          <PlayerItem key={index} name={p.name} />
+        ))}
       </ScrollArea>
     </div>
   );
 }
 
 //player list item
-function PlayerItem() {
+function PlayerItem({ name }) {
   const { classes } = useStyles();
   return (
     <Group spacing={"xs"} className={classes.playerItem}>
-      <Avatar size="44" textSizeRatio={2} name="Dylan Xin" round />
+      <Avatar size="44" textSizeRatio={2} name={name} round />
       <Text size="xl" weight={500}>
-        Dylan Xin
+        {name}
       </Text>
     </Group>
   );
 }
-function InputArea() {
-  const { classes } = useStyles();
-  return (
-    <div className={classes.InputArea}>
-      <InputField></InputField>
-    </div>
-  );
-}
+
 //message list componenet
 function MessageList() {
   const { classes } = useStyles();
+  const [messageValue, setMessageValue] = useInputState("");
+  const [messageList, handlers] = useListState([]);
+  const { roomId, name } = useContext(AppContext);
+
+  useEffect(() => {
+    socket.on("message-to-chat", (chatMessage) => {
+      handlers.append(chatMessage);
+      scrollToBottom();
+    });
+  }, [socket]);
+
+  const sendMessage = (message) => {
+    socket.emit("send-message", {
+      roomID: roomId,
+      chatMessage: name + ": " + message,
+    });
+  };
+
+  const viewport = useRef();
+
+  const scrollToBottom = () =>
+    viewport.current.scrollTo({
+      top: viewport.current.scrollHeight,
+      behavior: "smooth",
+    });
+
   return (
     <div className={classes.messageList}>
       {" "}
@@ -90,26 +111,25 @@ function MessageList() {
           root: classes.scrollArea,
           scrollbar: classes.scrollbar,
         }}
+        viewportRef={viewport}
       >
-        <NotiItem></NotiItem>
-        <NotiItem></NotiItem>
-        <NotiItem></NotiItem>
-        <NotiItem></NotiItem>
-        <MessageHead></MessageHead>
-        <MessageContent></MessageContent>
-        <MessageContent></MessageContent>
-        <MessageContent></MessageContent>
-        <NotiItem></NotiItem>
-        <MessageHead></MessageHead>
-        <MessageContent></MessageContent>
-        <MessageContent></MessageContent>
-        <MessageContent></MessageContent>
-        <MessageHead></MessageHead>
-        <MessageContent></MessageContent>
-        <MessageContent></MessageContent>
-        <MessageContent></MessageContent>
-        <NotiItem></NotiItem>
+        {messageList.map((m, index) => (
+          <MessageContent key={index} value={m} />
+        ))}
       </ScrollArea>
+      {/* Text input box */}
+      <div className={classes.InputArea}>
+        <input
+          className={classes.InputField}
+          onChange={setMessageValue}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              sendMessage(e.currentTarget.value);
+              e.currentTarget.value = "";
+            }
+          }}
+        ></input>
+      </div>
     </div>
   );
 }
@@ -132,20 +152,13 @@ function MessageHead() {
     </Group>
   );
 }
-function MessageContent() {
+function MessageContent({ value }) {
   const { classes } = useStyles();
   return (
     <Group className={classes.MessageHead}>
-      <Text size="md">Rnm, tuiqian.</Text>
+      <Text size="md">{value}</Text>
     </Group>
   );
-}
-
-function AddMessage(message) {}
-
-function InputField() {
-  const { classes } = useStyles();
-  return <input className={classes.InputField}></input>;
 }
 
 // Create styles using Mantine theme color

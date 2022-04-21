@@ -10,7 +10,6 @@ const SERVER = "http://localhost:8080/";
 
 function App() {
   // TODO: example usage of socket connection, to be removed
-  let isHost = true;
 
   return (
     <Routes>
@@ -29,8 +28,9 @@ function App() {
 
       <Route path="name" element={<NamePage />} />
       <Route path=":code" element={<RoomPageLayout />}>
-        <Route path="idle" element={<IdlePage isHost={isHost} />} />
+        <Route path="idle" element={<IdlePage />} />
       </Route>
+
       <Route path="test" element={<SocketExample />} />
     </Routes>
   );

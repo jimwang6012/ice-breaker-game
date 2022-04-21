@@ -7,10 +7,11 @@ export default function ExampleCreateJoinAndStart({
   const [roomId, setRoomId] = useState("");
 
   const createRoom = () => {
-    socket.emit("create-room", { name: "Cool name" }, (id) => {
-      alert("Room " + id);
-      setRoomId(id);
-      setRoomIdCallBack(id);
+    socket.emit("create-room", { name: "Cool name" }, (room) => {
+      alert("Room " + room.roomId);
+      console.log(room);
+      setRoomId(room.roomId);
+      setRoomIdCallBack(room.roomId);
     });
   };
 

@@ -18,7 +18,7 @@ export class RoomManager {
   /**
    * @param {Socket} socket, user's socket
    * @param {string} name, user's name
-   * @return {string} the created room id
+   * @return {Room} the created room
    */
   static createRoom(socket, name) {
     const roomId = generateString(6);
@@ -26,7 +26,8 @@ export class RoomManager {
     const host = new Player(socket.id, name);
     const room = new Room(roomId, host);
     rooms.set(room.roomId, room);
-    return roomId;
+    PlayerUpdate(roomId, room.playersToDto());
+    return room;
   }
 
   /**
