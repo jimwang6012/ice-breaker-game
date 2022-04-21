@@ -12,10 +12,11 @@ export class Player {
     this.x = 0;
     this.y = 0;
     this.direction = Direction.down;
+    this.isAlive = true;
   }
 
   /**
-   * @return {{name:string, id:string, isBreaker:boolean, x:number, y:number, direction:string}} a dto of player
+   * @return {{name:string, id:string, isBreaker:boolean, x:number, y:number, direction:string, isAlive:boolean}} a dto of player
    */
   toDto() {
     return {
@@ -25,6 +26,7 @@ export class Player {
       x: this.x,
       y: this.y,
       direction: this.direction,
+      isAlive: this.isAlive,
     };
   }
 }

@@ -26,7 +26,15 @@ export class Room {
     this.board = new Board();
   }
 
-  playersToDto() {
+  checkPlayersAlive(x, y) {
+    this.players.forEach((player, playerId) => {
+      if (player.isAlive && player.x == x && player.y == y) {
+        player.isAlive = false;
+      }
+    });
+  }
+
+  toDto() {
     let players = [];
     this.players.forEach((player, playerId) => {
       players.push({
@@ -35,6 +43,8 @@ export class Room {
     });
 
     return {
+      roomId: this.roomId,
+      board: this.board?.toDto(),
       players: players,
     };
   }

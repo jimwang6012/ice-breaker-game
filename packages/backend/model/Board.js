@@ -15,9 +15,15 @@ export class Board {
     this.board[y][x] = 0;
   }
 
+  check(x, y) {
+    if (this.board[y][x] === 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   toDto() {
-    return {
-      board: this.board,
-    };
+    return this.board;
   }
 }

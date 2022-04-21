@@ -29,15 +29,10 @@ export default function SocketExample() {
     socket.on("room-closed", () => {
       alert("Room closed");
     });
-
-    socket.on("board-update", (board) => {
-      setBoard(board);
-      console.log(board);
-    });
-
-    socket.on("player-update", (players) => {
-      setPlayers(players);
-      console.log(players);
+    socket.on("game-update", (gameState) => {
+      setBoard(gameState.board);
+      setPlayers(gameState.players);
+      console.log(gameState);
     });
   }, []);
 

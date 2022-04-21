@@ -11,15 +11,10 @@ export function MessageToChat(roomId, chatMessage) {
 
 /**
  * @param {String} roomId - the room id
- * @param {Board} boardState - the current boardState
+ * @param {Object} gameState - the current gameState
  */
-export function BoardUpdate(roomId, boardState) {
-  console.log(boardState.toDto());
-  getSocketIO().to(roomId).emit("board-update", boardState.toDto());
-}
-
-export function PlayerUpdate(roomId, playerState) {
-  getSocketIO().to(roomId).emit("player-update", playerState);
+export function GameUpdate(roomId, gameState) {
+  getSocketIO().to(roomId).emit("game-update", gameState);
 }
 
 export function RoomClosed(roomId) {

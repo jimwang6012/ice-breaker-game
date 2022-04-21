@@ -1,4 +1,4 @@
-import { BoardUpdate, MessageToChat } from "./emit.js";
+import { GameUpdate, MessageToChat } from "./emit.js";
 import { getSocketIO } from "./index.js";
 import { RoomManager } from "../manager/RoomManager.js";
 import { Socket } from "socket.io";
@@ -10,8 +10,8 @@ export function CreateRoomOn(socket) {
   socket.on("create-room", ({ name }, callback) => {
     let room = RoomManager.createRoom(socket, name);
     if (callback) {
-      let players = room.playersToDto();
-      callback({ roomId: room.roomId, ...players });
+      const roomStatus = room.toDto();
+      callback(roomStatus);
     }
     console.log("room created " + room.roomId + " by " + socket.id);
   });

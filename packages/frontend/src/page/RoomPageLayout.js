@@ -30,7 +30,7 @@ function PlayerList() {
   const { classes } = useStyles();
   const { handlers, players } = useContext(AppContext);
   useEffect(() => {
-    socket.on("player-update", (data) => {
+    socket.on("game-update", (data) => {
       console.log(data.players);
       handlers.setState(data.players);
     });
