@@ -1,0 +1,9 @@
+.player {
+  position: relative;
+  display: block;
+}
+.playerme {
+  position: absolute;
+  top: 15%;
+  left: 15%;
+}

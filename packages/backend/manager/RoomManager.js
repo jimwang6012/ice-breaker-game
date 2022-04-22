@@ -99,6 +99,7 @@ export class RoomManager {
     let room = rooms.get(roomId);
     room.isOpen = false;
     room.initBoard();
+    room.initPlayerPosition();
     GameUpdate(roomId, room.toDto());
   }
 

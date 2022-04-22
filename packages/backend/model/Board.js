@@ -1,10 +1,10 @@
 export class Board {
   constructor() {
     this.board = [
+      [0, 1, 1, 1, 1, 1, 1],
       [1, 1, 1, 1, 1, 1, 1],
       [1, 1, 1, 1, 1, 1, 1],
       [1, 1, 1, 1, 1, 1, 1],
-      [1, 1, 1, 0, 1, 1, 1],
       [1, 1, 1, 1, 1, 1, 1],
       [1, 1, 1, 1, 1, 1, 1],
       [1, 1, 1, 1, 1, 1, 1],
@@ -12,11 +12,11 @@ export class Board {
   }
 
   break(x, y) {
-    this.board[y][x] = 0;
+    this.board[x][y] = 0;
   }
 
   check(x, y) {
-    if (this.board[y][x] === 1) {
+    if (this.board[x][y] === 1) {
       return true;
     } else {
       return false;

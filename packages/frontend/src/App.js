@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { Button } from "@mantine/core";
 import HomePage from "./page/HomePage";
+import GamePage from "./page/GamePage";
 import NamePage from "./page/NamePage";
 import SocketExample from "./socketEample";
 import { IdlePage } from "./page/IdlePage";
@@ -29,6 +30,7 @@ function App() {
       <Route path="name" element={<NamePage />} />
       <Route path=":code" element={<RoomPageLayout />}>
         <Route path="idle" element={<IdlePage />} />
+        <Route path="game" element={<GamePage />} />
       </Route>
 
       <Route path="test" element={<SocketExample />} />

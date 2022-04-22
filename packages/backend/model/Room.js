@@ -26,6 +26,15 @@ export class Room {
     this.board = new Board();
   }
 
+  initPlayerPosition() {
+    let i = 0;
+    this.players.forEach((player, id) => {
+      player.x = 0;
+      player.y = i;
+      i++;
+    });
+  }
+
   checkPlayersAlive(x, y) {
     this.players.forEach((player, playerId) => {
       if (player.isAlive && player.x == x && player.y == y) {
