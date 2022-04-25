@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Text, ScrollArea, Group, TextInput } from "@mantine/core";
 import { useInputState, useListState } from "@mantine/hooks";
@@ -6,10 +6,20 @@ import { createStyles } from "@mantine/core";
 import Avatar from "react-avatar";
 import { AppContext } from "../AppContextProvider";
 import socket from "../Socket";
-
+import { Modal } from "../component/Modal";
 export default function RoomPageLayout() {
   const { classes } = useStyles();
-
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const openModal = () => {
+      setShow(true);
+    };
+    socket.on("room-closed", openModal);
+    return () => {
+      // Clean up
+      socket.off("room-closed", openModal);
+    };
+  }, []);
   return (
     <div className={classes.roomPage}>
       {/* This is the section of the room layout that shows the game page and idle page. */}
@@ -21,6 +31,7 @@ export default function RoomPageLayout() {
         <PlayerList />
         <MessageList />
       </div>
+      <Modal show={show} />
     </div>
   );
 }

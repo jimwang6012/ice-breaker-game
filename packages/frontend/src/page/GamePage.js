@@ -36,6 +36,7 @@ function GamePage() {
   }, [state.game]);
 
   const [players, setPlayers] = useState([]);
+  const [done, setDone] = useState(false);
   const [me, setMe] = useState({
     id: null,
     name: null,
@@ -48,7 +49,7 @@ function GamePage() {
   const [board, setBoard] = useState([]);
 
   const handlePlayerMove = ({ keyName }) => {
-    if (me.isAlive) {
+    if (me.isAlive && !done) {
       // what every move or not, direction need to change
       changeDirection(me, keyName);
 
@@ -74,6 +75,16 @@ function GamePage() {
   };
 
   useKeyDown(handlePlayerMove);
+  useEffect(() => {
+    const gameDone = () => {
+      setDone(true);
+    };
+    socket.on("room-closed", gameDone);
+    return () => {
+      // Clean up
+      socket.off("room-closed", gameDone);
+    };
+  }, []);
 
   const handleBreak = (row, col) => {
     board[row][col] = 0;
