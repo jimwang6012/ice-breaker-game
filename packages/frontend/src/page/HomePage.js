@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../AppContextProvider";
+import { MainButton } from "../component/Component";
 
 function HomePage() {
   document.body.style.overflow = "hidden";
@@ -30,24 +31,16 @@ function HomePage() {
                 className="justify-center text-xl font-bold text-center border rounded-md text-ice-7 px-14 bg-ice-0 border-ice-6"
                 onChange={(e) => setPin(e.target.value)}
               />
-              <button
-                onClick={joinGame}
-                className="px-6 py-3 text-xl font-semibold text-white rounded-lg bg-ice-6 hover:bg-ice-5"
-              >
-                Join Room
-              </button>
+              <MainButton handleClick={joinGame} text="Join Room" />
             </div>
-            <button
-              className="px-6 py-3 text-xl font-semibold text-white rounded-lg bg-ice-6 hover:bg-ice-5"
-              onClick={createGame}
-            >
-              Create Game
-            </button>
           </div>
+          <MainButton handleClick={createGame} text="Create Game" />
           {/* right square */}
           <div className="absolute bottom-0 rotate-45 -right-96 h-2/3 aspect-square bg-ice-3" />
         </div>
       </div>
+      {/* right square */}
+      <div className="absolute bottom-0 rotate-45 -right-96 h-2/3 aspect-square bg-ice-3" />
     </body>
   );
 }

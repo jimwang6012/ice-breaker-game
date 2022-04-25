@@ -2,8 +2,10 @@ import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AppContext } from "../AppContextProvider";
 import socket from "../Socket";
+import { MainButton } from "../component/Component";
 
 function NamePage() {
+  document.body.style.overflow = "hidden";
   const navigate = useNavigate();
   const { isHost, setRoomId, roomId, handlers, name, setName } =
     useContext(AppContext);
@@ -30,50 +32,35 @@ function NamePage() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8 opacity-90">
-      {/* left square */}
-      <div className="absolute top-0 rotate-45 -left-96 h-2/3 aspect-square bg-ice-3" />
-      <div className="z-40 flex flex-col items-center justify-center gap-20 ">
-        <div className="text-6xl font-bold text-white">Ice Breaker!</div>
-        {/* center modal */}
-        <div className="py-16 rounded-lg shadow-lg px-28 bg-ice-2">
-          <div className="flex flex-row justify-start gap-10">
-            <input
-              className="justify-center text-xl font-bold text-center border rounded-md text-ice-7 px-14 bg-ice-0 border-ice-6"
-              placeholder="Enter your name"
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
-            {isHost ? (
-              <button
-                onClick={createRoom}
-                className="px-6 py-3 text-xl font-semibold text-white rounded-lg bg-ice-6 hover:bg-ice-5"
-              >
-                {" "}
-                Confirm
-              </button>
-            ) : (
-              <button
-                onClick={joinRoom}
-                className="px-6 py-3 text-xl font-semibold text-white rounded-lg bg-ice-6 hover:bg-ice-5"
-              >
-                {" "}
-                Confirm
-              </button>
-            )}
+    <body className="overflow-hidden">
+      <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8 opacity-90">
+        {/* left square */}
+        <div className="absolute top-0 rotate-45 -left-96 h-2/3 aspect-square bg-ice-3" />
+        <div className="z-40 flex flex-col items-center justify-center gap-20 ">
+          <div className="text-6xl font-bold text-white">Ice Breaker!</div>
+          {/* center modal */}
+          <div className="py-16 rounded-lg shadow-lg px-28 bg-ice-2">
+            <div className="flex flex-row justify-start gap-10">
+              <input
+                className="justify-center text-xl font-bold text-center border rounded-md text-ice-7 px-14 bg-ice-0 border-ice-6"
+                placeholder="Enter your name"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
+              {isHost ? (
+                <MainButton handleClick={createRoom} text="Confirm" />
+              ) : (
+                <MainButton handleClick={joinRoom} text="Confirm" />
+              )}
+            </div>
           </div>
+          <MainButton handleClick={toHome} text="Back" />
         </div>
-        <button
-          onClick={toHome}
-          className="px-6 py-3 text-xl font-semibold text-white rounded-lg bg-ice-6 hover:bg-ice-5"
-        >
-          Back
-        </button>
+        {/* right square */}
+        <div className="absolute bottom-0 rotate-45 -right-96 h-2/3 aspect-square bg-ice-3" />
       </div>
-      {/* right square */}
-      <div className="absolute bottom-0 rotate-45 -right-96 h-2/3 aspect-square bg-ice-3" />
-    </div>
+    </body>
   );
 }
 

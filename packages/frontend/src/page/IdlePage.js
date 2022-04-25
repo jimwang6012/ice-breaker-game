@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../AppContextProvider";
 import socket from "../Socket";
+import { MainButton } from "../component/Component";
 
 export function IdlePage() {
   const navigate = useNavigate();
@@ -41,27 +42,11 @@ export function IdlePage() {
         {isHost ? (
           <div className="flex justify-around w-3/5 ">
             {/* Two Buttons */}
-            <button
-              onClick={toHome}
-              className="px-6 py-3 text-xl font-semibold text-white rounded-lg bg-ice-6 hover:bg-ice-5"
-            >
-              Leave Room
-            </button>
-
-            <button
-              className="px-6 py-3 text-xl font-semibold text-white rounded-lg bg-ice-6 hover:bg-ice-5"
-              onClick={startGame}
-            >
-              Start Game
-            </button>
+            <MainButton handleClick={toHome} text="Leave Room" />
+            <MainButton handleClick={startGame} text="Start Game" />
           </div>
         ) : (
-          <button
-            onClick={toHome}
-            className="px-6 py-3 text-xl font-semibold text-white rounded-lg bg-ice-6 hover:bg-ice-5"
-          >
-            Leave Room
-          </button>
+          <MainButton handleClick={toHome} text="Leave Room" />
         )}
       </div>
     </div>
