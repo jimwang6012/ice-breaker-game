@@ -44,12 +44,10 @@ export class RoomManager {
     const room = rooms.get(roomId);
     if (room && room.isOpen) {
       socket.join(roomId);
-      console.log(socket.id + " joined room " + roomId);
       room.addPlayer(new Player(socket.id, name));
       MemberJoin(roomId, socket.id);
       GameUpdate(roomId, room.toDto());
-      console.log(rooms);
-      console.log(roomId);
+      return room;
     } else {
       console.log("Can't find room");
     }

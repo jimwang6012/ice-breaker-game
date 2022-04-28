@@ -5,13 +5,17 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.3",
-    "socket.io": "^4.4.1"
+    "socket.io": "^4.4.1",
+    "socket.io-client": "^4.4.1"
   },
   "scripts": {
+    "test": "mocha",
     "start": "node server.js",
     "start:dev": "nodemon server.js"
   },
   "devDependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^9.2.2",
     "nodemon": "^2.0.15"
   }
 }

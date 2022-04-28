@@ -13,7 +13,6 @@ export function CreateRoomOn(socket) {
       const roomStatus = room.toDto();
       callback(roomStatus);
     }
-    console.log("room created " + room.roomId + " by " + socket.id);
   });
 }
 
@@ -22,7 +21,11 @@ export function CreateRoomOn(socket) {
  */
 export function JoinRoomOn(socket) {
   socket.on("join-room", ({ roomId, name }, callback) => {
-    RoomManager.joinRoom(socket, roomId, name);
+    let room = RoomManager.joinRoom(socket, roomId, name);
+    if (callback) {
+      const roomStatus = room.toDto();
+      callback(roomStatus);
+    }
   });
 }
 
