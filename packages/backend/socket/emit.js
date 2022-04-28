@@ -1,4 +1,3 @@
-import { Board } from "../model/Board.js";
 import { getSocketIO } from "./index.js";
 
 /**
@@ -29,4 +28,19 @@ export function RoomClosed(roomId) {
  */
 export function SystemMessage(roomId, message) {
   getSocketIO().to(roomId).emit("system-message", message);
+}
+
+/**
+ * @param {String} roomId - the room id
+ */
+export function GameEnded(roomId) {
+  getSocketIO().to(roomId).emit("game-end");
+}
+
+/**
+ * @param {String} roomId - the room id
+ * @param {Number} time - time in second left in the game
+ */
+export function GameTimeChanged(roomId, time) {
+  getSocketIO().to(roomId).emit("game-time-changed", time);
 }

@@ -1,7 +1,13 @@
 import { Socket } from "socket.io";
 import { Player } from "../model/Player.js";
 import { Room } from "../model/Room.js";
-import { GameUpdate, MessageToChat, RoomClosed } from "../socket/emit.js";
+import {
+  GameEnded,
+  GameUpdate,
+  MessageToChat,
+  RoomClosed,
+  GameTimeChanged,
+} from "../socket/emit.js";
 import { Colors } from "../util/color.js";
 import { generateString } from "./util.js";
 
@@ -102,6 +108,19 @@ export class RoomManager {
     room.isOpen = false;
     room.initBoard();
     room.initPlayerPosition();
+    room.initTimer(
+      () => {
+        console.log("game timer finished");
+        room.closeGame();
+        GameEnded(roomId);
+      },
+      (time) => {
+        console.log(`game timer clicked ${time}`);
+
+        room.checkIsAllPlayerDead();
+        GameTimeChanged(roomId, time);
+      }
+    );
     GameUpdate(roomId, room.toDto());
   }
 

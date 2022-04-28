@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useKeyDown } from "react-keyboard-input-hook";
 import classNames from "classnames";
 import { useParams } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   changeDirection,
   breakIce,
@@ -13,7 +13,10 @@ import "./gampage.css";
 import socket from "../Socket";
 
 function GamePage() {
+  const navigate = useNavigate();
+
   const { state } = useLocation();
+  const [currentTime, setCurrentTime] = useState(0);
 
   const initGame = (game, myId) => {
     setBoard(game.board);
@@ -31,9 +34,26 @@ function GamePage() {
   useEffect(() => {
     // @ts-ignore
     if (!!state.game) initGame(state.game, socket.id);
-    socket.on("game-update", (game) => initGame(game, socket.id));
+
+    const onGameUpdate = (game) => initGame(game, socket.id);
+    const onGameEnd = () => {
+      alert("game-end");
+      navigate("/" + roomId.toString() + "/idle");
+    };
+    const onGameTimeChanged = (time) => {
+      setCurrentTime(time);
+    };
+    socket.on("game-update", onGameUpdate);
+    socket.on("game-end", onGameEnd);
+    socket.on("game-time-changed", onGameTimeChanged);
+
+    return () => {
+      socket.off("game-update", onGameUpdate);
+      socket.off("game-end", onGameEnd);
+      socket.off("game-time-changed", onGameTimeChanged);
+    };
     // @ts-ignore
-  }, [state.game]);
+  }, [navigate, roomId, state.game]);
 
   const [players, setPlayers] = useState([]);
   const [done, setDone] = useState(false);
@@ -42,8 +62,8 @@ function GamePage() {
     name: null,
     isAlive: true,
     isBreaker: false,
-    x: -1,
-    y: -1,
+    x: 0,
+    y: 0,
     direction: null,
   });
   const [board, setBoard] = useState([]);
@@ -96,55 +116,71 @@ function GamePage() {
     return player.x === row && player.y === col;
   };
   return (
-    <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8">
-      {/* 以下仅为整蛊 */}
-      {!me.isAlive && (
-        <div
-          className="absolute z-40 text-red-500 text-9xl animate-bounce"
-          style={{ fontSize: 800 }}
-        >
-          死
+    <div className="flex items-start justify-start w-11/16 h-screen overflow-y-auto bg-ice-8">
+      {currentTime < 10 ? (
+        <div className="text-6xl m-8 font-bold text-white">
+          00:0{currentTime}
+        </div>
+      ) : (
+        <div className="text-6xl m-8 font-bold text-white">
+          00:{currentTime}
         </div>
       )}
-      <div className="">
-        {board.map((rowItems, row) => {
-          return (
-            <div className="flex flex-row" key={row}>
-              {rowItems.map((ice, col) => {
-                return (
-                  <div className="flex" key={col}>
-                    {/* {If is 0 but with less than 2 players} */}
-                    {
-                      ice === 1 ? (
-                        <div className="flex items-center justify-center m-2 shadow-md player w-28 h-28 bg-ice-0">
-                          {players.map((item, index) => {
-                            if (onThisIce(item, row, col)) {
-                              return <PlayerAvatar key={index} player={item} />;
-                            } else return null;
-                          })}
-                          {onThisIce(me, row, col) && (
-                            <PlayerAvatar player={me} isMe={true} />
-                          )}
-                        </div>
-                      ) : (
-                        <div className="flex items-center justify-center m-2 player w-28 h-28">
-                          {players.map((item, index) => {
-                            if (onThisIce(item, row, col) && item.isBreaker) {
-                              return <PlayerAvatar key={index} player={item} />;
-                            } else return null;
-                          })}
-                          {onThisIce(me, row, col) && me.isBreaker && (
-                            <PlayerAvatar player={me} isMe={true} />
-                          )}
-                        </div>
-                      ) // If 0
-                    }
-                  </div>
-                );
-              })}
-            </div>
-          );
-        })}
+
+      <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8">
+        {/* 以下仅为整蛊 */}
+        {!me.isAlive && (
+          <div
+            className="absolute z-40 text-red-500 text-9xl animate-bounce"
+            style={{ fontSize: 800 }}
+          >
+            死
+          </div>
+        )}
+        <div className="">
+          {board.map((rowItems, row) => {
+            return (
+              <div className="flex flex-row" key={row}>
+                {rowItems.map((ice, col) => {
+                  return (
+                    <div className="flex" key={col}>
+                      {/* {If is 0 but with less than 2 players} */}
+                      {
+                        ice === 1 ? (
+                          <div className="flex items-center justify-center m-2 shadow-md player w-28 h-28 bg-ice-0">
+                            {players.map((item, index) => {
+                              if (onThisIce(item, row, col)) {
+                                return (
+                                  <PlayerAvatar key={index} player={item} />
+                                );
+                              } else return null;
+                            })}
+                            {onThisIce(me, row, col) && (
+                              <PlayerAvatar player={me} isMe={true} />
+                            )}
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-center m-2 player w-28 h-28">
+                            {players.map((item, index) => {
+                              if (onThisIce(item, row, col) && item.isBreaker) {
+                                return (
+                                  <PlayerAvatar key={index} player={item} />
+                                );
+                              } else return null;
+                            })}
+                            {onThisIce(me, row, col) && me.isBreaker && (
+                              <PlayerAvatar player={me} isMe={true} />
+                            )}
+                          </div>
+                        ) // If 0
+                      }
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

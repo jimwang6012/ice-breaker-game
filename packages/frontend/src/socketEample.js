@@ -16,6 +16,7 @@ export default function SocketExample() {
   const [x, setX] = useState("0");
   const [roomId, setRoomId] = useState("");
   const [y, setY] = useState("0");
+  const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -29,6 +30,15 @@ export default function SocketExample() {
     socket.on("room-closed", () => {
       alert("Room closed");
     });
+
+    socket.on("game-end", () => {
+      alert("game-end");
+    });
+
+    socket.on("game-time-changed", (time) => {
+      setCurrentTime(time);
+    });
+
     socket.on("game-update", (gameState) => {
       setBoard(gameState.board);
       setPlayers(gameState.players);
@@ -51,6 +61,8 @@ export default function SocketExample() {
         setRoomIdCallBack={setRoomId}
       ></ExampleCreateJoinAndStart>
       <div>
+        <h1>Current Time: {currentTime}</h1>
+
         <span>X: </span>
         <input
           type="number"

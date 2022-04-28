@@ -55,7 +55,7 @@ function PlayerList() {
   return (
     <div className={classes.playerList}>
       <Text size="lg" style={{ paddingBottom: 5 }}>
-        Players (6)
+        Players ({players.length})
       </Text>
       <ScrollArea
         scrollbarSize={8}

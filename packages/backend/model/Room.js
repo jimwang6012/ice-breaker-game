@@ -13,6 +13,8 @@ export class Room {
     this.isOpen = true;
     this.players = new Map();
     this.players.set(host.id, host);
+    this.timer = null;
+    this.currentGameTime = null; //seconds
   }
 
   /**
@@ -29,12 +31,61 @@ export class Room {
   initPlayerPosition() {
     let i = 0;
     this.players.forEach((player, id) => {
+      player.isAlive = true;
       player.x = 0;
       player.y = i;
       i++;
     });
   }
 
+  /**
+   * @param {() => void} onFinished call when the timer decrements
+   * @param {(time:Number) => void} onTimerProceeded call when the timer finished
+   */
+  initTimer(onFinished, onTimerProceeded) {
+    if (this.timer) {
+      // ensure the previous timer is cleared before creating a new one
+      clearInterval(this.timer);
+    }
+    this.currentGameTime = 20; //seconds, and currently we allow the user to move within 20 seconds
+    const countDown = () => {
+      onTimerProceeded(this.currentGameTime);
+      this.currentGameTime--;
+      if (this.currentGameTime < 0) {
+        clearInterval(this.timer);
+        onFinished();
+      }
+    };
+    this.timer = setInterval(countDown, 1000);
+  }
+
+  closeGame() {
+    this.isOpen = true;
+    if (this.timer) {
+      // ensure the previous timer is cleared before creating a new one
+      clearInterval(this.timer);
+    }
+    if (this.board) {
+      this.board = null;
+    }
+  }
+
+  clearTimer() {
+    clearInterval(this.timer);
+  }
+
+  checkIsAllPlayerDead() {
+    const playersList = Array.from(this.players.values());
+    let deadCount = playersList.filter((p) => !p.isAlive).length;
+    if (deadCount == playersList.length - 1) {
+      this.currentGameTime = 0;
+    }
+  }
+
+  /**
+   * @param {number} x
+   * @param {number} y
+   */
   checkPlayersAlive(x, y) {
     this.players.forEach((player, playerId) => {
       if (player.isAlive && player.x == x && player.y == y) {
