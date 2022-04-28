@@ -13,6 +13,7 @@ function HomePage() {
     navigate("/name");
   };
   const joinGame = () => {
+    setIsHost(false);
     setRoomId(pin);
     navigate("/name");
   };

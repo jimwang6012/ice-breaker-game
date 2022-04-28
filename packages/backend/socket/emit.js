@@ -3,10 +3,12 @@ import { getSocketIO } from "./index.js";
 
 /**
  * @param {String} roomId - the room id
- * @param {String} chatMessage - message sent in the room
+ * @param {String} value - text value of message
+ * @param {String} type - type of message, can be either "chat" or "system"
  */
-export function MessageToChat(roomId, chatMessage) {
-  getSocketIO().to(roomId).emit("message-to-chat", chatMessage);
+export function MessageToChat(roomId, value, type) {
+  const message = { value: value, type: type };
+  getSocketIO().to(roomId).emit("message-to-chat", message);
 }
 
 /**
@@ -23,8 +25,8 @@ export function RoomClosed(roomId) {
 
 /**
  * @param {String} roomId - the room id
- * @param {String} socketId - the current boardState
+ * @param {String} message - the message content
  */
-export function MemberJoin(roomId, socketId) {
-  getSocketIO().to(roomId).emit("member-join", { socketID: socketId });
+export function SystemMessage(roomId, message) {
+  getSocketIO().to(roomId).emit("system-message", message);
 }

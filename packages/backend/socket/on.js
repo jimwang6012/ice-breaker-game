@@ -44,7 +44,7 @@ export function StartGameOn(socket) {
 export function MessageOn(socket) {
   socket.on("send-message", ({ roomID, chatMessage }, callback) => {
     console.log(chatMessage + " in " + roomID);
-    MessageToChat(roomID, chatMessage);
+    MessageToChat(roomID, chatMessage, "chat");
   });
 }
 

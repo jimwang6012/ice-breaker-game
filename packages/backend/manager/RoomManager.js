@@ -1,7 +1,7 @@
 import { Socket } from "socket.io";
 import { Player } from "../model/Player.js";
 import { Room } from "../model/Room.js";
-import { GameUpdate, MemberJoin, RoomClosed } from "../socket/emit.js";
+import { GameUpdate, MessageToChat, RoomClosed } from "../socket/emit.js";
 import { Colors } from "../util/color.js";
 import { generateString } from "./util.js";
 
@@ -45,7 +45,8 @@ export class RoomManager {
     if (room && room.isOpen) {
       socket.join(roomId);
       room.addPlayer(new Player(socket.id, name));
-      MemberJoin(roomId, socket.id);
+      const messageValue = name + " has joined the room!";
+      MessageToChat(roomId, messageValue, "system");
       GameUpdate(roomId, room.toDto());
       return room;
     } else {
@@ -67,6 +68,9 @@ export class RoomManager {
         // if the host left, delete the room
         RoomManager.deleteRoom(socket, roomId);
       } else {
+        const leaverName = room.getPlayer(socket.id).name;
+        const messageValue = leaverName + " has left the room!";
+        MessageToChat(roomId, messageValue, "system");
         room.removePlayer(socket.id);
         GameUpdate(roomId, room.toDto());
       }

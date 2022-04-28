@@ -64,4 +64,11 @@ export class Room {
   removePlayer(id) {
     this.players.delete(id);
   }
+
+  /**
+   * @param {string} id - user's socket id
+   */
+  getPlayer(id) {
+    return this.players.get(id);
+  }
 }

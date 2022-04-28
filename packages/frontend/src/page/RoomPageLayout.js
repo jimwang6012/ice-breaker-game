@@ -40,11 +40,16 @@ export default function RoomPageLayout() {
 function PlayerList() {
   const { classes } = useStyles();
   const { handlers, players } = useContext(AppContext);
+
+  const updateGame = (data) => {
+    console.log(data.players);
+    handlers.setState(data.players);
+  };
   useEffect(() => {
-    socket.on("game-update", (data) => {
-      console.log(data.players);
-      handlers.setState(data.players);
-    });
+    socket.on("game-update", updateGame);
+    return () => {
+      socket.off("game-update", updateGame);
+    };
   }, []);
 
   return (
@@ -89,11 +94,16 @@ function MessageList() {
   const [messageList, handlers] = useListState([]);
   const { roomId, name } = useContext(AppContext);
 
+  const receiveMessage = (message) => {
+    handlers.append(message);
+    console.log(message);
+    scrollToBottom();
+  };
   useEffect(() => {
-    socket.on("message-to-chat", (chatMessage) => {
-      handlers.append(chatMessage);
-      scrollToBottom();
-    });
+    socket.on("message-to-chat", receiveMessage);
+    return () => {
+      socket.off("message-to-chat", receiveMessage);
+    };
   }, [socket]);
 
   const sendMessage = (message) => {
@@ -124,9 +134,13 @@ function MessageList() {
         }}
         viewportRef={viewport}
       >
-        {messageList.map((m, index) => (
-          <MessageContent key={index} value={m} />
-        ))}
+        {messageList.map((m, index) => {
+          if (m.type == "chat") {
+            return <MessageItem key={index} value={m.value} />;
+          } else if (m.type == "system") {
+            return <NotiItem key={index} value={m.value} />;
+          }
+        })}
       </ScrollArea>
       {/* Text input box */}
       <div className={classes.InputArea}>
@@ -145,25 +159,25 @@ function MessageList() {
   );
 }
 
-function NotiItem() {
+function NotiItem({ value }) {
   const { classes } = useStyles();
   return (
     <Group className={classes.NotiItem}>
       <Text size="xl" weight={500}>
-        Jeff Peng joined the room.
+        {value}
       </Text>
     </Group>
   );
 }
-function MessageHead() {
-  const { classes } = useStyles();
-  return (
-    <Group className={classes.MessageHead}>
-      <Text size="md">Owen Wang:</Text>
-    </Group>
-  );
-}
-function MessageContent({ value }) {
+// function MessageHead() {
+//   const { classes } = useStyles();
+//   return (
+//     <Group className={classes.MessageHead}>
+//       <Text size="md">Owen Wang:</Text>
+//     </Group>
+//   );
+// }
+function MessageItem({ value }) {
   const { classes } = useStyles();
   return (
     <Group className={classes.MessageHead}>
