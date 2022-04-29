@@ -71,16 +71,17 @@ function GamePage() {
   const handlePlayerMove = ({ keyName }) => {
     if (me.isAlive && !done) {
       // what every move or not, direction need to change
-      changeDirection(me, keyName);
-
-      if (me.isBreaker) {
+      if (me.isBreaker && !isBreaking) {
+        changeDirection(me, keyName);
         if (keyName === "Space") {
           //handle break ice using space
           breakIce(me, board, handleBreak);
+        } else {
+          // movement of breakers
+          breakerMove(keyName, me, board);
         }
-        // movement of breakers
-        breakerMove(keyName, me, board);
-      } else {
+      } else if (!me.isBreaker) {
+        changeDirection(me, keyName);
         // normal non-breaker players on the ice
         playerMove(keyName, me, board.length);
       }
@@ -106,10 +107,15 @@ function GamePage() {
     };
   }, []);
 
-  const handleBreak = (row, col) => {
+  const [isBreaking, setIsBreaking] = useState(false);
+
+  const handleBreak = async (row, col) => {
+    setIsBreaking(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     board[row][col] = 0;
     setBoard([...board]);
     socket.emit("break", { roomId, y: col, x: row });
+    setIsBreaking(false);
   };
 
   const onThisIce = (player, row, col) => {
@@ -126,7 +132,6 @@ function GamePage() {
           00:{currentTime}
         </div>
       )}
-
       <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8">
         {/* 以下仅为整蛊 */}
         {!me.isAlive && (
@@ -147,7 +152,7 @@ function GamePage() {
                       {/* {If is 0 but with less than 2 players} */}
                       {
                         ice === 1 ? (
-                          <div className="flex items-center justify-center m-2 shadow-md player w-28 h-28 bg-ice-0">
+                          <div className="flex items-center justify-center m-2 border-2 shadow-md border-ice-0 player w-28 h-28 bg-ice-0">
                             {players.map((item, index) => {
                               if (onThisIce(item, row, col)) {
                                 return (
@@ -160,7 +165,7 @@ function GamePage() {
                             )}
                           </div>
                         ) : (
-                          <div className="flex items-center justify-center m-2 player w-28 h-28">
+                          <div className="flex items-center justify-center m-2 border-2 player w-28 h-28 border-ice-0">
                             {players.map((item, index) => {
                               if (onThisIce(item, row, col) && item.isBreaker) {
                                 return (
