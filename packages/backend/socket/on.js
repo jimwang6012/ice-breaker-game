@@ -23,8 +23,12 @@ export function JoinRoomOn(socket) {
   socket.on("join-room", ({ roomId, name }, callback) => {
     let room = RoomManager.joinRoom(socket, roomId, name);
     if (callback) {
-      const roomStatus = room.toDto();
-      callback(roomStatus);
+      if (room) {
+        const roomStatus = room.toDto();
+        callback(roomStatus);
+      } else {
+        callback(null);
+      }
     }
   });
 }
@@ -76,5 +80,17 @@ export function UserDisconnectOn(socket) {
       console.log("Disconnecting from " + room);
       RoomManager.leaveRoom(socket, room);
     });
+  });
+}
+
+/**
+ * @param {Socket} socket - user socket
+ */
+export function UpdateConfigOn(socket) {
+  socket.on("update-config", ({ roomId, config }, callback) => {
+    const isSuccess = RoomManager.updateConfig(roomId, config);
+    if (callback) {
+      callback(isSuccess);
+    }
   });
 }

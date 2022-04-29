@@ -57,6 +57,7 @@ export class RoomManager {
       return room;
     } else {
       console.log("Can't find room");
+      return null;
     }
   }
 
@@ -107,7 +108,7 @@ export class RoomManager {
     let room = rooms.get(roomId);
     if (room) {
       room.isOpen = false;
-      room.initBoard();
+      room.initBoard(room.config.boardSize);
       room.initPlayerPosition();
       room.initTimer(
         () => {
@@ -158,5 +159,52 @@ export class RoomManager {
       room.checkPlayersAlive(x, y);
       GameUpdate(roomId, room.toDto());
     }
+  }
+
+  static updateConfig(roomId, config) {
+    let room = rooms.get(roomId);
+    if (room && config) {
+      const { roomSize, boardSize, roundTime, breakTime } = config;
+
+      if (roomSize && !isNaN(roomSize)) {
+        const newRoomSize = Number(roomSize);
+        if (newRoomSize >= room.players.size) {
+          room.config.roomSize = newRoomSize;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+
+      if (boardSize && !isNaN(boardSize)) {
+        const newBoardSize = Number(boardSize);
+        if (newBoardSize >= 5 && newBoardSize <= 20) {
+          room.config.boardSize = newBoardSize;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+
+      if (roundTime && !isNaN(roundTime)) {
+        const newRoundTime = Number(roundTime);
+        room.config.roundTime = newRoundTime;
+      } else {
+        return false;
+      }
+
+      if (breakTime && !isNaN(breakTime)) {
+        const newBreakTime = Number(breakTime);
+        room.config.breakTime = newBreakTime;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+    GameUpdate(roomId, room.toDto());
+    return true;
   }
 }

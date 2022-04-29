@@ -1,14 +1,10 @@
 export class Board {
-  constructor() {
-    this.board = [
-      [0, 1, 1, 1, 1, 1, 1],
-      [1, 1, 1, 1, 1, 1, 1],
-      [1, 1, 1, 1, 1, 1, 1],
-      [1, 1, 1, 1, 1, 1, 1],
-      [1, 1, 1, 1, 1, 1, 1],
-      [1, 1, 1, 1, 1, 1, 1],
-      [1, 1, 1, 1, 1, 1, 1],
-    ];
+  constructor(size) {
+    this.board = Array(size)
+      .fill()
+      .map(() => Array(size).fill(1));
+    const breakerStart = Math.floor((size - 1) / 2);
+    this.board[breakerStart][breakerStart] = 0;
   }
 
   break(x, y) {

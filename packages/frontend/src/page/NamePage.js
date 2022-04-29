@@ -7,7 +7,7 @@ import { MainButton } from "../component/Component";
 function NamePage() {
   document.body.style.overflow = "hidden";
   const navigate = useNavigate();
-  const { isHost, setRoomId, roomId, handlers, name, setName } =
+  const { isHost, setRoomId, roomId, handlers, name, setName, setConfig } =
     useContext(AppContext);
 
   const toHome = () => {
@@ -21,14 +21,24 @@ function NamePage() {
       setRoomId(room.roomId);
       handlers.setState(room.players);
       setName(name);
+      setConfig(room.config);
       navigate("/" + room.roomId.toString() + "/idle");
     });
   };
 
   const joinRoom = () => {
     socket.connect();
-    socket.emit("join-room", { roomId, name });
-    navigate("/" + roomId.toString() + "/idle");
+    socket.emit("join-room", { roomId, name }, (room) => {
+      if (room) {
+        setRoomId(room.roomId);
+        handlers.setState(room.players);
+        setName(name);
+        setConfig(room.config);
+        navigate("/" + roomId.toString() + "/idle");
+      } else {
+        alert("Can't find room");
+      }
+    });
   };
 
   return (

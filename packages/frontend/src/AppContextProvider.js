@@ -17,6 +17,9 @@ export function AppContextProvider({ children }) {
   //player name
   const [name, setName] = useState("");
 
+  //game config
+  const [config, setConfig] = useState();
+
   const context = {
     players,
     handlers,
@@ -26,6 +29,8 @@ export function AppContextProvider({ children }) {
     setRoomId,
     name,
     setName,
+    config,
+    setConfig,
   };
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;

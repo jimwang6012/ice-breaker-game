@@ -13,6 +13,12 @@ export class Room {
     this.isOpen = true;
     this.players = new Map();
     this.players.set(host.id, host);
+    this.config = {
+      roomSize: 8,
+      boardSize: 9,
+      roundTime: 60,
+      breakTime: 1,
+    };
     this.timer = null;
     this.currentGameTime = null; //seconds
   }
@@ -24,17 +30,23 @@ export class Room {
     this.players.set(player.id, player);
   }
 
-  initBoard() {
-    this.board = new Board();
+  initBoard(size) {
+    this.board = new Board(size);
   }
 
   initPlayerPosition() {
     let i = 0;
     this.players.forEach((player, id) => {
       player.isAlive = true;
-      player.x = 0;
-      player.y = i;
-      i++;
+      if (player.isBreaker) {
+        const center = Math.floor((this.config.boardSize - 1) / 2);
+        player.x = center;
+        player.y = center;
+      } else {
+        player.x = 0;
+        player.y = i;
+        i++;
+      }
     });
   }
 
@@ -102,11 +114,22 @@ export class Room {
       });
     });
 
-    return {
-      roomId: this.roomId,
-      board: this.board?.toDto(),
-      players: players,
-    };
+    if (this.isOpen) {
+      return {
+        roomId: this.roomId,
+        hostId: this.hostId,
+        board: this.board?.toDto(),
+        players: players,
+        config: this.config,
+      };
+    } else {
+      return {
+        roomId: this.roomId,
+        hostId: this.hostId,
+        board: this.board?.toDto(),
+        players: players,
+      };
+    }
   }
 
   /**
