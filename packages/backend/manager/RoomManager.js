@@ -93,7 +93,7 @@ export class RoomManager {
     const room = rooms.get(roomId);
 
     // only host can delete its room
-    if (room.hostId == socket.id) {
+    if (room && room.hostId == socket.id) {
       rooms.delete(roomId);
       console.log(`${socket.id} host is deleting ${roomId}`);
       RoomClosed(roomId);
@@ -105,23 +105,24 @@ export class RoomManager {
    */
   static startGame(roomId) {
     let room = rooms.get(roomId);
-    room.isOpen = false;
-    room.initBoard();
-    room.initPlayerPosition();
-    room.initTimer(
-      () => {
-        console.log("game timer finished");
-        room.closeGame();
-        GameEnded(roomId);
-      },
-      (time) => {
-        console.log(`game timer clicked ${time}`);
-
-        room.checkIsAllPlayerDead();
-        GameTimeChanged(roomId, time);
-      }
-    );
-    GameUpdate(roomId, room.toDto());
+    if (room) {
+      room.isOpen = false;
+      room.initBoard();
+      room.initPlayerPosition();
+      room.initTimer(
+        () => {
+          console.log("game timer finished");
+          room.closeGame();
+          GameEnded(roomId);
+        },
+        (time) => {
+          console.log(`game timer clicked ${time}`);
+          room.checkIsAllPlayerDead();
+          GameTimeChanged(roomId, time);
+        }
+      );
+      GameUpdate(roomId, room.toDto());
+    }
   }
 
   /**
@@ -134,13 +135,15 @@ export class RoomManager {
   static movePlayer(roomId, playerId, x, y, direction) {
     let room = rooms.get(roomId);
     let player = room?.players.get(playerId);
-    player.x = Number(x);
-    player.y = Number(y);
-    player.direction = direction;
-    if (!player.isBreaker && !room.board.check(x, y)) {
-      player.isAlive = false;
+    if (player) {
+      player.x = Number(x);
+      player.y = Number(y);
+      player.direction = direction;
+      if (!player.isBreaker && !room.board.check(x, y)) {
+        player.isAlive = false;
+      }
+      GameUpdate(roomId, room.toDto());
     }
-    GameUpdate(roomId, room.toDto());
   }
 
   /**
@@ -150,8 +153,10 @@ export class RoomManager {
    */
   static breakTile(roomId, x, y) {
     let room = rooms.get(roomId);
-    room.board.break(x, y);
-    room.checkPlayersAlive(x, y);
-    GameUpdate(roomId, room.toDto());
+    if (room) {
+      room.board.break(x, y);
+      room.checkPlayersAlive(x, y);
+      GameUpdate(roomId, room.toDto());
+    }
   }
 }
