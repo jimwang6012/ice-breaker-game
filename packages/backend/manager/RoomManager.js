@@ -155,7 +155,7 @@ export class RoomManager {
   static breakTile(roomId, x, y) {
     let room = rooms.get(roomId);
     if (room) {
-      room.board.break(x, y);
+      room.board?.break(x, y);
       room.checkPlayersAlive(x, y);
       GameUpdate(roomId, room.toDto());
     }

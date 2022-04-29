@@ -75,6 +75,7 @@ export function IdlePage() {
           description="Must be greater than current player count"
           placeholder="Number of players"
           defaultValue={config.roomSize}
+          min={0}
           ref={refRoomSize}
           disabled={!isHost}
           styles={{
@@ -91,6 +92,7 @@ export function IdlePage() {
           description="Must be from 5 to 20"
           placeholder="Size of game board"
           defaultValue={config.boardSize}
+          min={0}
           ref={refBoardSize}
           disabled={!isHost}
           styles={{
@@ -107,6 +109,7 @@ export function IdlePage() {
           description="Unit is in seconds"
           placeholder="Round time limit"
           defaultValue={config.roundTime}
+          min={0}
           ref={refRoundTime}
           disabled={!isHost}
           styles={{
@@ -123,6 +126,8 @@ export function IdlePage() {
           description="Unit is in seconds"
           placeholder="Tile break delay"
           defaultValue={config.breakTime}
+          min={0}
+          precision={1}
           ref={refBreakTime}
           disabled={!isHost}
           styles={{

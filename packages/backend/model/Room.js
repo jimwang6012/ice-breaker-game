@@ -59,7 +59,7 @@ export class Room {
       // ensure the previous timer is cleared before creating a new one
       clearInterval(this.timer);
     }
-    this.currentGameTime = 20; //seconds, and currently we allow the user to move within 20 seconds
+    this.currentGameTime = this.config?.roundTime; //seconds, and currently we allow the user to move within 20 seconds
     const countDown = () => {
       onTimerProceeded(this.currentGameTime);
       this.currentGameTime--;

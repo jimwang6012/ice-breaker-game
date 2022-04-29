@@ -2,7 +2,23 @@ import React from "react";
 import { useListState } from "@mantine/hooks";
 import { useState } from "react";
 
-export const AppContext = React.createContext({});
+export const AppContext = React.createContext({
+  players: [],
+  handlers: null,
+  isHost: false,
+  setIsHost: (isHost) => {},
+  roomId: "",
+  setRoomId: (roomId) => {},
+  name: "",
+  setName: (name) => {},
+  config: {
+    roomSize: 8,
+    boardSize: 9,
+    roundTime: 60,
+    breakTime: 1,
+  },
+  setConfig: (config) => {},
+});
 
 export function AppContextProvider({ children }) {
   // Manage players in the room

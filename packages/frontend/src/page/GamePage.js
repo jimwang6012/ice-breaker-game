@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useKeyDown } from "react-keyboard-input-hook";
 import classNames from "classnames";
 import { useParams } from "react-router-dom";
@@ -11,6 +11,7 @@ import {
 } from "../component/PlayerControl";
 import "./gampage.css";
 import socket from "../Socket";
+import { AppContext } from "../AppContextProvider";
 
 function GamePage() {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ function GamePage() {
   };
 
   const roomId = useParams().code;
+
   useEffect(() => {
     // @ts-ignore
     if (!!state.game) initGame(state.game, socket.id);
@@ -43,11 +45,17 @@ function GamePage() {
     const onGameTimeChanged = (time) => {
       setCurrentTime(time);
     };
+
+    const gameDone = () => {
+      setDone(true);
+    };
+    socket.on("room-closed", gameDone);
     socket.on("game-update", onGameUpdate);
     socket.on("game-end", onGameEnd);
     socket.on("game-time-changed", onGameTimeChanged);
 
     return () => {
+      socket.off("room-closed", gameDone);
       socket.off("game-update", onGameUpdate);
       socket.off("game-end", onGameEnd);
       socket.off("game-time-changed", onGameTimeChanged);
@@ -96,22 +104,16 @@ function GamePage() {
   };
 
   useKeyDown(handlePlayerMove);
-  useEffect(() => {
-    const gameDone = () => {
-      setDone(true);
-    };
-    socket.on("room-closed", gameDone);
-    return () => {
-      // Clean up
-      socket.off("room-closed", gameDone);
-    };
-  }, []);
 
   const [isBreaking, setIsBreaking] = useState(false);
 
+  const { config } = useContext(AppContext);
+
   const handleBreak = async (row, col) => {
     setIsBreaking(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) =>
+      setTimeout(resolve, config.breakTime * 1000)
+    );
     board[row][col] = 0;
     setBoard([...board]);
     socket.emit("break", { roomId, y: col, x: row });

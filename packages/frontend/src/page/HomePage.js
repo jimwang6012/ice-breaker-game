@@ -40,8 +40,6 @@ function HomePage() {
           <div className="absolute bottom-0 rotate-45 -right-96 h-2/3 aspect-square bg-ice-3" />
         </div>
       </div>
-      {/* right square */}
-      <div className="absolute bottom-0 rotate-45 -right-96 h-2/3 aspect-square bg-ice-3" />
     </body>
   );
 }
