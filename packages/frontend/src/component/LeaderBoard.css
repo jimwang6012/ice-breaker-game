@@ -1,0 +1,13 @@
+.username {
+  width: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 10px;
+  text-align: start;
+}
+
+.wholeBoard {
+  height: 80%;
+  overflow: auto;
+  text-overflow: ellipsis;
+}

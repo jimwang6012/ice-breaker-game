@@ -1,15 +1,21 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Outlet } from "react-router-dom";
-import { Text, ScrollArea, Group } from "@mantine/core";
+
+import { Outlet, useNavigate } from "react-router-dom";
+import { Text, ScrollArea, Group, TextInput } from "@mantine/core";
+
 import { useInputState, useListState } from "@mantine/hooks";
 import { createStyles } from "@mantine/core";
 import Avatar from "react-avatar";
 import { AppContext } from "../AppContextProvider";
 import socket from "../Socket";
 import { Modal } from "../component/Modal";
+import { infoIcon } from "../component/Icons";
 export default function RoomPageLayout() {
+  const navigate = useNavigate();
   const { classes } = useStyles();
   const [show, setShow] = useState(false);
+  const hostLeftInfo = "Host has left the room! The room is closed.";
+  const returnToHomePrompt = "Return to home";
   useEffect(() => {
     const openModal = () => {
       setShow(true);
@@ -31,7 +37,15 @@ export default function RoomPageLayout() {
         <PlayerList />
         <MessageList />
       </div>
-      <Modal show={show} />
+      <Modal
+        show={show}
+        pageJump={() => {
+          navigate("/home");
+        }}
+        mainPrompt={hostLeftInfo}
+        buttonPrompt={returnToHomePrompt}
+        title={infoIcon()}
+      />
     </div>
   );
 }

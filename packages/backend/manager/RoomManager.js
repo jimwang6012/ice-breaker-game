@@ -120,7 +120,25 @@ export class RoomManager {
         () => {
           console.log("game timer finished");
           room.closeGame();
-          GameEnded(roomId);
+
+          let numSurvivor = 0;
+          /**
+           * @type {Player} - breaker
+           */
+          let breaker;
+          room.players.forEach((player) => {
+            if (player.isAlive && !player.isBreaker) {
+              player.score++;
+              numSurvivor++;
+            }
+            if (player.isBreaker) {
+              breaker = player;
+            }
+          });
+          if (numSurvivor == 0) {
+            breaker.score += room.players.size;
+          }
+          GameEnded(roomId, room.toDto());
         },
         (time) => {
           console.log(`game timer clicked ${time}`);
@@ -142,7 +160,7 @@ export class RoomManager {
   static movePlayer(roomId, playerId, x, y, direction) {
     let room = rooms.get(roomId);
     let player = room?.players.get(playerId);
-    if (player) {
+    if (player && room && room.board) {
       player.x = Number(x);
       player.y = Number(y);
       player.direction = direction;

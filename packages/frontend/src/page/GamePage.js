@@ -11,7 +11,9 @@ import {
 } from "../component/PlayerControl";
 import "./gampage.css";
 import socket from "../Socket";
+import { Modal } from "../component/Modal";
 import { AppContext } from "../AppContextProvider";
+import { LeaderBoard } from "../component/LeaderBoard";
 
 function GamePage() {
   const navigate = useNavigate();
@@ -26,7 +28,9 @@ function GamePage() {
 
   const { state } = useLocation();
   const [currentTime, setCurrentTime] = useState(0);
-
+  const [show, setShow] = useState(false);
+  const [leaderboardList, setLeaders] = useState();
+  const [winningMessage, setWinner] = useState("");
   const initGame = (game, myId) => {
     const initWidth = window.innerWidth * 0.65;
     const initHeight = window.innerHeight;
@@ -51,9 +55,23 @@ function GamePage() {
     if (!!state.game) initGame(state.game, socket.id);
 
     const onGameUpdate = (game) => initGame(game, socket.id);
-    const onGameEnd = () => {
-      alert("game-end");
-      navigate("/" + roomId.toString() + "/idle");
+    const onGameEnd = (room) => {
+      room.players.sort(function (a, b) {
+        return b.score - a.score;
+      });
+
+      setLeaders(room.players);
+
+      if (
+        room.players.filter((player) => player.isAlive && !player.isBreaker)
+          .length === 0
+      ) {
+        setWinner("Breaker Win !!!");
+      } else {
+        setWinner("Survivors Win !!!");
+      }
+
+      setShow(true);
     };
     const onGameTimeChanged = (time) => {
       setCurrentTime(time);
@@ -139,7 +157,22 @@ function GamePage() {
     return player.x === row && player.y === col;
   };
   return (
-    <div className="flex items-center justify-center h-screen overflow-y-auto w-11/16 bg-ice-8">
+
+    <div className="flex items-start justify-start h-screen overflow-y-auto w-11/16 bg-ice-8">
+      <Modal
+        title={
+          <div className="text-3xl font-black text-white text-ice-6">
+            {winningMessage}
+          </div>
+        }
+        show={show}
+        pageJump={() => {
+          navigate("/" + roomId.toString() + "/idle");
+        }}
+        mainPrompt={<LeaderBoard list={leaderboardList} myID={me.id} />}
+        buttonPrompt={"GG!"}
+      />
+          
       {/* {currentTime < 10 ? (
         <div className="m-8 text-6xl font-bold text-white">
           00:0{currentTime}
@@ -149,6 +182,7 @@ function GamePage() {
           00:{currentTime}
         </div>
       )} */}
+
       <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8">
         {/* 以下仅为整蛊 */}
         {!me.isAlive && (

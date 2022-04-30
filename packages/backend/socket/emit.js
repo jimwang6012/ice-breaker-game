@@ -33,8 +33,8 @@ export function SystemMessage(roomId, message) {
 /**
  * @param {String} roomId - the room id
  */
-export function GameEnded(roomId) {
-  getSocketIO().to(roomId).emit("game-end");
+export function GameEnded(roomId, gameState) {
+  getSocketIO().to(roomId).emit("game-end", gameState);
 }
 
 /**
