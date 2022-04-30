@@ -95,15 +95,21 @@ export class Room {
   }
 
   /**
-   * @param {number} x
-   * @param {number} y
+   * Check if a certain player is alive
+   * @param {String} playerId
    */
-  checkPlayersAlive(x, y) {
-    this.players.forEach((player, playerId) => {
-      if (player.isAlive && player.x == x && player.y == y) {
-        player.isAlive = false;
-      }
-    });
+  checkPlayerAlive(playerId) {
+    const player = this.getPlayer(playerId);
+    if (
+      player.isAlive &&
+      !player.isBreaker &&
+      !this.board.check(player.x, player.y)
+    ) {
+      player.isAlive = false;
+      return false;
+    } else {
+      return true;
+    }
   }
 
   toDto() {

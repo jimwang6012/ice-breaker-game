@@ -110,6 +110,12 @@ export class RoomManager {
       room.isOpen = false;
       room.initBoard(room.config.boardSize);
       room.initPlayerPosition();
+      room.players.forEach((player, id) => {
+        if (player.isBreaker) {
+          const message = player.name + " is Breaker! Game Start!";
+          MessageToChat(roomId, message, "system");
+        }
+      });
       room.initTimer(
         () => {
           console.log("game timer finished");
@@ -140,8 +146,8 @@ export class RoomManager {
       player.x = Number(x);
       player.y = Number(y);
       player.direction = direction;
-      if (!player.isBreaker && !room.board.check(x, y)) {
-        player.isAlive = false;
+      if (!room.checkPlayerAlive(playerId)) {
+        this.playerDead(roomId, player);
       }
       GameUpdate(roomId, room.toDto());
     }
@@ -156,9 +162,25 @@ export class RoomManager {
     let room = rooms.get(roomId);
     if (room) {
       room.board?.break(x, y);
-      room.checkPlayersAlive(x, y);
+
+      // Check whether there is a player killed on the broken tile
+      room.players.forEach((player, playerId) => {
+        if (!room.checkPlayerAlive(playerId)) {
+          this.playerDead(roomId, player);
+        }
+      });
       GameUpdate(roomId, room.toDto());
     }
+  }
+
+  /**
+   * Send message to chat room when a player dies.
+   * @param {String} roomId
+   * @param {Player} player
+   */
+  static playerDead(roomId, player) {
+    const message = player.name + " is dead!";
+    MessageToChat(roomId, message, "system");
   }
 
   static updateConfig(roomId, config) {

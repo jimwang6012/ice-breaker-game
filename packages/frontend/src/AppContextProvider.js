@@ -11,6 +11,8 @@ export const AppContext = React.createContext({
   setRoomId: (roomId) => {},
   name: "",
   setName: (name) => {},
+  isTyping: false,
+  setIsTyping: (isTyping) => {},
   config: {
     roomSize: 8,
     boardSize: 9,
@@ -36,6 +38,9 @@ export function AppContextProvider({ children }) {
   //game config
   const [config, setConfig] = useState();
 
+  //isChatting
+  const [isTyping, setIsTyping] = useState(false);
+
   const context = {
     players,
     handlers,
@@ -47,6 +52,8 @@ export function AppContextProvider({ children }) {
     setName,
     config,
     setConfig,
+    isTyping,
+    setIsTyping,
   };
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;

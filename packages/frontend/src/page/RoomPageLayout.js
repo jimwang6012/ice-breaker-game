@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
-import { Text, ScrollArea, Group, TextInput } from "@mantine/core";
+import { Text, ScrollArea, Group } from "@mantine/core";
 import { useInputState, useListState } from "@mantine/hooks";
 import { createStyles } from "@mantine/core";
 import Avatar from "react-avatar";
@@ -42,7 +42,6 @@ function PlayerList() {
   const { handlers, players } = useContext(AppContext);
 
   const updateGame = (data) => {
-    console.log(data.players);
     handlers.setState(data.players);
   };
   useEffect(() => {
@@ -92,13 +91,14 @@ function MessageList() {
   const { classes } = useStyles();
   const [messageValue, setMessageValue] = useInputState("");
   const [messageList, handlers] = useListState([]);
-  const { roomId, name } = useContext(AppContext);
+  const { roomId, name, setIsTyping, isTyping } = useContext(AppContext);
 
   const receiveMessage = (message) => {
     handlers.append(message);
     console.log(message);
     scrollToBottom();
   };
+
   useEffect(() => {
     socket.on("message-to-chat", receiveMessage);
     return () => {
@@ -131,6 +131,7 @@ function MessageList() {
         classNames={{
           root: classes.scrollArea,
           scrollbar: classes.scrollbar,
+          thumb: classes.thumb,
         }}
         viewportRef={viewport}
       >
@@ -147,6 +148,12 @@ function MessageList() {
         <input
           className={classes.InputField}
           onChange={setMessageValue}
+          onFocus={() => {
+            setIsTyping(true);
+          }}
+          onBlur={() => {
+            setIsTyping(false);
+          }}
           onKeyPress={(e) => {
             if (e.key === "Enter") {
               sendMessage(e.currentTarget.value);
@@ -162,11 +169,9 @@ function MessageList() {
 function NotiItem({ value }) {
   const { classes } = useStyles();
   return (
-    <Group className={classes.NotiItem}>
-      <Text size="xl" weight={500}>
-        {value}
-      </Text>
-    </Group>
+    <Text size="xl" weight={500} className={classes.NotiItem}>
+      {value}
+    </Text>
   );
 }
 // function MessageHead() {
@@ -180,9 +185,9 @@ function NotiItem({ value }) {
 function MessageItem({ value }) {
   const { classes } = useStyles();
   return (
-    <Group className={classes.MessageHead}>
-      <Text size="md">{value}</Text>
-    </Group>
+    <Text size="md" className={classes.MessageItem}>
+      {value}
+    </Text>
   );
 }
 
@@ -192,8 +197,7 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.ice[6],
     height: "45vh",
     color: "white",
-    paddingLeft: 30,
-    paddingRight: 5,
+    paddingInline: 10,
   },
   InputArea: {
     backgroundColor: theme.colors.ice[7],
@@ -240,10 +244,14 @@ const useStyles = createStyles((theme) => ({
   },
   NotiItem: {
     backgroundColor: theme.colors.ice[5],
-
-    marginBottom: 5,
+    paddingInline: 10,
+    marginTop: 5,
   },
-  MessageHead: {
+  MessageItem: {
+    paddingInline: 10,
+    wordBreak: "break-all",
+    flex: 1,
+    flexWrap: "wrap",
     color: theme.colors.white,
   },
   InputField: {

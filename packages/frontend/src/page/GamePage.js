@@ -90,8 +90,11 @@ function GamePage() {
   });
   const [board, setBoard] = useState([]);
 
+  const { config, isTyping } = useContext(AppContext);
+
   const handlePlayerMove = ({ keyName }) => {
-    if (me.isAlive && !done) {
+    if (me.isAlive && !done && !isTyping) {
+      console.log(isTyping);
       // what every move or not, direction need to change
       if (me.isBreaker && !isBreaking) {
         changeDirection(me, keyName);
@@ -120,8 +123,6 @@ function GamePage() {
   useKeyDown(handlePlayerMove);
 
   const [isBreaking, setIsBreaking] = useState(false);
-
-  const { config } = useContext(AppContext);
 
   const handleBreak = async (row, col) => {
     setIsBreaking(true);
