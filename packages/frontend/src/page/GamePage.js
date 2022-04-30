@@ -157,8 +157,7 @@ function GamePage() {
     return player.x === row && player.y === col;
   };
   return (
-
-    <div className="flex items-start justify-start h-screen overflow-y-auto w-11/16 bg-ice-8">
+    <div className="flex items-center justify-center h-screen overflow-y-auto w-11/16 bg-ice-8">
       <Modal
         title={
           <div className="text-3xl font-black text-white text-ice-6">
@@ -172,7 +171,7 @@ function GamePage() {
         mainPrompt={<LeaderBoard list={leaderboardList} myID={me.id} />}
         buttonPrompt={"GG!"}
       />
-          
+
       {/* {currentTime < 10 ? (
         <div className="m-8 text-6xl font-bold text-white">
           00:0{currentTime}
