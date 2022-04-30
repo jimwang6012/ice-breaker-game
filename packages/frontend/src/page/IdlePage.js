@@ -10,6 +10,8 @@ import {
   Space,
   ThemeIcon,
 } from "@mantine/core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClipboard } from "@fortawesome/free-solid-svg-icons";
 
 export function IdlePage() {
   const navigate = useNavigate();
@@ -163,7 +165,7 @@ export function IdlePage() {
             </p>
           )
         ) : (
-          <p className="text-center invisible">Invisible text</p>
+          <p className="invisible text-center">Invisible text</p>
         )}
       </Modal>
       {/* Room Info */}
@@ -173,8 +175,11 @@ export function IdlePage() {
         </div>
         {/* Room Code  */}
         <div className="w-2/5 py-16 rounded-lg shadow-lg px-28 bg-ice-2 ">
-          <div className="flex flex-row justify-center gap-10 text-2xl font-bold text-black">
+          <div className="flex flex-row justify-center gap-2 text-2xl font-bold text-black">
             Room Code: {roomId}
+            <button onClick={() => navigator.clipboard.writeText(roomId)}>
+              <FontAwesomeIcon icon={faClipboard} />
+            </button>
           </div>
         </div>
         {isHost ? (

@@ -16,16 +16,29 @@ import { AppContext } from "../AppContextProvider";
 function GamePage() {
   const navigate = useNavigate();
 
+  const windowSizeChanged = () => {
+    const initWidth = window.innerWidth * 0.7;
+    const initHeight = window.innerHeight;
+    const size = initWidth > initHeight ? initHeight : initWidth;
+    setIceSize(size / (board.length + 3));
+  };
+  window.addEventListener("resize", windowSizeChanged);
+
   const { state } = useLocation();
   const [currentTime, setCurrentTime] = useState(0);
 
   const initGame = (game, myId) => {
+    const initWidth = window.innerWidth * 0.65;
+    const initHeight = window.innerHeight;
+    const size = initWidth > initHeight ? initHeight : initWidth;
+
     setBoard(game.board);
+    setIceSize(size / (game.board.length + 3));
+
     const playerList = game.players;
     playerList.forEach((player, index) => {
       if (player.id === myId) {
         setMe(player);
-        playerList.splice(index, 1);
       }
     });
     setPlayers(playerList);
@@ -64,6 +77,7 @@ function GamePage() {
   }, [navigate, roomId, state.game]);
 
   const [players, setPlayers] = useState([]);
+  const [iceSize, setIceSize] = useState(10);
   const [done, setDone] = useState(false);
   const [me, setMe] = useState({
     id: null,
@@ -124,16 +138,16 @@ function GamePage() {
     return player.x === row && player.y === col;
   };
   return (
-    <div className="flex items-start justify-start w-11/16 h-screen overflow-y-auto bg-ice-8">
-      {currentTime < 10 ? (
-        <div className="text-6xl m-8 font-bold text-white">
+    <div className="flex items-center justify-center h-screen overflow-y-auto w-11/16 bg-ice-8">
+      {/* {currentTime < 10 ? (
+        <div className="m-8 text-6xl font-bold text-white">
           00:0{currentTime}
         </div>
       ) : (
-        <div className="text-6xl m-8 font-bold text-white">
+        <div className="m-8 text-6xl font-bold text-white">
           00:{currentTime}
         </div>
-      )}
+      )} */}
       <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8">
         {/* 以下仅为整蛊 */}
         {!me.isAlive && (
@@ -154,30 +168,46 @@ function GamePage() {
                       {/* {If is 0 but with less than 2 players} */}
                       {
                         ice === 1 ? (
-                          <div className="flex items-center justify-center m-2 border-2 shadow-md border-ice-0 player w-28 h-28 bg-ice-0">
+                          <div
+                            style={{
+                              width: Math.round(iceSize),
+                              height: Math.round(iceSize),
+                              margin: Math.round(iceSize / board.length),
+                            }}
+                            className="flex items-center justify-center m-2 border-2 shadow-md border-ice-0 player bg-ice-0"
+                          >
                             {players.map((item, index) => {
                               if (onThisIce(item, row, col)) {
                                 return (
-                                  <PlayerAvatar key={index} player={item} />
+                                  <PlayerAvatar
+                                    key={index}
+                                    player={item}
+                                    ice={iceSize}
+                                  />
                                 );
                               } else return null;
                             })}
-                            {onThisIce(me, row, col) && (
-                              <PlayerAvatar player={me} isMe={true} />
-                            )}
                           </div>
                         ) : (
-                          <div className="flex items-center justify-center m-2 border-2 player w-28 h-28 border-ice-0">
+                          <div
+                            style={{
+                              width: Math.round(iceSize),
+                              height: Math.round(iceSize),
+                              margin: Math.round(iceSize / board.length),
+                            }}
+                            className="flex items-center justify-center m-2 border-2 player border-ice-0"
+                          >
                             {players.map((item, index) => {
                               if (onThisIce(item, row, col) && item.isBreaker) {
                                 return (
-                                  <PlayerAvatar key={index} player={item} />
+                                  <PlayerAvatar
+                                    key={index}
+                                    player={item}
+                                    ice={iceSize}
+                                  />
                                 );
                               } else return null;
                             })}
-                            {onThisIce(me, row, col) && me.isBreaker && (
-                              <PlayerAvatar player={me} isMe={true} />
-                            )}
                           </div>
                         ) // If 0
                       }
@@ -199,8 +229,9 @@ function PlayerAvatar(props) {
   if (props.player.isAlive) {
     return (
       <div
+        style={{ width: props.ice * 0.85, height: props.ice * 0.85 }}
         className={classNames(
-          "playerme flex items-center justify-center w-20 h-20 text-white rounded-2xl text",
+          "playerme flex items-center justify-center text-white rounded-2xl text",
           {
             "": props.player.direction === "UP",
             " rotate-180": props.player.direction === "DOWN",
