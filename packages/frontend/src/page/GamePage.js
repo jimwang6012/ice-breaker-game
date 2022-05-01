@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useKeyDown } from "react-keyboard-input-hook";
+import { useKeyUp } from "react-keyboard-input-hook";
 import classNames from "classnames";
 import { useParams } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -8,36 +8,38 @@ import {
   breakIce,
   breakerMove,
   playerMove,
-} from "../component/PlayerControl";
+} from "../util/PlayerControl";
 import "./gampage.css";
 import socket from "../Socket";
 import { Modal } from "../component/Modal";
 import { AppContext } from "../AppContextProvider";
 import { LeaderBoard } from "../component/LeaderBoard";
+import { convertToMS } from "../util/timer";
 
 function GamePage() {
   const navigate = useNavigate();
 
   const windowSizeChanged = () => {
-    const initWidth = window.innerWidth * 0.7;
-    const initHeight = window.innerHeight;
+    const initWidth = window.innerWidth * 0.65;
+    const initHeight = window.innerHeight - 20;
     const size = initWidth > initHeight ? initHeight : initWidth;
-    setIceSize(size / (board.length + 3));
+    setIceSize(size / (board?.length + 3));
   };
   window.addEventListener("resize", windowSizeChanged);
-
+  const { config, isTyping } = useContext(AppContext);
   const { state } = useLocation();
-  const [currentTime, setCurrentTime] = useState(0);
+  const [currentTime, setCurrentTime] = useState(config.roundTime);
   const [show, setShow] = useState(false);
+
   const [leaderboardList, setLeaders] = useState();
   const [winningMessage, setWinner] = useState("");
   const initGame = (game, myId) => {
     const initWidth = window.innerWidth * 0.65;
-    const initHeight = window.innerHeight;
+    const initHeight = window.innerHeight - 20;
     const size = initWidth > initHeight ? initHeight : initWidth;
 
     setBoard(game.board);
-    setIceSize(size / (game.board.length + 3));
+    setIceSize(size / (game.board?.length + 3));
 
     const playerList = game.players;
     playerList.forEach((player, index) => {
@@ -108,8 +110,6 @@ function GamePage() {
   });
   const [board, setBoard] = useState([]);
 
-  const { config, isTyping } = useContext(AppContext);
-
   const handlePlayerMove = ({ keyName }) => {
     if (me.isAlive && !done && !isTyping) {
       console.log(isTyping);
@@ -138,7 +138,7 @@ function GamePage() {
     }
   };
 
-  useKeyDown(handlePlayerMove);
+  useKeyUp(handlePlayerMove);
 
   const [isBreaking, setIsBreaking] = useState(false);
 
@@ -157,7 +157,7 @@ function GamePage() {
     return player.x === row && player.y === col;
   };
   return (
-    <div className="flex items-center justify-center h-screen overflow-y-auto w-11/16 bg-ice-8">
+    <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8">
       <Modal
         title={
           <div className="text-3xl font-black text-white text-ice-6">
@@ -171,18 +171,11 @@ function GamePage() {
         mainPrompt={<LeaderBoard list={leaderboardList} myID={me.id} />}
         buttonPrompt={"GG!"}
       />
+      <div className="timer text-3xl font-bold text-white">
+        {convertToMS(currentTime)}
+      </div>
 
-      {/* {currentTime < 10 ? (
-        <div className="m-8 text-6xl font-bold text-white">
-          00:0{currentTime}
-        </div>
-      ) : (
-        <div className="m-8 text-6xl font-bold text-white">
-          00:{currentTime}
-        </div>
-      )} */}
-
-      <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8">
+      <div className="flex items-center justify-center mt-4 overflow-y-auto bg-ice-8">
         {/* 以下仅为整蛊 */}
         {!me.isAlive && (
           <div
@@ -193,15 +186,15 @@ function GamePage() {
           </div>
         )}
         <div className="">
-          {board.map((rowItems, row) => {
-            return (
-              <div className="flex flex-row" key={row}>
-                {rowItems.map((ice, col) => {
-                  return (
-                    <div className="flex" key={col}>
-                      {/* {If is 0 but with less than 2 players} */}
-                      {
-                        ice === 1 ? (
+          {board ? (
+            board.map((rowItems, row) => {
+              return (
+                <div className="flex flex-row" key={row}>
+                  {rowItems.map((ice, col) => {
+                    return (
+                      <div className="flex" key={col}>
+                        {/* {If is 0 but with less than 2 players} */}
+                        {ice === 1 ? (
                           <div
                             style={{
                               width: Math.round(iceSize),
@@ -243,14 +236,16 @@ function GamePage() {
                               } else return null;
                             })}
                           </div>
-                        ) // If 0
-                      }
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>

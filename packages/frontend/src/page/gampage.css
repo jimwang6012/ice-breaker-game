@@ -7,3 +7,9 @@
   /* top: 15%;
   left: 15%; */
 }
+.timer {
+  position: absolute;
+  top: 0%;
+  display: flex;
+  justify-content: center;
+}
