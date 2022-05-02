@@ -178,12 +178,15 @@ export function IdlePage() {
           <div className="flex flex-row justify-center gap-2 text-2xl font-bold text-black">
             Room Code: {roomId}
             <button onClick={() => navigator.clipboard.writeText(roomId)}>
-              <FontAwesomeIcon icon={faClipboard} />
+              <FontAwesomeIcon
+                className="hover:text-ice-7"
+                icon={faClipboard}
+              />
             </button>
           </div>
         </div>
         {isHost ? (
-          <div className="flex justify-around w-3/5 ">
+          <div className="flex flex-col items-center justify-around w-3/5 xl:flex-row gap-y-2">
             {/* Two Buttons */}
             <MainButton handleClick={toHome} text="Leave Room" />
             <MainButton handleClick={startGame} text="Start Game" />
@@ -196,7 +199,7 @@ export function IdlePage() {
             />
           </div>
         ) : (
-          <div className="flex justify-around w-3/5 ">
+          <div className="flex flex-col items-center justify-around w-3/5 xl:flex-row gap-y-2">
             <MainButton handleClick={toHome} text="Leave Room" />
             <MainButton
               handleClick={() => {
