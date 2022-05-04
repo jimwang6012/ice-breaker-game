@@ -19,11 +19,16 @@
     "frontend": "yarn workspace frontend start",
     "backend": "yarn workspace backend start",
     "backend:dev": "yarn workspace backend start:dev",
-    "start": "concurrently  --kill-others-on-fail \"yarn backend\" \"yarn frontend\"",
+    "start": "yarn workspace backend start",
+    "heroku-postbuild": "cd packages/frontend && yarn install --only=prod && yarn install && yarn run build",
     "start:dev": "concurrently  --kill-others-on-fail \"yarn backend:dev\" \"yarn frontend\"",
     "prepare": "husky install"
   },
   "dependencies": {
     "concurrently": "^7.0.0"
+  },
+  "engines": {
+    "node": "16.13.2",
+    "yarn": "1.22.17"
   }
 }

@@ -40,33 +40,21 @@ io.on("connection", (socket) => {
   UpdateConfigOn(socket);
 });
 
-// When we make a GET request to '/hello', send back this HTML content.
-app.get("/hello", (req, res) => {
-  res
-    .status(200)
-    .contentType("text/html")
-    .send(
-      `<!DOCTYPE html>
-        <html>
-            <head>
-                <title>Served from an Express endpoint!</title>
-            </head>
-            <body>
-                <h1>Hello, Express!</h1>
-                <p>This HTML content was served from an Express endpoint!</p>
-            </body>
-        </html>`
-    );
-});
+// Make the "public" folder available statically
+app.use(express.static(path.join(__dirname, "../frontend/public")));
 
-// When we make a GET request to '/api', send back this JSON content.
-// Uses the "name" query param e.g. http://localhost:3000/api?name=Clara
-app.get("/api", (req, res) => {
-  res.json({
-    greeting: "Hello, world!",
-    name: req.query.name,
+// Serve up the frontend's "build" directory, if we're running in production mode.
+if (process.env.NODE_ENV === "production") {
+  console.log("Running in production!");
+
+  // Make all files in that folder public
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+  // If we get any GET request we can't process using one of the server routes, serve up index.html by default.
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "./client/build/index.html"));
   });
-});
+}
 
 httpServer.listen(PORT, () => {
   console.log(`listening on *:${PORT}`);

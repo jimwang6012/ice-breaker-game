@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "jest",
-    "start": "node -r esm server.js",
+    "start": "node -r NODE_ENV=production esm server.js",
     "start:dev": "nodemon -r esm  server.js"
   },
   "devDependencies": {
