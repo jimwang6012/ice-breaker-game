@@ -47,7 +47,6 @@ app.use(express.static(path.join(__dirname, "../frontend/public")));
 if (process.env.NODE_ENV === "production") {
   console.log("Running in production!");
 
-
   // Make all files in that folder public
   app.use(express.static(path.join(__dirname, "../frontend/build")));
 
@@ -61,4 +60,4 @@ httpServer.listen(PORT, () => {
   console.log(`listening on *:${PORT}`);
 });
 
-app.listen(process.env.PORT || 3000);
+// app.listen(process.env.PORT || 3000);
