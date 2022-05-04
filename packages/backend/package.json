@@ -1,6 +1,5 @@
 {
   "name": "backend",
-  "type": "module",
   "version": "0.1.0",
   "license": "MIT",
   "dependencies": {
@@ -9,13 +8,17 @@
     "socket.io-client": "^4.4.1"
   },
   "scripts": {
-    "test": "mocha",
-    "start": "node server.js",
-    "start:dev": "nodemon server.js"
+    "test": "jest",
+    "start": "node -r esm server.js",
+    "start:dev": "nodemon -r esm  server.js"
   },
   "devDependencies": {
-    "chai": "^4.3.6",
-    "mocha": "^9.2.2",
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "@types/jest": "^27.5.0",
+    "babel-jest": "^28.0.3",
+    "esm": "^3.2.25",
+    "jest": "^28.0.3",
     "nodemon": "^2.0.15"
   }
 }

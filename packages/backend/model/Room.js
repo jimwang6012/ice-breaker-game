@@ -59,7 +59,9 @@ export class Room {
       // ensure the previous timer is cleared before creating a new one
       clearInterval(this.timer);
     }
-    this.currentGameTime = this.config?.roundTime; //seconds, and currently we allow the user to move within 20 seconds
+    if (this.config) {
+      this.currentGameTime = this.config.roundTime; //seconds, and currently we allow the user to move within 20 seconds
+    }
     const countDown = () => {
       onTimerProceeded(this.currentGameTime);
       this.currentGameTime--;
@@ -126,7 +128,7 @@ export class Room {
       return {
         roomId: this.roomId,
         hostId: this.hostId,
-        board: this.board?.toDto(),
+        board: this.board ? this.board.toDto() : null,
         players: players,
         config: this.config,
       };
@@ -134,7 +136,7 @@ export class Room {
       return {
         roomId: this.roomId,
         hostId: this.hostId,
-        board: this.board?.toDto(),
+        board: this.board ? this.board.toDto() : null,
         players: players,
       };
     }
@@ -149,6 +151,7 @@ export class Room {
 
   /**
    * @param {string} id - user's socket id
+   * @return {Player} player
    */
   getPlayer(id) {
     return this.players.get(id);

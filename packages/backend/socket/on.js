@@ -1,5 +1,4 @@
 import { GameUpdate, MessageToChat } from "./emit.js";
-import { getSocketIO } from "./index.js";
 import { RoomManager } from "../manager/RoomManager.js";
 import { Socket } from "socket.io";
 

@@ -45,6 +45,7 @@ export class RoomManager {
    * @param {Socket} socket, user's socket
    * @param {string} roomId - id of the room
    * @param {string} name, user's name
+   * @return {Room} the room the player join
    */
   static joinRoom(socket, roomId, name) {
     const room = rooms.get(roomId);
@@ -106,6 +107,7 @@ export class RoomManager {
    */
   static startGame(roomId) {
     let room = rooms.get(roomId);
+
     if (room) {
       room.isOpen = false;
       room.initBoard(room.config.boardSize);
@@ -159,15 +161,16 @@ export class RoomManager {
    */
   static movePlayer(roomId, playerId, x, y, direction) {
     let room = rooms.get(roomId);
-    let player = room?.players.get(playerId);
-    if (player && room && room.board) {
-      player.x = Number(x);
-      player.y = Number(y);
-      player.direction = direction;
-      if (!room.checkPlayerAlive(playerId)) {
-        this.playerDead(roomId, player);
+    if (room) {
+      let player = room.players.get(playerId);
+      if (player && room.board) {
+        player.x = Number(x);
+        player.y = Number(y);
+        player.direction = direction;
+        if (!room.checkPlayerAlive(playerId)) {
+          this.playerDead(roomId, player);
+        }
       }
-      GameUpdate(roomId, room.toDto());
     }
   }
 
@@ -178,8 +181,8 @@ export class RoomManager {
    */
   static breakTile(roomId, x, y) {
     let room = rooms.get(roomId);
-    if (room) {
-      room.board?.break(x, y);
+    if (room && room.board) {
+      room.board.break(x, y);
 
       // Check whether there is a player killed on the broken tile
       room.players.forEach((player, playerId) => {
