@@ -13,19 +13,48 @@ import { infoIcon } from "../component/Icons";
 export default function RoomPageLayout() {
   const navigate = useNavigate();
   const { classes } = useStyles();
+  const { config } = useContext(AppContext);
   const [show, setShow] = useState(false);
   const hostLeftInfo = "Host has left the room! The room is closed.";
   const returnToHomePrompt = "Return to home";
+
+  const [finishStatus, setfinishStatus] = useState(false);
+
+  const onBackButtonEvent = (e) => {
+    e.preventDefault();
+    if (!finishStatus) {
+      if (window.confirm("Do you want to leave room ?")) {
+        setfinishStatus(true);
+        socket.disconnect();
+        navigate("/home");
+      } else {
+        window.history.pushState(null, null, window.location.pathname);
+        setfinishStatus(false);
+      }
+    }
+  };
+
   useEffect(() => {
     const openModal = () => {
       setShow(true);
     };
     socket.on("room-closed", openModal);
+    if (!config) {
+      navigate("/home");
+    }
+    window.history.pushState(null, null, window.location.pathname);
+    window.addEventListener("popstate", onBackButtonEvent);
     return () => {
       // Clean up
       socket.off("room-closed", openModal);
+      window.removeEventListener("popstate", onBackButtonEvent);
     };
   }, []);
+
+  if (!config) {
+    return null;
+  }
+
   return (
     <div className={classes.roomPage}>
       {/* This is the section of the room layout that shows the game page and idle page. */}

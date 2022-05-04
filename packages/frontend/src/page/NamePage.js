@@ -54,6 +54,8 @@ function NamePage() {
               <input
                 className="justify-center text-xl font-bold text-center border rounded-md text-ice-7 px-14 bg-ice-0 border-ice-6"
                 placeholder="Enter your name"
+                aria-label="dwe"
+                maxLength={12}
                 onChange={(e) => {
                   setName(e.target.value);
                 }}

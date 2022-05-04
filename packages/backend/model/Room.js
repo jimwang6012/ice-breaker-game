@@ -101,8 +101,10 @@ export class Room {
   checkPlayerAlive(playerId) {
     const player = this.getPlayer(playerId);
     if (
+      player &&
       player.isAlive &&
       !player.isBreaker &&
+      this.board &&
       !this.board.check(player.x, player.y)
     ) {
       player.isAlive = false;
