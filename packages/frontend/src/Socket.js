@@ -1,7 +1,7 @@
-import socketClient from "socket.io-client";
+import { io } from "socket.io-client";
 
-const PORT = 43179;
-const SERVER = "https://ice-breaking-game.herokuapp.com:" + PORT;
+const PORT = 8080;
+const SERVER = "http://localhost:" + PORT;
 
 // the socketClient object must be unique globally, and only instantiated once
-export default socketClient(SERVER);
+export default io(SERVER);

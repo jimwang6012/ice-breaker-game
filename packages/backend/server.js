@@ -19,7 +19,7 @@ const ROOMS = new Map();
 // Setup Express
 const app = express();
 const httpServer = createServer(app);
-const PORT = 43179;
+const PORT = 8080;
 
 // Setup JSON parsing for the request body
 app.use(express.json());
