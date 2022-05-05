@@ -167,6 +167,7 @@ export class RoomManager {
         player.x = Number(x);
         player.y = Number(y);
         player.direction = direction;
+        GameUpdate(roomId, room.toDto());
         if (!room.checkPlayerAlive(playerId)) {
           this.playerDead(roomId, player);
         }
