@@ -12,19 +12,17 @@ const SERVER = "http://localhost:8080/";
 function App() {
   return (
     <Routes>
-      <Route path="/">
-        <Route index element={<Navigate to="home" replace />} />
-        <Route path="home" element={<HomePage />} />
+      <Route index element={<Navigate to="home" replace />} />
+      <Route path="home" element={<HomePage />} />
 
-        <Route path="name" element={<NamePage />} />
+      <Route path="name" element={<NamePage />} />
 
-        <Route path=":code" element={<RoomPageLayout />}>
-          <Route path="idle" element={<IdlePage />} />
-          <Route path="game" element={<GamePage />} />
-        </Route>
-
-        <Route path="*" element={<HomePage />} />
+      <Route path=":code" element={<RoomPageLayout />}>
+        <Route path="idle" element={<IdlePage />} />
+        <Route path="game" element={<GamePage />} />
       </Route>
+
+      <Route path="*" element={<HomePage />} />
     </Routes>
   );
 }
