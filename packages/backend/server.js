@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
 });
 
 // Make the "public" folder available statically
-app.use(express.static(path.join(__dirname, "../frontend/public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Serve up the frontend's "build" directory, if we're running in production mode.
 if (process.env.NODE_ENV === "production") {
