@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { Outlet, useNavigate } from "react-router-dom";
-import { Text, ScrollArea, Group, TextInput } from "@mantine/core";
+import { Text, ScrollArea, Group } from "@mantine/core";
 
 import { useInputState, useListState } from "@mantine/hooks";
 import { createStyles } from "@mantine/core";
@@ -134,11 +134,10 @@ function MessageList() {
   const { classes } = useStyles();
   const [messageValue, setMessageValue] = useInputState("");
   const [messageList, handlers] = useListState([]);
-  const { roomId, name, setIsTyping, isTyping } = useContext(AppContext);
+  const { roomId, name, setIsTyping } = useContext(AppContext);
 
   const receiveMessage = (message) => {
     handlers.append(message);
-    console.log(message);
     scrollToBottom();
   };
 
@@ -179,9 +178,9 @@ function MessageList() {
         viewportRef={viewport}
       >
         {messageList.map((m, index) => {
-          if (m.type == "chat") {
+          if (m.type === "chat") {
             return <MessageItem key={index} value={m.value} />;
-          } else if (m.type == "system") {
+          } else if (m.type === "system") {
             return <NotiItem key={index} value={m.value} />;
           }
         })}
@@ -217,14 +216,7 @@ function NotiItem({ value }) {
     </Text>
   );
 }
-// function MessageHead() {
-//   const { classes } = useStyles();
-//   return (
-//     <Group className={classes.MessageHead}>
-//       <Text size="md">Owen Wang:</Text>
-//     </Group>
-//   );
-// }
+
 function MessageItem({ value }) {
   const { classes } = useStyles();
   return (

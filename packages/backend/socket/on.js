@@ -46,7 +46,6 @@ export function StartGameOn(socket) {
  */
 export function MessageOn(socket) {
   socket.on("send-message", ({ roomID, chatMessage }, callback) => {
-    console.log(chatMessage + " in " + roomID);
     MessageToChat(roomID, chatMessage, "chat");
   });
 }
@@ -56,7 +55,6 @@ export function MessageOn(socket) {
  */
 export function BoardMovementOn(socket) {
   socket.on("movement", ({ roomId, x, y, direction }, callback) => {
-    console.log({ roomId, x, y, direction });
     RoomManager.movePlayer(roomId, socket.id, x, y, direction);
   });
 }
@@ -76,7 +74,6 @@ export function BoardBreakOn(socket) {
 export function UserDisconnectOn(socket) {
   socket.on("disconnecting", () => {
     socket.rooms.forEach((room) => {
-      console.log("Disconnecting from " + room);
       RoomManager.leaveRoom(socket, room);
     });
   });

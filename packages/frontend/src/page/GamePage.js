@@ -112,7 +112,6 @@ function GamePage() {
 
   const handlePlayerMove = ({ keyName }) => {
     if (me.isAlive && !done && !isTyping) {
-      console.log(isTyping);
       // what every move or not, direction need to change
       if (me.isBreaker && !isBreaking) {
         changeDirection(me, keyName);
@@ -160,9 +159,7 @@ function GamePage() {
     <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8">
       <Modal
         title={
-          <div className="text-3xl font-black text-white text-ice-6">
-            {winningMessage}
-          </div>
+          <div className="text-3xl font-black text-ice-6">{winningMessage}</div>
         }
         show={show}
         pageJump={() => {

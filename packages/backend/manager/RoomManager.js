@@ -8,7 +8,6 @@ import {
   RoomClosed,
   GameTimeChanged,
 } from "../socket/emit.js";
-import { Colors } from "../util/color.js";
 import { generateString } from "./util.js";
 
 /**
@@ -57,7 +56,6 @@ export class RoomManager {
       GameUpdate(roomId, room.toDto());
       return room;
     } else {
-      console.log("Can't find room");
       return null;
     }
   }
@@ -68,8 +66,6 @@ export class RoomManager {
    * @param {string} roomId - id of the room
    */
   static leaveRoom(socket, roomId) {
-    console.log(`${socket.id} is leaving ${roomId}`);
-
     const room = rooms.get(roomId);
     if (room) {
       if (room.hostId === socket.id) {
@@ -82,8 +78,6 @@ export class RoomManager {
         room.removePlayer(socket.id);
         GameUpdate(roomId, room.toDto());
       }
-    } else {
-      console.log("Can't find room for #leaveRoom");
     }
   }
 
@@ -97,7 +91,6 @@ export class RoomManager {
     // only host can delete its room
     if (room && room.hostId == socket.id) {
       rooms.delete(roomId);
-      console.log(`${socket.id} host is deleting ${roomId}`);
       RoomClosed(roomId);
     }
   }
@@ -120,7 +113,6 @@ export class RoomManager {
       });
       room.initTimer(
         () => {
-          console.log("game timer finished");
           room.closeGame();
 
           let numSurvivor = 0;
@@ -143,7 +135,6 @@ export class RoomManager {
           GameEnded(roomId, room.toDto());
         },
         (time) => {
-          console.log(`game timer clicked ${time}`);
           room.checkIsAllPlayerDead();
           GameTimeChanged(roomId, time);
         }
