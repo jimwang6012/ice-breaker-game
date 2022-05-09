@@ -11,7 +11,11 @@ export class Room {
     this.hostId = host.id;
     this.board = null;
     this.isOpen = true;
+    /**
+     * @type {Map<String,Player>} - player map
+     */
     this.players = new Map();
+    host.isBreaker = true;
     this.players.set(host.id, host);
     this.config = {
       roomSize: 9,
@@ -33,7 +37,7 @@ export class Room {
       "#c084fc",
       "#f472b6",
     ];
-    this.colorStatus = [1, 1, 1, 1, 1, 1, 1, 1, 1];
+    this.colorStatus = [null, null, null, null, null, null, null, null, null];
   }
 
   /**
@@ -176,5 +180,9 @@ export class Room {
    */
   getPlayer(id) {
     return this.players.get(id);
+  }
+
+  setHostAsBreaker() {
+    this.getPlayer(this.hostId).isBreaker = true;
   }
 }

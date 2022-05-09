@@ -11,6 +11,7 @@ import {
   Space,
   ThemeIcon,
   Group,
+  Tooltip,
 } from "@mantine/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboard } from "@fortawesome/free-solid-svg-icons";
@@ -29,6 +30,7 @@ export function IdlePage() {
     setIsHost,
     roomId,
     players,
+    handlers,
     config,
     setConfig,
     colors,
@@ -84,7 +86,11 @@ export function IdlePage() {
   };
 
   const startGame = () => {
-    socket.emit("start-game", { roomId });
+    socket.emit("start-game", { roomId }, (isSuccess) => {
+      if (!isSuccess) {
+        alert("Not everyone is ready");
+      }
+    });
   };
 
   const checkColorBox = (index) => {
@@ -96,8 +102,12 @@ export function IdlePage() {
   };
 
   useEffect(() => {
+    socket.emit("room-information", { roomId }, (room) => {
+      handlers.setState(room.players);
+      setColorStatus(room.colorStatus);
+    });
     const startGame = (game) => {
-      if (game.hostId == socket.id) {
+      if (game.hostId === socket.id) {
         setIsHost(true);
       } else {
         setIsHost(false);
@@ -110,7 +120,7 @@ export function IdlePage() {
     return () => {
       socket.off("game-update", startGame);
     };
-  }, [navigate, roomId]);
+  }, []);
 
   return (
     <div className="flex items-center h-screen bg-ice-8 opacity-90">
@@ -267,20 +277,15 @@ export function IdlePage() {
                 isReady={isReady}
                 handleClick={checkColorBox}
               />
-              <Group position="center" direction="column" align="center">
+              <Tooltip
+                opened={isReadyFail}
+                label={"Please choose a valid color"}
+              >
                 <MainButton
                   handleClick={isReady ? playerUnReady : playerReady}
-                  text={isReady ? "Unready" : "Ready!"}
+                  text={isReady ? "Cancel" : "Ready"}
                 />
-                <p
-                  className={classNames("text-center w-full text-red-500", {
-                    hidden: !isReadyFail,
-                    " ": isReadyFail,
-                  })}
-                >
-                  Please choose a valid color
-                </p>
-              </Group>
+              </Tooltip>
             </Group>
           </div>
         </Group>

@@ -9,7 +9,10 @@ import Avatar from "react-avatar";
 import { AppContext } from "../AppContextProvider";
 import socket from "../Socket";
 import { Modal } from "../component/Modal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { RiInformationFill } from "react-icons/ri";
+
 export default function RoomPageLayout() {
   const navigate = useNavigate();
   const { classes } = useStyles();
@@ -114,7 +117,12 @@ function PlayerList() {
         }}
       >
         {players.map((p, index) => (
-          <PlayerItem key={index} color={colors[p.colorId]} name={p.name} />
+          <PlayerItem
+            key={index}
+            color={colors[p.colorId]}
+            name={p.name}
+            isReady={p.isReady}
+          />
         ))}
       </ScrollArea>
     </div>
@@ -122,7 +130,7 @@ function PlayerList() {
 }
 
 //player list item
-function PlayerItem({ color, name }) {
+function PlayerItem({ color, name, isReady }) {
   const { classes } = useStyles();
   return (
     <Group spacing={"xs"} className={classes.playerItem}>
@@ -130,6 +138,11 @@ function PlayerItem({ color, name }) {
       <Text size="xl" weight={500}>
         {name}
       </Text>
+      {isReady ? (
+        <FontAwesomeIcon className="text-green-500" icon={faCheck} />
+      ) : (
+        <></>
+      )}
     </Group>
   );
 }

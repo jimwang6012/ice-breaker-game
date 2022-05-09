@@ -9,17 +9,17 @@ export function ColorSwatchGroup(props) {
         color={color}
         size={32}
         component="button"
-        disabled={props.colorStatus[index] && !props.isReady ? false : true}
+        disabled={!props.colorStatus[index] && !props.isReady ? false : true}
         radius="md"
         onClick={() => props.handleClick(index)}
         style={{ color: "#000000" }}
       >
-        {!props.colorStatus[index] &&
+        {props.colorStatus[index] &&
           (!props.isReady || index !== props.colorChecked) && (
             <CircleBackslashIcon />
           )}
         {index === props.colorChecked &&
-          !(props.colorStatus[index] === 0 && !props.isReady) && <CheckIcon />}
+          !(props.colorStatus[index] && !props.isReady) && <CheckIcon />}
       </ColorSwatch>
     );
   });

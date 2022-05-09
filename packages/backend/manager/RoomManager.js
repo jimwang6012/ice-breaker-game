@@ -73,11 +73,12 @@ export class RoomManager {
       } else {
         const leaver = room.getPlayer(socket.id);
         if (!isNaN(leaver.colorId)) {
-          room.colorStatus[leaver.colorId] = 1;
+          room.colorStatus[leaver.colorId] = null;
         }
         if (leaver.isBreaker) {
           room.resetBreaker();
           room.config.breakerName = "";
+          room.setHostAsBreaker();
         }
         const leaverName = leaver.name;
         const messageValue = leaverName + " has left the room!";
@@ -109,6 +110,10 @@ export class RoomManager {
     let room = rooms.get(roomId);
 
     if (room) {
+      let players = [...room.players.values()];
+      if (players.filter((p) => !p.isReady).length != 0) {
+        return false;
+      }
       room.isOpen = false;
       room.initBoard(room.config.boardSize);
       room.initPlayerPosition();
@@ -128,6 +133,7 @@ export class RoomManager {
            */
           let breaker;
           room.players.forEach((player) => {
+            player.isReady = false;
             if (player.isAlive && !player.isBreaker) {
               player.score++;
               numSurvivor++;
@@ -139,6 +145,19 @@ export class RoomManager {
           if (numSurvivor == 0) {
             breaker.score += room.players.size;
           }
+          // clear color status
+          room.colorStatus = [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+          ];
+
           GameEnded(roomId, room.toDto());
         },
         (time) => {
@@ -147,6 +166,7 @@ export class RoomManager {
         }
       );
       GameUpdate(roomId, room.toDto());
+      return true;
     }
   }
 
@@ -208,58 +228,50 @@ export class RoomManager {
     if (room && config) {
       const { roomSize, boardSize, roundTime, breakTime, breakerName } = config;
 
-      if (roomSize && !isNaN(roomSize)) {
-        const newRoomSize = Number(roomSize);
-        if (newRoomSize >= room.players.size) {
-          room.config.roomSize = newRoomSize;
-        } else {
-          return false;
-        }
-      } else {
+      if (
+        isNaN(roomSize) ||
+        isNaN(boardSize) ||
+        isNaN(roundTime) ||
+        isNaN(breakTime) ||
+        !breakerName
+      ) {
         return false;
       }
 
-      if (boardSize && !isNaN(boardSize)) {
-        const newBoardSize = Number(boardSize);
-        if (newBoardSize >= 5 && newBoardSize <= 20) {
-          room.config.boardSize = newBoardSize;
-        } else {
-          return false;
-        }
-      } else {
+      const newRoomSize = Number(roomSize);
+      if (newRoomSize < room.players.size) {
         return false;
       }
 
-      if (roundTime && !isNaN(roundTime)) {
-        const newRoundTime = Number(roundTime);
-        room.config.roundTime = newRoundTime;
-      } else {
+      const newBoardSize = Number(boardSize);
+      if (!(newBoardSize >= 5 && newBoardSize <= 20)) {
         return false;
       }
 
-      if (breakTime && !isNaN(breakTime)) {
-        const newBreakTime = Number(breakTime);
-        room.config.breakTime = newBreakTime;
-      } else {
+      let foundPlayer = null;
+      for (let player of room.players.values()) {
+        if (player.name === breakerName) {
+          foundPlayer = player;
+        }
+      }
+
+      if (!foundPlayer) {
         return false;
       }
 
-      if (breakerName) {
-        let playerFound = false;
-        for (let player of room.players.values()) {
-          if (player.name === breakerName) {
-            playerFound = true;
-            room.resetBreaker();
-            player.isBreaker = true;
-            room.config.breakerName = breakerName;
-          }
-        }
-        if (!playerFound) {
-          return false;
-        }
-      } else {
-        return false;
-      }
+      room.config.roomSize = newRoomSize;
+
+      room.config.boardSize = newBoardSize;
+
+      const newRoundTime = Number(roundTime);
+      room.config.roundTime = newRoundTime;
+
+      const newBreakTime = Number(breakTime);
+      room.config.breakTime = newBreakTime;
+
+      room.resetBreaker();
+      foundPlayer.isBreaker = true;
+      room.config.breakerName = breakerName;
     } else {
       return false;
     }
@@ -271,8 +283,8 @@ export class RoomManager {
     let room = rooms.get(roomId);
     if (room) {
       let player = room.players.get(playerId);
-      if (player && room.colorStatus[checkedColor] === 1) {
-        room.colorStatus[checkedColor] = 0;
+      if (player && checkedColor !== null && !room.colorStatus[checkedColor]) {
+        room.colorStatus[checkedColor] = playerId;
         player.colorId = checkedColor;
         player.isReady = true;
         GameUpdate(roomId, room.toDto());
@@ -288,11 +300,18 @@ export class RoomManager {
     if (room) {
       let player = room.players.get(playerId);
       if (player && player.isReady) {
-        room.colorStatus[player.colorId] = 1;
+        room.colorStatus[player.colorId] = null;
         player.colorId = null;
         player.isReady = false;
         GameUpdate(roomId, room.toDto());
       }
+    }
+  }
+
+  static getRoomInformation(roomId) {
+    let room = rooms.get(roomId);
+    if (room) {
+      return { ...room.toDto() };
     }
   }
 }

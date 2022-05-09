@@ -13,6 +13,7 @@ import {
   PlayerReadyOn,
   PlayerUnReadyOn,
   UserDisconnectOn,
+  OnRoomInformationRequest,
 } from "./socket/on.js";
 import { initSocketServer, getSocketIO } from "./socket/index.js";
 
@@ -42,6 +43,7 @@ io.on("connection", (socket) => {
   UpdateConfigOn(socket);
   PlayerReadyOn(socket);
   PlayerUnReadyOn(socket);
+  OnRoomInformationRequest(socket);
 });
 
 // Make the "public" folder available statically

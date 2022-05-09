@@ -18,6 +18,7 @@ export const AppContext = React.createContext({
     boardSize: 9,
     roundTime: 30,
     breakTime: 0.5,
+    breakerName: "",
   },
   setConfig: (config) => {},
   colors: [],

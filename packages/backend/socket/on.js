@@ -37,7 +37,10 @@ export function JoinRoomOn(socket) {
  */
 export function StartGameOn(socket) {
   socket.on("start-game", ({ roomId }, callback) => {
-    RoomManager.startGame(roomId);
+    let isSuccess = RoomManager.startGame(roomId);
+    if (callback) {
+      callback(isSuccess);
+    }
   });
 }
 
@@ -109,5 +112,13 @@ export function PlayerReadyOn(socket) {
 export function PlayerUnReadyOn(socket) {
   socket.on("player-unready", ({ roomId, playerId }) => {
     RoomManager.playerUnReady(roomId, playerId);
+  });
+}
+
+export function OnRoomInformationRequest(socket) {
+  socket.on("room-information", ({ roomId }, callback) => {
+    if (callback) {
+      callback(RoomManager.getRoomInformation(roomId));
+    }
   });
 }
