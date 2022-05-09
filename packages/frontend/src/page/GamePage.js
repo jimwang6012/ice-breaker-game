@@ -252,10 +252,16 @@ function GamePage() {
 export default GamePage;
 
 function PlayerAvatar(props) {
+  const { colors } = useContext(AppContext);
+
   if (props.player.isAlive) {
     return (
       <div
-        style={{ width: props.ice * 0.85, height: props.ice * 0.85 }}
+        style={{
+          width: props.ice * 0.85,
+          height: props.ice * 0.85,
+          backgroundColor: colors[props.player.colorId ?? 0],
+        }}
         className={classNames(
           "playerme flex items-center justify-center text-white rounded-2xl text",
           {
@@ -263,10 +269,6 @@ function PlayerAvatar(props) {
             " rotate-180": props.player.direction === "DOWN",
             " rotate-90": props.player.direction === "LEFT",
             " -rotate-90": props.player.direction === "RIGHT",
-          },
-          {
-            "bg-green-400": props.isMe === true,
-            "bg-red-500": props.isMe == null,
           }
         )}
       >
@@ -279,7 +281,7 @@ function PlayerAvatar(props) {
             " rotate-90": props.player.direction === "RIGHT",
           })}
         >
-          {props.player.name}
+          {props.player.name?.charAt(0)}
         </div>
       </div>
     );

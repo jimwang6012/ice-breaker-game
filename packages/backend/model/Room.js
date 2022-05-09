@@ -14,13 +14,26 @@ export class Room {
     this.players = new Map();
     this.players.set(host.id, host);
     this.config = {
-      roomSize: 8,
+      roomSize: 9,
       boardSize: 9,
-      roundTime: 60,
-      breakTime: 1,
+      roundTime: 30,
+      breakTime: 0.5,
+      breakerName: "",
     };
     this.timer = null;
     this.currentGameTime = null; //seconds
+    this.colors = [
+      "#f87171",
+      "#fb923c",
+      "#facc15",
+      "#4ade80",
+      "#2dd4bf",
+      "#38bdf8",
+      "#818cf8",
+      "#c084fc",
+      "#f472b6",
+    ];
+    this.colorStatus = [1, 1, 1, 1, 1, 1, 1, 1, 1];
   }
 
   /**
@@ -88,6 +101,12 @@ export class Room {
     clearInterval(this.timer);
   }
 
+  resetBreaker() {
+    for (let player of this.players.values()) {
+      player.isBreaker = false;
+    }
+  }
+
   checkIsAllPlayerDead() {
     const playersList = Array.from(this.players.values());
     let deadCount = playersList.filter((p) => !p.isAlive).length;
@@ -131,6 +150,8 @@ export class Room {
         board: this.board ? this.board.toDto() : null,
         players: players,
         config: this.config,
+        colors: this.colors,
+        colorStatus: this.colorStatus,
       };
     } else {
       return {

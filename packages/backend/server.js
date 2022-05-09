@@ -10,6 +10,8 @@ import {
   MessageOn,
   StartGameOn,
   UpdateConfigOn,
+  PlayerReadyOn,
+  PlayerUnReadyOn,
   UserDisconnectOn,
 } from "./socket/on.js";
 import { initSocketServer, getSocketIO } from "./socket/index.js";
@@ -38,6 +40,8 @@ io.on("connection", (socket) => {
   BoardBreakOn(socket);
   UserDisconnectOn(socket);
   UpdateConfigOn(socket);
+  PlayerReadyOn(socket);
+  PlayerUnReadyOn(socket);
 });
 
 // Make the "public" folder available statically

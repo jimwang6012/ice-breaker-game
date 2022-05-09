@@ -90,3 +90,24 @@ export function UpdateConfigOn(socket) {
     }
   });
 }
+
+/**
+ * @param {Socket} socket - user socket
+ */
+export function PlayerReadyOn(socket) {
+  socket.on("player-ready", ({ roomId, playerId, checkedColor }, callback) => {
+    const isSuccess = RoomManager.playerReady(roomId, playerId, checkedColor);
+    if (callback) {
+      callback(isSuccess);
+    }
+  });
+}
+
+/**
+ * @param {Socket} socket - user socket
+ */
+export function PlayerUnReadyOn(socket) {
+  socket.on("player-unready", ({ roomId, playerId }) => {
+    RoomManager.playerUnReady(roomId, playerId);
+  });
+}

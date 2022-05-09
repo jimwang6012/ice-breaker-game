@@ -7,8 +7,17 @@ import { MainButton } from "../component/Component";
 function NamePage() {
   document.body.style.overflow = "hidden";
   const navigate = useNavigate();
-  const { isHost, setRoomId, roomId, handlers, name, setName, setConfig } =
-    useContext(AppContext);
+  const {
+    isHost,
+    setRoomId,
+    roomId,
+    handlers,
+    name,
+    setName,
+    setConfig,
+    setColors,
+    setColorStatus,
+  } = useContext(AppContext);
 
   const toHome = () => {
     navigate("/home");
@@ -22,6 +31,8 @@ function NamePage() {
       handlers.setState(room.players);
       setName(name);
       setConfig(room.config);
+      setColors(room.colors);
+      setColorStatus(room.colorStatus);
       navigate("/" + room.roomId.toString() + "/idle");
     });
   };
@@ -34,6 +45,8 @@ function NamePage() {
         handlers.setState(room.players);
         setName(name);
         setConfig(room.config);
+        setColors(room.colors);
+        setColorStatus(room.colorStatus);
         navigate("/" + roomId.toString() + "/idle");
       } else {
         alert("Can't find room");

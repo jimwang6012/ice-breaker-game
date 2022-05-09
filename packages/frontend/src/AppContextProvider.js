@@ -16,10 +16,14 @@ export const AppContext = React.createContext({
   config: {
     roomSize: 8,
     boardSize: 9,
-    roundTime: 60,
-    breakTime: 1,
+    roundTime: 30,
+    breakTime: 0.5,
   },
   setConfig: (config) => {},
+  colors: [],
+  setColors: (colors) => {},
+  colorStatus: [],
+  setColorStatus: (colorStatus) => {},
 });
 
 export function AppContextProvider({ children }) {
@@ -38,6 +42,12 @@ export function AppContextProvider({ children }) {
   //game config
   const [config, setConfig] = useState();
 
+  //player colors
+  const [colors, setColors] = useState([]);
+
+  //player color status
+  const [colorStatus, setColorStatus] = useState([]);
+
   //isChatting
   const [isTyping, setIsTyping] = useState(false);
 
@@ -52,6 +62,10 @@ export function AppContextProvider({ children }) {
     setName,
     config,
     setConfig,
+    colors,
+    setColors,
+    colorStatus,
+    setColorStatus,
     isTyping,
     setIsTyping,
   };

@@ -82,10 +82,11 @@ export default function RoomPageLayout() {
 //player list componenet
 function PlayerList() {
   const { classes } = useStyles();
-  const { handlers, players } = useContext(AppContext);
+  const { handlers, players, colors } = useContext(AppContext);
 
   const updateGame = (data) => {
     handlers.setState(data.players);
+    console.log(data.players);
   };
   useEffect(() => {
     socket.on("game-update", updateGame);
@@ -109,7 +110,7 @@ function PlayerList() {
         }}
       >
         {players.map((p, index) => (
-          <PlayerItem key={index} name={p.name} />
+          <PlayerItem key={index} color={colors[p.colorId]} name={p.name} />
         ))}
       </ScrollArea>
     </div>
@@ -117,11 +118,11 @@ function PlayerList() {
 }
 
 //player list item
-function PlayerItem({ name }) {
+function PlayerItem({ color, name }) {
   const { classes } = useStyles();
   return (
     <Group spacing={"xs"} className={classes.playerItem}>
-      <Avatar size="44" textSizeRatio={2} name={name} round />
+      <Avatar size="44" textSizeRatio={2} color={color} name={name} round />
       <Text size="xl" weight={500}>
         {name}
       </Text>

@@ -25,7 +25,6 @@ export class RoomManager {
     const roomId = generateString(6);
     socket.join(roomId);
     const host = new Player(socket.id, name);
-    host.isBreaker = true;
     const room = new Room(roomId, host);
     rooms.set(room.roomId, room);
     GameUpdate(roomId, room.toDto());
@@ -72,7 +71,15 @@ export class RoomManager {
         // if the host left, delete the room
         RoomManager.deleteRoom(socket, roomId);
       } else {
-        const leaverName = room.getPlayer(socket.id).name;
+        const leaver = room.getPlayer(socket.id);
+        if (!isNaN(leaver.colorId)) {
+          room.colorStatus[leaver.colorId] = 1;
+        }
+        if (leaver.isBreaker) {
+          room.resetBreaker();
+          room.config.breakerName = "";
+        }
+        const leaverName = leaver.name;
         const messageValue = leaverName + " has left the room!";
         MessageToChat(roomId, messageValue, "system");
         room.removePlayer(socket.id);
@@ -199,7 +206,7 @@ export class RoomManager {
   static updateConfig(roomId, config) {
     let room = rooms.get(roomId);
     if (room && config) {
-      const { roomSize, boardSize, roundTime, breakTime } = config;
+      const { roomSize, boardSize, roundTime, breakTime, breakerName } = config;
 
       if (roomSize && !isNaN(roomSize)) {
         const newRoomSize = Number(roomSize);
@@ -236,10 +243,56 @@ export class RoomManager {
       } else {
         return false;
       }
+
+      if (breakerName) {
+        let playerFound = false;
+        for (let player of room.players.values()) {
+          if (player.name === breakerName) {
+            playerFound = true;
+            room.resetBreaker();
+            player.isBreaker = true;
+            room.config.breakerName = breakerName;
+          }
+        }
+        if (!playerFound) {
+          return false;
+        }
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
     GameUpdate(roomId, room.toDto());
     return true;
+  }
+
+  static playerReady(roomId, playerId, checkedColor) {
+    let room = rooms.get(roomId);
+    if (room) {
+      let player = room.players.get(playerId);
+      if (player && room.colorStatus[checkedColor] === 1) {
+        room.colorStatus[checkedColor] = 0;
+        player.colorId = checkedColor;
+        player.isReady = true;
+        GameUpdate(roomId, room.toDto());
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  static playerUnReady(roomId, playerId) {
+    let room = rooms.get(roomId);
+    if (room) {
+      let player = room.players.get(playerId);
+      if (player && player.isReady) {
+        room.colorStatus[player.colorId] = 1;
+        player.colorId = null;
+        player.isReady = false;
+        GameUpdate(roomId, room.toDto());
+      }
+    }
   }
 }

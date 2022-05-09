@@ -1,6 +1,8 @@
 import { ScrollArea, Text } from "@mantine/core";
 import classNames from "classnames";
+import { useContext } from "react";
 import Avatar from "react-avatar";
+import { AppContext } from "../AppContextProvider";
 import "./LeaderBoard.css";
 
 export function LeaderBoard({ list, myID }) {
@@ -39,6 +41,7 @@ export function LeaderBoard({ list, myID }) {
 
 //player list item
 function RankItem({ player, rank, myID }) {
+  const { colors } = useContext(AppContext);
   return (
     <div>
       {/* LeaderBoard */}
@@ -53,7 +56,13 @@ function RankItem({ player, rank, myID }) {
           </Text>
         </div>
         <div className="flex flex-row justify-center w-1/2">
-          <Avatar size="44" textSizeRatio={2} name={player.name} round />
+          <Avatar
+            size="44"
+            textSizeRatio={2}
+            color={colors[player.colorId ?? 0]}
+            name={player.name}
+            round
+          />
 
           <div className="pt-1 username">{player.name}</div>
         </div>
