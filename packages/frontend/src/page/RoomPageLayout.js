@@ -9,7 +9,7 @@ import Avatar from "react-avatar";
 import { AppContext } from "../AppContextProvider";
 import socket from "../Socket";
 import { Modal } from "../component/Modal";
-import { infoIcon } from "../component/Icons";
+import { RiInformationFill } from "react-icons/ri";
 export default function RoomPageLayout() {
   const navigate = useNavigate();
   const { classes } = useStyles();
@@ -73,7 +73,11 @@ export default function RoomPageLayout() {
         }}
         mainPrompt={hostLeftInfo}
         buttonPrompt={returnToHomePrompt}
-        title={infoIcon()}
+        title={
+          <div className="pl-[43%] pb-5 text-5xl font-black text-white center text-ice-6">
+            <RiInformationFill />
+          </div>
+        }
       />
     </div>
   );

@@ -14,6 +14,8 @@ import socket from "../Socket";
 import { Modal } from "../component/Modal";
 import { AppContext } from "../AppContextProvider";
 import { LeaderBoard } from "../component/LeaderBoard";
+// import Avatar from "react-avatar";
+// import { BiCaretUp,BiCaretRight,BiCaretLeft,BiCaretDown } from "react-icons/bi";
 import { convertToMS } from "../util/timer";
 
 function GamePage() {
@@ -168,7 +170,7 @@ function GamePage() {
         mainPrompt={<LeaderBoard list={leaderboardList} myID={me.id} />}
         buttonPrompt={"GG!"}
       />
-      <div className="timer text-3xl font-bold text-white">
+      <div className="text-3xl font-bold text-white timer">
         {convertToMS(currentTime)}
       </div>
 
@@ -251,37 +253,43 @@ function GamePage() {
 
 export default GamePage;
 
+function getIcon(props, colors) {
+  const myColor = colors[props.player.colorId ?? 0];
+  var direction = props.player.direction;
+  if (props.player.direction === "LEFT") {
+    direction = "RIGHT";
+  } else if (props.player.direction === "RIGHT") {
+    direction = "LEFT";
+  }
+  return props.player.isBreaker
+    ? "../avatars/seal_" + direction + ".png"
+    : "../avatars/p_" +
+        direction.toString().toLowerCase() +
+        "_" +
+        myColor.toString().substring(1) +
+        ".png";
+}
+
 function PlayerAvatar(props) {
   const { colors } = useContext(AppContext);
+
+  const img_path = getIcon(props, colors);
 
   if (props.player.isAlive) {
     return (
       <div
-        style={{
-          width: props.ice * 0.85,
-          height: props.ice * 0.85,
-          backgroundColor: colors[props.player.colorId ?? 0],
-        }}
         className={classNames(
-          "playerme flex items-center justify-center text-white rounded-2xl text",
-          {
-            "": props.player.direction === "UP",
-            " rotate-180": props.player.direction === "DOWN",
-            " rotate-90": props.player.direction === "LEFT",
-            " -rotate-90": props.player.direction === "RIGHT",
-          }
+          "playerme flex items-center justify-center text-white rounded-2xl text "
         )}
       >
-        ^
         <div
-          className={classNames(" text-2xl text-white", {
-            " ": props.player.direction === "UP",
-            " rotate-180": props.player.direction === "DOWN",
-            " -rotate-90": props.player.direction === "LEFT",
-            " rotate-90": props.player.direction === "RIGHT",
-          })}
+          className="flex items-center justify-center "
+          style={{ width: props.ice * 0.85, height: props.ice * 0.85 }}
         >
-          {props.player.name?.charAt(0)}
+          <img
+            src={process.env.PUBLIC_URL + img_path}
+            width={props.ice * 0.8}
+          />
         </div>
       </div>
     );

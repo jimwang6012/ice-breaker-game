@@ -10,11 +10,12 @@
 
 .modal-main {
   position: fixed;
-  width: 50%;
+  width: 15%;
   height: auto;
   top: 50%;
   left: 50%;
-  transform: translate(-25%, -50%);
+  transform: translate(-50%, -50%);
+  place-items: center;
 }
 
 .display-block {

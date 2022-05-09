@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { AppContext } from "../AppContextProvider";
 import socket from "../Socket";
 import { MainButton } from "../component/Component";
+import { Modal } from "../component/Modal";
+import { BsFillXCircleFill, BsCheckCircleFill } from "react-icons/bs";
 
 function NamePage() {
   document.body.style.overflow = "hidden";
@@ -23,10 +25,16 @@ function NamePage() {
     navigate("/home");
   };
 
+  const [roomPrmpt, setmessgae] = useState("");
+  const [roomNotFound, setNotFound] = useState(false);
+  const [show, setShow] = useState(false);
   const createRoom = () => {
     socket.connect();
     socket.emit("create-room", { name: name }, (room) => {
-      alert("Room " + room.roomId + " Created by " + name);
+      const string = "Room " + room.roomId + " Created!";
+      setmessgae(string);
+      setShow(true);
+      // alert("Room " + room.roomId + " Created by " + name);
       setRoomId(room.roomId);
       handlers.setState(room.players);
       setName(name);
@@ -49,13 +57,32 @@ function NamePage() {
         setColorStatus(room.colorStatus);
         navigate("/" + roomId.toString() + "/idle");
       } else {
-        alert("Can't find room");
+        setmessgae("Room Not Found!");
+        setNotFound(true);
+        setShow(true);
       }
     });
   };
 
   return (
     <body className="overflow-hidden">
+      <Modal
+        show={show}
+        pageJump={() => {
+          if (!roomNotFound) {
+            navigate("/" + roomId + "/idle");
+          } else {
+            navigate("/home");
+          }
+        }}
+        mainPrompt={roomPrmpt}
+        buttonPrompt={!roomNotFound ? "Join" : "OK"}
+        title={
+          <div className="pb-3 pl-[43%] text-4xl text-ice-7">
+            {!roomNotFound ? <BsCheckCircleFill /> : <BsFillXCircleFill />}
+          </div>
+        }
+      />
       <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8 opacity-90">
         {/* left square */}
         <div className="absolute top-0 rotate-45 -left-96 h-2/3 aspect-square bg-ice-3" />

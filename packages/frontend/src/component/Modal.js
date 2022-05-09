@@ -7,9 +7,9 @@ export function Modal({ show, pageJump, mainPrompt, buttonPrompt, title }) {
   return (
     <div className={showHideClassName}>
       <section className="modal-main">
-        <div className="relative w-full h-full max-w-md p-4 md:h-auto">
-          <div className="relative p-10 bg-white rounded-lg shadow dark:bg-ice-8">
-            <div className="pt-0 text-center">
+        <div className="">
+          <div className="p-10 rounded-lg shadow dark:bg-ice-8">
+            <div className="text-center ">
               {title}
               <h3 className="mb-5 text-xl font-bold text-ice-7">
                 {mainPrompt}
