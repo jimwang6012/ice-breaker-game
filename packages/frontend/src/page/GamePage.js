@@ -14,6 +14,8 @@ import socket from "../Socket";
 import { Modal } from "../component/Modal";
 import { AppContext } from "../AppContextProvider";
 import { LeaderBoard } from "../component/LeaderBoard";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faVideoCamera } from "@fortawesome/free-solid-svg-icons";
 // import Avatar from "react-avatar";
 // import { BiCaretUp,BiCaretRight,BiCaretLeft,BiCaretDown } from "react-icons/bi";
 import { convertToMS } from "../util/timer";
@@ -33,6 +35,7 @@ function GamePage() {
   const [currentTime, setCurrentTime] = useState(config.roundTime);
   const [show, setShow] = useState(false);
 
+  const [showOut, setShowOut] = useState(true);
   const [leaderboardList, setLeaders] = useState();
   const [winningMessage, setWinner] = useState("");
   const initGame = (game, myId) => {
@@ -158,93 +161,108 @@ function GamePage() {
     return player.x === row && player.y === col;
   };
   return (
-    <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8">
-      <Modal
-        title={
-          <div className="text-3xl font-black text-ice-6">{winningMessage}</div>
-        }
-        show={show}
-        pageJump={() => {
-          navigate("/" + roomId.toString() + "/idle");
-        }}
-        mainPrompt={<LeaderBoard list={leaderboardList} myID={me.id} />}
-        buttonPrompt={"GG!"}
-      />
-      <div className="text-3xl font-bold text-white timer">
-        {convertToMS(currentTime)}
-      </div>
+    <div>
+      {!me.isAlive && (
+        <div className="absolute flex flex-col p-5 text-ice-5">
+          <FontAwesomeIcon style={{ fontSize: 48 }} icon={faVideoCamera} />
+          <div className="font-bold">Spectating</div>
+        </div>
+      )}
+      <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8">
+        <Modal
+          title={
+            <div className="text-3xl font-black text-ice-6">
+              {winningMessage}
+            </div>
+          }
+          show={show}
+          pageJump={() => {
+            navigate("/" + roomId.toString() + "/idle");
+          }}
+          mainPrompt={<LeaderBoard list={leaderboardList} myID={me.id} />}
+          buttonPrompt={"GG!"}
+        />
+        <div className="text-3xl font-bold text-white timer">
+          {convertToMS(currentTime)}
+        </div>
 
-      <div className="flex items-center justify-center mt-4 overflow-y-auto bg-ice-8">
-        {/* 以下仅为整蛊 */}
-        {!me.isAlive && (
-          <div
-            className="absolute z-40 text-red-500 text-9xl animate-bounce"
-            style={{ fontSize: 800 }}
-          >
-            死
-          </div>
-        )}
-        <div className="">
-          {board ? (
-            board.map((rowItems, row) => {
-              return (
-                <div className="flex flex-row" key={row}>
-                  {rowItems.map((ice, col) => {
-                    return (
-                      <div className="flex" key={col}>
-                        {/* {If is 0 but with less than 2 players} */}
-                        {ice === 1 ? (
-                          <div
-                            style={{
-                              width: Math.round(iceSize),
-                              height: Math.round(iceSize),
-                              margin: Math.round(iceSize / board.length),
-                            }}
-                            className="flex items-center justify-center m-2 border-2 shadow-md border-ice-0 player bg-ice-0"
-                          >
-                            {players.map((item, index) => {
-                              if (onThisIce(item, row, col)) {
-                                return (
-                                  <PlayerAvatar
-                                    key={index}
-                                    player={item}
-                                    ice={iceSize}
-                                  />
-                                );
-                              } else return null;
-                            })}
-                          </div>
-                        ) : (
-                          <div
-                            style={{
-                              width: Math.round(iceSize),
-                              height: Math.round(iceSize),
-                              margin: Math.round(iceSize / board.length),
-                            }}
-                            className="flex items-center justify-center m-2 border-2 player border-ice-0"
-                          >
-                            {players.map((item, index) => {
-                              if (onThisIce(item, row, col) && item.isBreaker) {
-                                return (
-                                  <PlayerAvatar
-                                    key={index}
-                                    player={item}
-                                    ice={iceSize}
-                                  />
-                                );
-                              } else return null;
-                            })}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            })
-          ) : (
-            <></>
+        <div className="flex items-center justify-center mt-4 overflow-y-auto bg-ice-8">
+          {/* Dead indicator */}
+          {!me.isAlive && showOut && (
+            <div className="absolute z-40 flex flex-row animate-bounce">
+              <div style={{ fontSize: 100 }} className="text-ice-6 text-9xl">
+                You Out!
+              </div>
+              <div className="text-red-800" onClick={() => setShowOut(false)}>
+                ✖
+              </div>
+            </div>
           )}
+          <div className="">
+            {board ? (
+              board.map((rowItems, row) => {
+                return (
+                  <div className="flex flex-row" key={row}>
+                    {rowItems.map((ice, col) => {
+                      return (
+                        <div className="flex" key={col}>
+                          {/* {If is 0 but with less than 2 players} */}
+                          {ice === 1 ? (
+                            <div
+                              style={{
+                                width: Math.round(iceSize),
+                                height: Math.round(iceSize),
+                                margin: Math.round(iceSize / board.length),
+                              }}
+                              className="flex items-center justify-center m-2 border-2 shadow-md border-ice-0 player bg-ice-0"
+                            >
+                              {players.map((item, index) => {
+                                if (onThisIce(item, row, col)) {
+                                  return (
+                                    <PlayerAvatar
+                                      key={index}
+                                      player={item}
+                                      ice={iceSize}
+                                    />
+                                  );
+                                } else return null;
+                              })}
+                            </div>
+                          ) : (
+                            <div
+                              style={{
+                                width: Math.round(iceSize),
+                                height: Math.round(iceSize),
+                                margin: Math.round(iceSize / board.length),
+                              }}
+                              className="flex items-center justify-center m-2 border-2 player border-ice-0"
+                            >
+                              {players.map((item, index) => {
+                                if (
+                                  onThisIce(item, row, col) &&
+                                  item.isBreaker
+                                ) {
+                                  return (
+                                    <PlayerAvatar
+                                      key={index}
+                                      player={item}
+                                      ice={iceSize}
+                                    />
+                                  );
+                                } else return null;
+                              })}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
       </div>
     </div>
