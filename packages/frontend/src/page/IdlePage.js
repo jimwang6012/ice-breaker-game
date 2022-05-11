@@ -19,7 +19,7 @@ import { ColorSwatchGroup } from "../component/ColorSwatchGroup";
 import { PlayerSelector } from "../component/PlayerSelector";
 import classNames from "classnames";
 
-export function IdlePage() {
+export default function IdlePage() {
   const navigate = useNavigate();
   const toHome = () => {
     socket.disconnect();
@@ -123,7 +123,7 @@ export function IdlePage() {
   }, []);
 
   return (
-    <div className="flex items-center h-screen bg-ice-8 opacity-90">
+    <div className=" items-center h-screen bg-ice-8 opacity-90">
       <Modal
         centered
         opened={opened}

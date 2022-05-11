@@ -1,0 +1,310 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class=" items-center h-screen bg-ice-8 opacity-90"
+      >
+        <div
+          class="flex flex-col items-center justify-center w-full gap-20 pt-5 "
+        >
+          <div
+            class="text-6xl font-bold text-white"
+          >
+            Wait for host to Start!
+          </div>
+          <div
+            class="mantine-Group-root mantine-1u7f61y"
+            style="border-width: 3px; border-radius: 10px; border-color: transparent;"
+          >
+            <div
+              class="mantine-1vp280o mantine-Group-child w-2/5 py-16 rounded-lg shadow-lg px-28 bg-ice-2 "
+            >
+              <div
+                class="flex flex-row justify-center gap-2 text-2xl font-bold text-black"
+              >
+                Room Code: 
+                
+                <button>
+                  <svg
+                    aria-hidden="true"
+                    class="svg-inline--fa fa-clipboard hover:text-ice-7"
+                    data-icon="clipboard"
+                    data-prefix="fas"
+                    focusable="false"
+                    role="img"
+                    viewBox="0 0 384 512"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M336 64h-53.88C268.9 26.8 233.7 0 192 0S115.1 26.8 101.9 64H48C21.5 64 0 85.48 0 112v352C0 490.5 21.5 512 48 512h288c26.5 0 48-21.48 48-48v-352C384 85.48 362.5 64 336 64zM192 64c17.67 0 32 14.33 32 32c0 17.67-14.33 32-32 32S160 113.7 160 96C160 78.33 174.3 64 192 64zM272 224h-160C103.2 224 96 216.8 96 208C96 199.2 103.2 192 112 192h160C280.8 192 288 199.2 288 208S280.8 224 272 224z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div
+                class="mantine-1eabysl"
+              />
+              <div
+                class="mantine-1eabysl"
+              />
+              <div
+                class="mantine-10dh38u"
+              />
+              <div
+                class="mantine-Group-root mantine-3suwep"
+              >
+                <div
+                  class="mantine-Group-root mantine-1u7f61y"
+                >
+                  <div
+                    class="mantine-SimpleGrid-root mantine-Group-child mantine-1qxm3qj"
+                  />
+                </div>
+                <div
+                  class="mantine-Group-root mantine-Group-child mantine-2v0bxn"
+                >
+                  <div
+                    class="flex"
+                  >
+                    <button
+                      class="absolute z-40 px-6 py-3 text-xl font-semibold text-white rounded-lg shadow-inner bg-ice-6 hover:mt-1 active:mt-2"
+                    >
+                      Ready!
+                    </button>
+                    <div
+                      class="px-6 py-3 mt-2 text-xl font-semibold rounded-lg text-ice-7 bg-ice-7"
+                    >
+                      Ready!
+                    </div>
+                  </div>
+                  <p
+                    class="mantine-gnzaph mantine-Group-child text-center w-full text-red-500 hidden"
+                  >
+                    Please choose a valid color
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex flex-col items-center justify-around w-3/5 xl:flex-row gap-y-2"
+          >
+            <div
+              class="flex"
+            >
+              <button
+                class="absolute z-40 px-6 py-3 text-xl font-semibold text-white rounded-lg shadow-inner bg-ice-6 hover:mt-1 active:mt-2"
+              >
+                Leave Room
+              </button>
+              <div
+                class="px-6 py-3 mt-2 text-xl font-semibold rounded-lg text-ice-7 bg-ice-7"
+              >
+                Leave Room
+              </div>
+            </div>
+            <div
+              class="flex"
+            >
+              <button
+                class="absolute z-40 px-6 py-3 text-xl font-semibold text-white rounded-lg shadow-inner bg-ice-6 hover:mt-1 active:mt-2"
+              >
+                Game Config
+              </button>
+              <div
+                class="px-6 py-3 mt-2 text-xl font-semibold rounded-lg text-ice-7 bg-ice-7"
+              >
+                Game Config
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        dir="ltr"
+        style="position: relative; z-index: 200;"
+      />
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class=" items-center h-screen bg-ice-8 opacity-90"
+    >
+      <div
+        class="flex flex-col items-center justify-center w-full gap-20 pt-5 "
+      >
+        <div
+          class="text-6xl font-bold text-white"
+        >
+          Wait for host to Start!
+        </div>
+        <div
+          class="mantine-Group-root mantine-1u7f61y"
+          style="border-width: 3px; border-radius: 10px; border-color: transparent;"
+        >
+          <div
+            class="mantine-1vp280o mantine-Group-child w-2/5 py-16 rounded-lg shadow-lg px-28 bg-ice-2 "
+          >
+            <div
+              class="flex flex-row justify-center gap-2 text-2xl font-bold text-black"
+            >
+              Room Code: 
+              
+              <button>
+                <svg
+                  aria-hidden="true"
+                  class="svg-inline--fa fa-clipboard hover:text-ice-7"
+                  data-icon="clipboard"
+                  data-prefix="fas"
+                  focusable="false"
+                  role="img"
+                  viewBox="0 0 384 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M336 64h-53.88C268.9 26.8 233.7 0 192 0S115.1 26.8 101.9 64H48C21.5 64 0 85.48 0 112v352C0 490.5 21.5 512 48 512h288c26.5 0 48-21.48 48-48v-352C384 85.48 362.5 64 336 64zM192 64c17.67 0 32 14.33 32 32c0 17.67-14.33 32-32 32S160 113.7 160 96C160 78.33 174.3 64 192 64zM272 224h-160C103.2 224 96 216.8 96 208C96 199.2 103.2 192 112 192h160C280.8 192 288 199.2 288 208S280.8 224 272 224z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div
+              class="mantine-1eabysl"
+            />
+            <div
+              class="mantine-1eabysl"
+            />
+            <div
+              class="mantine-10dh38u"
+            />
+            <div
+              class="mantine-Group-root mantine-3suwep"
+            >
+              <div
+                class="mantine-Group-root mantine-1u7f61y"
+              >
+                <div
+                  class="mantine-SimpleGrid-root mantine-Group-child mantine-1qxm3qj"
+                />
+              </div>
+              <div
+                class="mantine-Group-root mantine-Group-child mantine-2v0bxn"
+              >
+                <div
+                  class="flex"
+                >
+                  <button
+                    class="absolute z-40 px-6 py-3 text-xl font-semibold text-white rounded-lg shadow-inner bg-ice-6 hover:mt-1 active:mt-2"
+                  >
+                    Ready!
+                  </button>
+                  <div
+                    class="px-6 py-3 mt-2 text-xl font-semibold rounded-lg text-ice-7 bg-ice-7"
+                  >
+                    Ready!
+                  </div>
+                </div>
+                <p
+                  class="mantine-gnzaph mantine-Group-child text-center w-full text-red-500 hidden"
+                >
+                  Please choose a valid color
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex flex-col items-center justify-around w-3/5 xl:flex-row gap-y-2"
+        >
+          <div
+            class="flex"
+          >
+            <button
+              class="absolute z-40 px-6 py-3 text-xl font-semibold text-white rounded-lg shadow-inner bg-ice-6 hover:mt-1 active:mt-2"
+            >
+              Leave Room
+            </button>
+            <div
+              class="px-6 py-3 mt-2 text-xl font-semibold rounded-lg text-ice-7 bg-ice-7"
+            >
+              Leave Room
+            </div>
+          </div>
+          <div
+            class="flex"
+          >
+            <button
+              class="absolute z-40 px-6 py-3 text-xl font-semibold text-white rounded-lg shadow-inner bg-ice-6 hover:mt-1 active:mt-2"
+            >
+              Game Config
+            </button>
+            <div
+              class="px-6 py-3 mt-2 text-xl font-semibold rounded-lg text-ice-7 bg-ice-7"
+            >
+              Game Config
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

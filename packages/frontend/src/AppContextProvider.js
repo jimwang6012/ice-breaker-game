@@ -41,7 +41,12 @@ export function AppContextProvider({ children }) {
   const [name, setName] = useState("");
 
   //game config
-  const [config, setConfig] = useState();
+  const [config, setConfig] = useState({
+    roomSize: 8,
+    boardSize: 9,
+    roundTime: 30,
+    breakTime: 0.5,
+  });
 
   //player colors
   const [colors, setColors] = useState([]);

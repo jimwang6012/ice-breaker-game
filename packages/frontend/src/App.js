@@ -3,7 +3,7 @@ import { Button } from "@mantine/core";
 import HomePage from "./page/HomePage";
 import GamePage from "./page/GamePage";
 import NamePage from "./page/NamePage";
-import { IdlePage } from "./page/IdlePage";
+import IdlePage from "./page/IdlePage";
 import RoomPageLayout from "./page/RoomPageLayout";
 import { useEffect } from "react";
 

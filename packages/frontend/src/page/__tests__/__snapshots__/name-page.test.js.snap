@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<body
+  className="overflow-hidden"
+>
+  <div
+    className="modal display-none"
+  >
+    <section
+      className="modal-main"
+    >
+      <div
+        className=""
+      >
+        <div
+          className="p-10 rounded-lg shadow dark:bg-ice-8"
+        >
+          <div
+            className="text-center "
+          >
+            <div
+              className="pb-3 pl-[43%] text-4xl text-ice-7"
+            >
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                strokeWidth="0"
+                style={
+                  Object {
+                    "color": undefined,
+                  }
+                }
+                viewBox="0 0 16 16"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+                />
+              </svg>
+            </div>
+            <h3
+              className="mb-5 text-xl font-bold text-ice-7"
+            >
+              
+            </h3>
+            <button
+              className="px-5 py-3 mt-5 font-semibold text-white rounded-lg text-l bg-ice-6 hover:bg-ice-5"
+              onClick={[Function]}
+            >
+              Join
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div
+    className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8 opacity-90"
+  >
+    <div
+      className="absolute top-0 rotate-45 -left-96 h-2/3 aspect-square bg-ice-3"
+    />
+    <div
+      className="z-40 flex flex-col items-center justify-center gap-20 "
+    >
+      <div
+        className="text-6xl font-bold text-white"
+      >
+        Ice Breaker!
+      </div>
+      <div
+        className="py-16 rounded-lg shadow-lg px-28 bg-ice-2"
+      >
+        <div
+          className="flex flex-row justify-start gap-10"
+        >
+          <input
+            aria-label="dwe"
+            className="justify-center text-xl font-bold text-center border rounded-md text-ice-7 px-14 bg-ice-0 border-ice-6"
+            maxLength={12}
+            onChange={[Function]}
+            placeholder="Enter your name"
+          />
+          <div
+            className="flex"
+          >
+            <button
+              className="absolute z-40 px-6 py-3 text-xl font-semibold text-white rounded-lg shadow-inner bg-ice-6 hover:mt-1 active:mt-2"
+              onClick={[Function]}
+            >
+              Confirm
+            </button>
+            <div
+              className="px-6 py-3 mt-2 text-xl font-semibold rounded-lg text-ice-7 bg-ice-7"
+            >
+              Confirm
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="flex"
+      >
+        <button
+          className="absolute z-40 px-6 py-3 text-xl font-semibold text-white rounded-lg shadow-inner bg-ice-6 hover:mt-1 active:mt-2"
+          onClick={[Function]}
+        >
+          Back
+        </button>
+        <div
+          className="px-6 py-3 mt-2 text-xl font-semibold rounded-lg text-ice-7 bg-ice-7"
+        >
+          Back
+        </div>
+      </div>
+    </div>
+    <div
+      className="absolute bottom-0 rotate-45 -right-96 h-2/3 aspect-square bg-ice-3"
+    />
+  </div>
+</body>
+`;
