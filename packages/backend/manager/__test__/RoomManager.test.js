@@ -1,4 +1,3 @@
-import { Room } from "../../model/Room.js";
 import { Direction } from "../../util/direction.js";
 import { RoomManager } from "../RoomManager.js";
 import * as util from "../util.js";
@@ -56,12 +55,11 @@ describe("Room manager test", () => {
     done();
   });
 
-  it("start game", (done) => {
+  it("start game should fail without every is ready", (done) => {
     let roomBefore = RoomManager.getRoom(existRoomId);
     expect(roomBefore.isOpen).toBe(true);
-    RoomManager.startGame(existRoomId);
-    let room = RoomManager.getRoom(existRoomId);
-    expect(room.isOpen).toBe(false);
+    let res = RoomManager.startGame(existRoomId);
+    expect(res).toBe(false);
     done();
   });
 
@@ -84,6 +82,9 @@ describe("Room manager test", () => {
     jest.spyOn(room, "initTimer");
     jest.spyOn(room, "initBoard");
     jest.spyOn(room, "initPlayerPosition");
+    let players = new Map();
+    players["id"] = { isReady: true };
+    jest.spyOn(room.players, "values").mockReturnValue(players.values());
     RoomManager.startGame(existRoomId);
     RoomManager.movePlayer(existRoomId, socket.id, 9, 6, Direction.up);
 
@@ -97,6 +98,9 @@ describe("Room manager test", () => {
     jest.spyOn(room, "initTimer");
     jest.spyOn(room, "initBoard");
     jest.spyOn(room, "initPlayerPosition");
+    let players = new Map();
+    players["id"] = { isReady: true };
+    jest.spyOn(room.players, "values").mockReturnValue(players.values());
     RoomManager.startGame(existRoomId);
     jest.spyOn(room.board, "break");
     RoomManager.breakTile(existRoomId, 1, 1);
@@ -110,9 +114,11 @@ describe("Room manager test", () => {
       boardSize: 10,
       roundTime: 10,
       breakTime: 10,
+      breakerName: "HostName",
     };
-    RoomManager.updateConfig(existRoomId, config);
+    let res = RoomManager.updateConfig(existRoomId, config);
     let room = RoomManager.getRoom(existRoomId);
+    expect(res).toBe(true);
     expect(room.config).toStrictEqual(config);
     done();
   });

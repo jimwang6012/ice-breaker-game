@@ -93,7 +93,6 @@ function PlayerList() {
 
   const updateGame = (data) => {
     handlers.setState(data.players);
-    console.log(data.players);
   };
   useEffect(() => {
     socket.on("game-update", updateGame);

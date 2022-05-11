@@ -237,7 +237,6 @@ export class RoomManager {
       ) {
         return false;
       }
-
       const newRoomSize = Number(roomSize);
       if (newRoomSize < room.players.size) {
         return false;

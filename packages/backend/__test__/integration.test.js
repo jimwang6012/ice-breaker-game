@@ -24,6 +24,7 @@ describe("create and join room", () => {
         SocketOn.StartGameOn(serverSocket);
         SocketOn.BoardBreakOn(serverSocket);
         SocketOn.BoardMovementOn(serverSocket);
+        SocketOn.PlayerReadyOn(serverSocket);
       });
 
       let connectedClientNum = 0;
@@ -83,6 +84,13 @@ describe("create and join room", () => {
         clientSocket2.emit("join-room", { roomId, name: "world" }, (room) => {
           expect(room.players.length).toBe(2);
           expect(room.roomId).toBe(roomId);
+
+          let roomAfter = RoomManager.getRoom(roomId);
+          let players = new Map();
+          players["id"] = { isReady: true };
+          jest
+            .spyOn(roomAfter.players, "values")
+            .mockReturnValue(players.values());
           done();
         });
       });
@@ -95,7 +103,9 @@ describe("create and join room", () => {
         room.clearTimer();
         done();
       });
-      clientSocket1.emit("start-game", { roomId });
+      clientSocket1.emit("start-game", { roomId }, (isSuccess) => {
+        expect(isSuccess).toBe(true);
+      });
     });
   });
 });
