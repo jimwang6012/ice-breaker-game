@@ -28,6 +28,7 @@ export default function IdlePage() {
   const {
     isHost,
     setIsHost,
+    setHostId,
     roomId,
     players,
     handlers,
@@ -105,6 +106,7 @@ export default function IdlePage() {
     socket.emit("room-information", { roomId }, (room) => {
       handlers.setState(room.players);
       setColorStatus(room.colorStatus);
+      setHostId(room.hostId);
     });
     const startGame = (game) => {
       if (game.hostId === socket.id) {

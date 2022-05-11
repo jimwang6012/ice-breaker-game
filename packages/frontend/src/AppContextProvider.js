@@ -9,6 +9,8 @@ export const AppContext = React.createContext({
   setIsHost: (isHost) => {},
   roomId: "",
   setRoomId: (roomId) => {},
+  hostId: "",
+  setHostId: (hostId) => {},
   name: "",
   setName: (name) => {},
   isTyping: false,
@@ -37,6 +39,9 @@ export function AppContextProvider({ children }) {
   // The current room id
   const [roomId, setRoomId] = useState("");
 
+  // The host's id
+  const [hostId, setHostId] = useState("");
+
   //player name
   const [name, setName] = useState("");
 
@@ -64,6 +69,8 @@ export function AppContextProvider({ children }) {
     setIsHost,
     roomId,
     setRoomId,
+    hostId,
+    setHostId,
     name,
     setName,
     config,

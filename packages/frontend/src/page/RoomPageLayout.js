@@ -4,14 +4,13 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { Text, ScrollArea, Group } from "@mantine/core";
 
 import { useInputState, useListState } from "@mantine/hooks";
-import { createStyles } from "@mantine/core";
-import Avatar from "react-avatar";
+import { createStyles, Avatar } from "@mantine/core";
 import { AppContext } from "../AppContextProvider";
 import socket from "../Socket";
 import { Modal } from "../component/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { RiInformationFill } from "react-icons/ri";
+import { RiInformationFill, RiVipCrownFill } from "react-icons/ri";
 
 export default function RoomPageLayout() {
   const navigate = useNavigate();
@@ -89,7 +88,7 @@ export default function RoomPageLayout() {
 //player list componenet
 function PlayerList() {
   const { classes } = useStyles();
-  const { handlers, players, colors } = useContext(AppContext);
+  const { handlers, hostId, name, players, colors } = useContext(AppContext);
 
   const updateGame = (data) => {
     handlers.setState(data.players);
@@ -103,7 +102,7 @@ function PlayerList() {
 
   return (
     <div className={classes.playerList}>
-      <Text size="lg" style={{ paddingBottom: 5 }}>
+      <Text size="lg" style={{ paddingBottom: 8 }}>
         Players ({players.length})
       </Text>
       <ScrollArea
@@ -119,7 +118,10 @@ function PlayerList() {
           <PlayerItem
             key={index}
             color={colors[p.colorId]}
-            name={p.name}
+            selfName={name}
+            playerName={p.name}
+            isHost={p.id === hostId}
+            isBreaker={p.isBreaker}
             isReady={p.isReady}
           />
         ))}
@@ -129,19 +131,41 @@ function PlayerList() {
 }
 
 //player list item
-function PlayerItem({ color, name, isReady }) {
+function PlayerItem({
+  color,
+  selfName,
+  playerName,
+  isHost,
+  isBreaker,
+  isReady,
+}) {
   const { classes } = useStyles();
   return (
     <Group spacing={"xs"} className={classes.playerItem}>
-      <Avatar size="44" textSizeRatio={2} color={color} name={name} round />
+      <FontAwesomeIcon
+        className={`text-green-500 ${isReady ? "visible" : "invisible"}`}
+        icon={faCheck}
+      />
+      <Avatar
+        src={
+          isBreaker
+            ? process.env.PUBLIC_URL + "/avatars/seal_down.png"
+            : process.env.PUBLIC_URL + "/avatars/p_down_black.png"
+        }
+        size="md"
+        radius="md"
+        styles={{
+          image: {
+            backgroundColor: color ? color : "white",
+          },
+        }}
+      />
       <Text size="xl" weight={500}>
-        {name}
+        {playerName === selfName ? playerName + " (Me)" : playerName}
       </Text>
-      {isReady ? (
-        <FontAwesomeIcon className="text-green-500" icon={faCheck} />
-      ) : (
-        <></>
-      )}
+      <div className={isHost ? "visible" : "invisible"}>
+        <RiVipCrownFill color="#f4ac3f" />
+      </div>
     </Group>
   );
 }
@@ -151,7 +175,7 @@ function MessageList() {
   const { classes } = useStyles();
   const [messageValue, setMessageValue] = useInputState("");
   const [messageList, handlers] = useListState([]);
-  const { roomId, name, setIsTyping } = useContext(AppContext);
+  const { roomId, name, setIsTyping, players, colors } = useContext(AppContext);
 
   const receiveMessage = (message) => {
     handlers.append(message);
@@ -196,7 +220,19 @@ function MessageList() {
       >
         {messageList.map((m, index) => {
           if (m.type === "chat") {
-            return <MessageItem key={index} value={m.value} />;
+            const msgArray = m.value.split(":");
+            const msgName = msgArray[0];
+            const playerColor = players.filter(
+              (player) => player.name === msgName
+            )[0].colorId;
+            return (
+              <MessageItem
+                key={index}
+                value={m.value}
+                colors={colors}
+                colorId={playerColor}
+              />
+            );
           } else if (m.type === "system") {
             return <NotiItem key={index} value={m.value} />;
           }
@@ -234,12 +270,24 @@ function NotiItem({ value }) {
   );
 }
 
-function MessageItem({ value }) {
+function MessageItem({ value, colors, colorId }) {
   const { classes } = useStyles();
+  let msgColor;
+  if (colorId !== null) {
+    msgColor = colors[colorId];
+  } else {
+    msgColor = "#ffffff";
+  }
   return (
-    <Text size="md" className={classes.MessageItem}>
-      {value}
-    </Text>
+    <div className="flex flex-row items-start pl-3">
+      <div
+        className={`w-1 h-4 mt-1 rounded-md`}
+        style={{ backgroundColor: msgColor }}
+      />
+      <Text size="md" className={classes.MessageItem}>
+        {value}
+      </Text>
+    </div>
   );
 }
 
@@ -298,9 +346,10 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.ice[5],
     paddingInline: 10,
     marginTop: 5,
+    marginBottom: 5,
   },
   MessageItem: {
-    paddingInline: 10,
+    paddingInline: 3,
     wordBreak: "break-all",
     flex: 1,
     flexWrap: "wrap",
