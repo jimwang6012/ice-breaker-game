@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AppContext } from "../AppContextProvider";
 import socket from "../Socket";
 import { MainButton } from "../component/Component";
@@ -65,7 +65,7 @@ function NamePage() {
   };
 
   return (
-    <body className="overflow-hidden">
+    <div className="overflow-hidden">
       <Modal
         show={show}
         pageJump={() => {
@@ -112,7 +112,7 @@ function NamePage() {
         {/* right square */}
         <div className="absolute bottom-0 rotate-45 -right-96 h-2/3 aspect-square bg-ice-3" />
       </div>
-    </body>
+    </div>
   );
 }
 

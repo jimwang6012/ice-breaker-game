@@ -19,7 +19,7 @@ function HomePage() {
   };
 
   return (
-    <body className="overflow-hidden">
+    <div className="overflow-hidden">
       <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8 opacity-90">
         {/* left square */}
         <div className="absolute top-0 rotate-45 -left-96 h-2/3 aspect-square bg-ice-3" />
@@ -40,7 +40,7 @@ function HomePage() {
           <div className="absolute bottom-0 rotate-45 -right-96 h-2/3 aspect-square bg-ice-3" />
         </div>
       </div>
-    </body>
+    </div>
   );
 }
 

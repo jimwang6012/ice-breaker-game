@@ -73,9 +73,9 @@ function GamePage() {
         room.players.filter((player) => player.isAlive && !player.isBreaker)
           .length === 0
       ) {
-        setWinner("Breaker Win !!!");
+        setWinner("Seal Win !!!");
       } else {
-        setWinner("Survivors Win !!!");
+        setWinner("Penguins Win !!!");
       }
 
       setShow(true);
@@ -163,7 +163,7 @@ function GamePage() {
   return (
     <div>
       {!me.isAlive && (
-        <div className="absolute flex flex-col p-5 text-ice-5">
+        <div className="absolute flex flex-col p-5 text-ice-3">
           <FontAwesomeIcon style={{ fontSize: 48 }} icon={faVideoCamera} />
           <div className="font-bold">Spectating</div>
         </div>
@@ -180,7 +180,7 @@ function GamePage() {
             navigate("/" + roomId.toString() + "/idle");
           }}
           mainPrompt={<LeaderBoard list={leaderboardList} myID={me.id} />}
-          buttonPrompt={"GG!"}
+          buttonPrompt={"Back to Room"}
         />
         <div className="text-3xl font-bold text-white timer">
           {convertToMS(currentTime)}
@@ -190,11 +190,16 @@ function GamePage() {
           {/* Dead indicator */}
           {!me.isAlive && showOut && (
             <div className="absolute z-40 flex flex-row animate-bounce">
-              <div style={{ fontSize: 100 }} className="text-ice-6 text-9xl">
-                You Out!
-              </div>
-              <div className="text-red-800" onClick={() => setShowOut(false)}>
-                ✖
+              <div
+                style={{
+                  fontSize: 100,
+                  textShadow:
+                    "-2px 0 #041F32, 0 2px #041F32, 2px 0 #041F32, 0 -2px #041F32",
+                }}
+                className="text-ice-5 text-9xl"
+                onClick={() => setShowOut(false)}
+              >
+                YOU ARE OUT!
               </div>
             </div>
           )}
@@ -307,6 +312,7 @@ function PlayerAvatar(props) {
           <img
             src={process.env.PUBLIC_URL + img_path}
             width={props.ice * 0.8}
+            alt="player"
           />
         </div>
       </div>

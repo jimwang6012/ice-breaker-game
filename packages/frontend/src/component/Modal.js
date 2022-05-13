@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import "./modal.css";
 
 // Modal for room-closed
@@ -8,7 +7,7 @@ export function Modal({ show, pageJump, mainPrompt, buttonPrompt, title }) {
     <div className={showHideClassName}>
       <section className="modal-main">
         <div className="">
-          <div className="p-10 rounded-lg shadow dark:bg-ice-8">
+          <div className="p-5 rounded-lg shadow dark:bg-ice-8">
             <div className="text-center ">
               {title}
               <h3 className="mb-5 text-xl font-bold text-ice-7">
