@@ -15,7 +15,7 @@ import { RiInformationFill, RiVipCrownFill } from "react-icons/ri";
 export default function RoomPageLayout() {
   const navigate = useNavigate();
   const { classes } = useStyles();
-  const { config } = useContext(AppContext);
+  const { roomId } = useContext(AppContext);
   const [show, setShow] = useState(false);
   const hostLeftInfo = "Host has left the room! The room is closed.";
   const returnToHomePrompt = "Return to home";
@@ -41,7 +41,7 @@ export default function RoomPageLayout() {
       setShow(true);
     };
     socket.on("room-closed", openModal);
-    if (!config) {
+    if (!roomId) {
       navigate("/home");
     }
     window.history.pushState(null, null, window.location.pathname);
@@ -53,7 +53,7 @@ export default function RoomPageLayout() {
     };
   }, []);
 
-  if (!config) {
+  if (!roomId) {
     return null;
   }
 

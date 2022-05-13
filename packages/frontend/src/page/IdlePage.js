@@ -125,7 +125,7 @@ export default function IdlePage() {
   }, []);
 
   return (
-    <div className=" items-center h-screen bg-ice-8 opacity-90">
+    <div className="flex items-center h-screen bg-ice-8 opacity-90">
       <Modal
         centered
         opened={opened}

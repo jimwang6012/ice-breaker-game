@@ -18,6 +18,9 @@
   "scripts": {
     "frontend": "yarn workspace frontend start",
     "backend": "yarn workspace backend start",
+    "frontend:test": "yarn workspace frontend test",
+    "backend:test": "yarn workspace backend test",
+    "test":"yarn backend:test && yarn frontend:test",
     "backend:dev": "yarn workspace backend start:dev",
     "start": "yarn workspace backend start",
     "heroku-postbuild": "cd packages/frontend && yarn install --only=prod && yarn install && yarn run build",
