@@ -10,7 +10,7 @@
 
 .modal-main {
   position: fixed;
-  width: 15%;
+  width: auto;
   height: auto;
   top: 50%;
   left: 50%;
