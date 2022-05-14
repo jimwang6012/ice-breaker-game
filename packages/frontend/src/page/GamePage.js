@@ -307,9 +307,9 @@ function getIcon(props, colors) {
   }
   // Return the img path
   return props.player.isBreaker
-    ? "../avatars/seal_" + direction + ".png"
+    ? "../avatars/seal_" + direction.toLowerCase() + ".png"
     : "../avatars/p_" +
-        direction.toString().toLowerCase() +
+        direction.toLowerCase() +
         "_" +
         myColor.toString().substring(1) +
         ".png";
