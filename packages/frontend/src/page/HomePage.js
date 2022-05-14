@@ -30,6 +30,7 @@ function HomePage() {
             <div className="flex flex-row justify-start gap-10">
               <input
                 className="justify-center text-xl font-bold text-center border rounded-md text-ice-7 px-14 bg-ice-0 border-ice-6"
+                placeholder="Enter the room code"
                 onChange={(e) => setPin(e.target.value)}
               />
               <MainButton handleClick={joinGame} text="Join Room" />

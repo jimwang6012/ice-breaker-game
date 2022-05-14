@@ -13,6 +13,7 @@ function App() {
 
       <Route path="name" element={<NamePage />} />
 
+      {/* Routing to the page with the game code */}
       <Route path=":code" element={<RoomPageLayout />}>
         <Route path="idle" element={<IdlePage />} />
         <Route path="game" element={<GamePage />} />

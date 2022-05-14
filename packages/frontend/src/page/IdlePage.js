@@ -3,21 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from "../AppContextProvider";
 import socket from "../Socket";
 import { MainButton } from "../component/Component";
-import {
-  Text,
-  ColorInput,
-  Modal,
-  NumberInput,
-  Space,
-  ThemeIcon,
-  Group,
-  Tooltip,
-} from "@mantine/core";
+import { Modal, NumberInput, Space, Group, Tooltip } from "@mantine/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboard } from "@fortawesome/free-solid-svg-icons";
 import { ColorSwatchGroup } from "../component/ColorSwatchGroup";
 import { PlayerSelector } from "../component/PlayerSelector";
-import classNames from "classnames";
 
 export default function IdlePage() {
   const navigate = useNavigate();

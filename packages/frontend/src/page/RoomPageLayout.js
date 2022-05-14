@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { Outlet, useNavigate } from "react-router-dom";
 import { Text, ScrollArea, Group } from "@mantine/core";
-
 import { useInputState, useListState } from "@mantine/hooks";
 import { createStyles, Avatar } from "@mantine/core";
 import { AppContext } from "../AppContextProvider";
@@ -20,30 +19,29 @@ export default function RoomPageLayout() {
   const hostLeftInfo = "Host has left the room! The room is closed.";
   const returnToHomePrompt = "Return to home";
 
-  const [finishStatus, setfinishStatus] = useState(false);
-
+  // On browser back button click
   const onBackButtonEvent = (e) => {
     e.preventDefault();
-    if (!finishStatus) {
-      if (window.confirm("Do you want to leave room ?")) {
-        setfinishStatus(true);
-        socket.disconnect();
-        navigate("/home");
-      } else {
-        window.history.pushState(null, null, window.location.pathname);
-        setfinishStatus(false);
-      }
+    if (window.confirm("Do you want to leave room ?")) {
+      socket.disconnect();
+      navigate("/home");
+    } else {
+      window.history.pushState(null, null, window.location.pathname);
     }
   };
 
   useEffect(() => {
+    // When host leave, inform the other players that the room is closed.
     const openModal = () => {
       setShow(true);
     };
     socket.on("room-closed", openModal);
+
+    // Navigate to home page if context is lost, eg. on refresh.
     if (!roomId) {
       navigate("/home");
     }
+
     window.history.pushState(null, null, window.location.pathname);
     window.addEventListener("popstate", onBackButtonEvent);
     return () => {
@@ -68,6 +66,7 @@ export default function RoomPageLayout() {
         <PlayerList />
         <MessageList />
       </div>
+      {/* Modal component when room closed */}
       <Modal
         show={show}
         pageJump={() => {
@@ -89,7 +88,6 @@ export default function RoomPageLayout() {
 function PlayerList() {
   const { classes } = useStyles();
   const { handlers, hostId, name, players, colors } = useContext(AppContext);
-
   const updateGame = (data) => {
     handlers.setState(data.players);
   };
@@ -173,7 +171,7 @@ function PlayerItem({
 //message list componenet
 function MessageList() {
   const { classes } = useStyles();
-  const [messageValue, setMessageValue] = useInputState("");
+  const [setMessageValue] = useInputState("");
   const [messageList, handlers] = useListState([]);
   const { roomId, name, setIsTyping, players, colors } = useContext(AppContext);
 
@@ -198,6 +196,7 @@ function MessageList() {
 
   const viewport = useRef();
 
+  // scroll to bottom of the message list
   const scrollToBottom = () =>
     viewport.current.scrollTo({
       top: viewport.current.scrollHeight,
@@ -261,6 +260,7 @@ function MessageList() {
   );
 }
 
+//System messages
 function NotiItem({ value }) {
   const { classes } = useStyles();
   return (

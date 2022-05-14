@@ -47,6 +47,9 @@ export class Room {
     this.players.set(player.id, player);
   }
 
+  /**
+   * @param {number} size
+   */
   initBoard(size) {
     this.board = new Board(size);
   }

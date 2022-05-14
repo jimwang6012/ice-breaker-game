@@ -18,6 +18,9 @@ export function GameUpdate(roomId, gameState) {
   getSocketIO().to(roomId).emit("game-update", gameState);
 }
 
+/**
+ * @param {string} roomId - the room id
+ */
 export function RoomClosed(roomId) {
   getSocketIO().to(roomId).emit("room-closed");
 }

@@ -1,3 +1,4 @@
+// the main button used across pages
 export function MainButton(props) {
   return (
     <div className="flex">

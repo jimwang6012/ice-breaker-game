@@ -2,7 +2,7 @@ import { NativeSelect } from "@mantine/core";
 
 export function PlayerSelector(props) {
   const dataList = [];
-  props.players.map((player) => {
+  props.players.forEach((player) => {
     dataList.push(player.name);
   });
   return (

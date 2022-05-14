@@ -115,6 +115,9 @@ export function PlayerUnReadyOn(socket) {
   });
 }
 
+/**
+ * @param {Socket} socket
+ */
 export function OnRoomInformationRequest(socket) {
   socket.on("room-information", ({ roomId }, callback) => {
     if (callback) {

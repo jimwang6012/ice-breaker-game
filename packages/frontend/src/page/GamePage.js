@@ -16,38 +16,33 @@ import { AppContext } from "../AppContextProvider";
 import { LeaderBoard } from "../component/LeaderBoard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVideoCamera } from "@fortawesome/free-solid-svg-icons";
-// import Avatar from "react-avatar";
-// import { BiCaretUp,BiCaretRight,BiCaretLeft,BiCaretDown } from "react-icons/bi";
 import { convertToMS } from "../util/timer";
 
 function GamePage() {
   const navigate = useNavigate();
+  const roomId = useParams().code;
 
-  const windowSizeChanged = () => {
-    const initWidth = window.innerWidth * 0.65;
-    const initHeight = window.innerHeight - 20;
-    const size = initWidth > initHeight ? initHeight : initWidth;
-    setIceSize(size / (board?.length + 3));
-  };
-  window.addEventListener("resize", windowSizeChanged);
   const { config, isTyping } = useContext(AppContext);
   const { state } = useLocation();
+  //Uses the user's config to initialize the time limit for the game
   const [currentTime, setCurrentTime] = useState(config.roundTime);
   const [show, setShow] = useState(false);
 
+  // use for remove the out overlaying string
   const [showOut, setShowOut] = useState(true);
+
   const [leaderboardList, setLeaders] = useState();
   const [winningMessage, setWinner] = useState("");
+
+  // for pre-start game initialization
   const initGame = (game, myId) => {
-    const initWidth = window.innerWidth * 0.65;
-    const initHeight = window.innerHeight - 20;
-    const size = initWidth > initHeight ? initHeight : initWidth;
+    const size = calculateSize();
 
     setBoard(game.board);
     setIceSize(size / (game.board?.length + 3));
 
     const playerList = game.players;
-    playerList.forEach((player, index) => {
+    playerList.forEach((player) => {
       if (player.id === myId) {
         setMe(player);
       }
@@ -55,7 +50,17 @@ function GamePage() {
     setPlayers(playerList);
   };
 
-  const roomId = useParams().code;
+  // used for page repsonsiveness
+  const calculateSize = () => {
+    const initWidth = window.innerWidth * 0.65;
+    const initHeight = window.innerHeight - 20;
+    return initWidth > initHeight ? initHeight : initWidth;
+  };
+  const windowSizeChanged = () => {
+    const size = calculateSize();
+    setIceSize(size / (board?.length + 3));
+  };
+  window.addEventListener("resize", windowSizeChanged);
 
   useEffect(() => {
     // @ts-ignore
@@ -68,7 +73,7 @@ function GamePage() {
       });
 
       setLeaders(room.players);
-
+      // Set the message to display and get the winner
       if (
         room.players.filter((player) => player.isAlive && !player.isBreaker)
           .length === 0
@@ -77,9 +82,10 @@ function GamePage() {
       } else {
         setWinner("Penguins Win !!!");
       }
-
+      //Open Modal window
       setShow(true);
     };
+    //Update time
     const onGameTimeChanged = (time) => {
       setCurrentTime(time);
     };
@@ -87,7 +93,7 @@ function GamePage() {
     const gameDone = () => {
       setDone(true);
     };
-    socket.on("room-closed", gameDone);
+    socket.on("room-closed", gameDone); //Set up socket on room-closed, to close the game
     socket.on("game-update", onGameUpdate);
     socket.on("game-end", onGameEnd);
     socket.on("game-time-changed", onGameTimeChanged);
@@ -101,9 +107,12 @@ function GamePage() {
     // @ts-ignore
   }, [navigate, roomId, state.game]);
 
+  // used for game state checking
   const [players, setPlayers] = useState([]);
   const [iceSize, setIceSize] = useState(10);
   const [done, setDone] = useState(false);
+
+  // default player parameters
   const [me, setMe] = useState({
     id: null,
     name: null,
@@ -115,6 +124,7 @@ function GamePage() {
   });
   const [board, setBoard] = useState([]);
 
+  // handle local player moves
   const handlePlayerMove = ({ keyName }) => {
     if (me.isAlive && !done && !isTyping) {
       // what every move or not, direction need to change
@@ -142,10 +152,13 @@ function GamePage() {
     }
   };
 
+  // hook the user keyboard listener up
   useKeyUp(handlePlayerMove);
 
+  // disable breaker move if currently is breaking a ice
   const [isBreaking, setIsBreaking] = useState(false);
 
+  // breaking ice controls
   const handleBreak = async (row, col) => {
     setIsBreaking(true);
     await new Promise((resolve) =>
@@ -157,11 +170,13 @@ function GamePage() {
     setIsBreaking(false);
   };
 
+  // determine whether input players on this ice by compare x and y
   const onThisIce = (player, row, col) => {
     return player.x === row && player.y === col;
   };
   return (
     <div>
+      {/* top right symbol for indicate the player out, which is "spectating" */}
       {!me.isAlive && (
         <div className="absolute flex flex-col p-5 text-ice-3">
           <FontAwesomeIcon style={{ fontSize: 48 }} icon={faVideoCamera} />
@@ -169,6 +184,7 @@ function GamePage() {
         </div>
       )}
       <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8">
+        {/* Modal window for the leaderboard when game ends */}
         <Modal
           title={
             <div className="text-3xl font-black text-ice-6">
@@ -182,12 +198,13 @@ function GamePage() {
           mainPrompt={<LeaderBoard list={leaderboardList} myID={me.id} />}
           buttonPrompt={"Back to Room"}
         />
+        {/*Timer for the game*/}
         <div className="text-3xl font-bold text-white timer">
           {convertToMS(currentTime)}
         </div>
 
         <div className="flex items-center justify-center mt-4 overflow-y-auto bg-ice-8">
-          {/* Dead indicator */}
+          {/* Dead indicator, overlaying string */}
           {!me.isAlive && showOut && (
             <div className="absolute z-40 flex flex-row animate-bounce">
               <div
@@ -214,6 +231,7 @@ function GamePage() {
                           {/* {If is 0 but with less than 2 players} */}
                           {ice === 1 ? (
                             <div
+                              // for page resonsiveness
                               style={{
                                 width: Math.round(iceSize),
                                 height: Math.round(iceSize),
@@ -235,6 +253,7 @@ function GamePage() {
                             </div>
                           ) : (
                             <div
+                              // for page resonsiveness
                               style={{
                                 width: Math.round(iceSize),
                                 height: Math.round(iceSize),
@@ -276,14 +295,17 @@ function GamePage() {
 
 export default GamePage;
 
+// Get imgae path based on players' chosen colors and direction
 function getIcon(props, colors) {
-  const myColor = colors[props.player.colorId ?? 0];
+  const myColor = colors[props.player.colorId ?? 0]; //Obtain each player's color from the color list
   var direction = props.player.direction;
+  // Reverse the direction of LEFT and RIGHT
   if (props.player.direction === "LEFT") {
     direction = "RIGHT";
   } else if (props.player.direction === "RIGHT") {
     direction = "LEFT";
   }
+  // Return the img path
   return props.player.isBreaker
     ? "../avatars/seal_" + direction + ".png"
     : "../avatars/p_" +
@@ -293,7 +315,9 @@ function getIcon(props, colors) {
         ".png";
 }
 
+// Display user Image on the board
 function PlayerAvatar(props) {
+  //Get the color list for players from the context
   const { colors } = useContext(AppContext);
 
   const img_path = getIcon(props, colors);
@@ -309,6 +333,7 @@ function PlayerAvatar(props) {
           className="flex items-center justify-center "
           style={{ width: props.ice * 0.85, height: props.ice * 0.85 }}
         >
+          {/* Use created asset img in public/avatars/ with responsive size */}
           <img
             src={process.env.PUBLIC_URL + img_path}
             width={props.ice * 0.8}

@@ -90,6 +90,7 @@ export class RoomManager {
   }
 
   /**
+   * Delete a room if the user is the host
    * @param {Socket} socket, user's socket
    * @param {string} roomId - id of the room
    */
@@ -104,6 +105,7 @@ export class RoomManager {
   }
 
   /**
+   * Start the game in the room
    * @param {string} roomId
    */
   static startGame(roomId) {
@@ -171,6 +173,7 @@ export class RoomManager {
   }
 
   /**
+   * Move a player in the room
    * @param {string} roomId
    * @param {string} playerId
    * @param {number} x
@@ -194,6 +197,7 @@ export class RoomManager {
   }
 
   /**
+   * break a tile in the room
    * @param {string} roomId
    * @param {number} x
    * @param {number} y
@@ -223,6 +227,11 @@ export class RoomManager {
     MessageToChat(roomId, message, "system");
   }
 
+  /**
+   * upate the configuration of the room
+   * @param {string} roomId
+   * @param {{ roomSize: any; boardSize: any; roundTime: any; breakTime: any; breakerName: any; }} config
+   */
   static updateConfig(roomId, config) {
     let room = rooms.get(roomId);
     if (room && config) {
@@ -278,6 +287,12 @@ export class RoomManager {
     return true;
   }
 
+  /**
+   * set the player to be ready
+   * @param {string} roomId
+   * @param {string} playerId
+   * @param {string | number} checkedColor
+   */
   static playerReady(roomId, playerId, checkedColor) {
     let room = rooms.get(roomId);
     if (room) {
@@ -294,6 +309,11 @@ export class RoomManager {
     }
   }
 
+  /**
+   * unset the ready status of a player
+   * @param {string} roomId
+   * @param {string} playerId
+   */
   static playerUnReady(roomId, playerId) {
     let room = rooms.get(roomId);
     if (room) {
@@ -307,6 +327,10 @@ export class RoomManager {
     }
   }
 
+  /**
+   * obtain the room information
+   * @param {string} roomId
+   */
   static getRoomInformation(roomId) {
     let room = rooms.get(roomId);
     if (room) {

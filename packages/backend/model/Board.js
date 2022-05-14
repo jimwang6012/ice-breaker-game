@@ -7,6 +7,10 @@ export class Board {
     this.board[breakerStart][breakerStart] = 0;
   }
 
+  /**
+   * @param {number} x
+   * @param {number} y
+   */
   break(x, y) {
     this.board[x][y] = 0;
   }

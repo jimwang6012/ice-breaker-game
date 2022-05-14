@@ -2,6 +2,9 @@ import { Server } from "socket.io";
 
 let io;
 
+/**
+ * @param {import("http").Server} httpServer
+ */
 function initSocketServer(httpServer) {
   io = new Server(httpServer, {
     cors: {
