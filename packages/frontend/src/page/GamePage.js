@@ -184,7 +184,7 @@ function GamePage() {
           <div className="font-bold">Spectating</div>
         </div>
       )}
-      <div className="flex items-center justify-center h-screen overflow-y-auto bg-ice-8">
+      <div className="flex items-center justify-center h-screen overflow-y-auto bg-water-background">
         {/* Modal window for the leaderboard when game ends */}
         <Modal
           title={
@@ -204,7 +204,7 @@ function GamePage() {
           {convertToMS(currentTime)}
         </div>
 
-        <div className="flex items-center justify-center mt-4 overflow-y-auto bg-ice-8">
+        <div className="flex items-center justify-center mt-4 overflow-y-auto">
           {/* Dead indicator, overlaying string */}
           {!me.isAlive && showOut && (
             <div className="absolute z-40 flex flex-row animate-bounce">
@@ -238,7 +238,7 @@ function GamePage() {
                                 height: Math.round(iceSize),
                                 margin: Math.round(iceSize / board.length),
                               }}
-                              className="flex items-center justify-center m-2 border-2 shadow-md border-ice-0 player bg-ice-0"
+                              className="flex items-center justify-center m-2 shadow-md player bg-ice-full bg-no-repeat bg-cover"
                             >
                               {players.map((item, index) => {
                                 if (onThisIce(item, row, col)) {
@@ -260,7 +260,7 @@ function GamePage() {
                                 height: Math.round(iceSize),
                                 margin: Math.round(iceSize / board.length),
                               }}
-                              className="flex items-center justify-center m-2 border-2 player border-ice-0"
+                              className="flex items-center justify-center m-2 player bg-ice-broken bg-no-repeat bg-cover"
                             >
                               {players.map((item, index) => {
                                 if (

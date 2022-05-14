@@ -14,6 +14,11 @@ module.exports = {
       margin: {
         "128px": "128px",
       },
+      backgroundImage: {
+        "water-background": "url('../public/water.gif')",
+        "ice-full": "url('../public/ice0.png')",
+        "ice-broken": "url('../public/ice9.png')",
+      },
     },
   },
   plugins: [],

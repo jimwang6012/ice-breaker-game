@@ -20,9 +20,9 @@ export class Room {
     this.config = {
       roomSize: 9,
       boardSize: 9,
-      roundTime: 30,
-      breakTime: 0.5,
-      breakerName: "",
+      roundTime: 60,
+      breakTime: 0.0,
+      breakerName: host.name,
     };
     this.timer = null;
     this.currentGameTime = null; //seconds
