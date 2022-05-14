@@ -1,6 +1,7 @@
 import React from "react";
 import { useListState } from "@mantine/hooks";
 import { useState } from "react";
+import useAudio from "./hook/useAudio";
 
 export const AppContext = React.createContext({
   players: [],
@@ -20,13 +21,15 @@ export const AppContext = React.createContext({
     boardSize: 9,
     roundTime: 30,
     breakTime: 0.5,
-    breakerName: "",
   },
   setConfig: (config) => {},
   colors: [],
   setColors: (colors) => {},
   colorStatus: [],
   setColorStatus: (colorStatus) => {},
+  playing: true,
+  toggle: () => {},
+  stop: () => {},
 });
 
 export function AppContextProvider({ children }) {
@@ -62,6 +65,8 @@ export function AppContextProvider({ children }) {
   //isChatting
   const [isTyping, setIsTyping] = useState(false);
 
+  const { playing, toggle, stop } = useAudio("../music/music2.ogg");
+
   const context = {
     players,
     handlers,
@@ -81,6 +86,9 @@ export function AppContextProvider({ children }) {
     setColorStatus,
     isTyping,
     setIsTyping,
+    playing,
+    toggle,
+    stop,
   };
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;

@@ -14,7 +14,7 @@ import { RiInformationFill, RiVipCrownFill } from "react-icons/ri";
 export default function RoomPageLayout() {
   const navigate = useNavigate();
   const { classes } = useStyles();
-  const { roomId } = useContext(AppContext);
+  const { roomId, toggle, stop } = useContext(AppContext);
   const [show, setShow] = useState(false);
   const hostLeftInfo = "Host has left the room! The room is closed.";
   const returnToHomePrompt = "Return to home";
@@ -22,12 +22,9 @@ export default function RoomPageLayout() {
   // On browser back button click
   const onBackButtonEvent = (e) => {
     e.preventDefault();
-    if (window.confirm("Do you want to leave room ?")) {
-      socket.disconnect();
-      navigate("/home");
-    } else {
-      window.history.pushState(null, null, window.location.pathname);
-    }
+    socket.disconnect();
+    stop();
+    navigate("/home");
   };
 
   useEffect(() => {
@@ -36,7 +33,7 @@ export default function RoomPageLayout() {
       setShow(true);
     };
     socket.on("room-closed", openModal);
-
+    toggle();
     // Navigate to home page if context is lost, eg. on refresh.
     if (!roomId) {
       navigate("/home");
@@ -205,7 +202,6 @@ function MessageList() {
 
   return (
     <div className={classes.messageList}>
-      {" "}
       <ScrollArea
         id="scroll"
         scrollbarSize={8}

@@ -174,6 +174,7 @@ function GamePage() {
   const onThisIce = (player, row, col) => {
     return player.x === row && player.y === col;
   };
+
   return (
     <div>
       {/* top right symbol for indicate the player out, which is "spectating" */}

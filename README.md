@@ -12,7 +12,7 @@
 
 # Introduction
 
-During the COVID Pandemic, people could hardly meet in person, resulting in a sense of distance between people. When meeting online, it is often difficult to move forward because of the social awkwardness. Ice-breaking games are essential at this time because they can narrow the distance between people. 
+During the COVID Pandemic, people could hardly meet in person, resulting in a sense of distance between people. When meeting online, it is often difficult to move forward because of the social awkwardness. Ice-breaking games are essential at this time because they can narrow the distance between people.
 
 **GOOD NEWS**
 
@@ -40,19 +40,19 @@ Only the host can change the game configuration. If no seal player is chosen, th
 
 ### Control and Rules
 
-| Key   |                            Action                            |
-|:-----:| :----------------------------------------------------------: |
-|   W   |                   Move up one ice (square)                   |
-|   S   |                      Move down one ice                       |
-|   A   |                      Move left one ice                       |
-|   D   |                      Move right one ice                      |
+|  Key  |                                      Action                                       |
+| :---: | :-------------------------------------------------------------------------------: |
+|   W   |                             Move up one ice (square)                              |
+|   S   |                                 Move down one ice                                 |
+|   A   |                                 Move left one ice                                 |
+|   D   |                                Move right one ice                                 |
 | Space | Break the neighbouring ice in the direction that the player is facing (seal only) |
 
 **Seal** can only move on the broken ices (squares with light blue borders).
 
 **Penguin** can only move on the ices (light blue squares).
 
-If a **penguin** is on a broken ice at any time, it sadly dies. 
+If a **penguin** is on a broken ice at any time, it sadly dies.
 
 When all **penguin** players are dead before the time is up, the **seal** player wins!
 
@@ -83,6 +83,7 @@ socket backend at `http://localhost:8080/api`.
 ```bash
 yarn test
 ```
+
 ## Tech Stack
 
 - Node

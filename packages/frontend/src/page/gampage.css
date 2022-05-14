@@ -15,7 +15,7 @@ This is the CSS style for some of the elements on Main GamePage
 }
 .timer {
   position: absolute;
-  top: 0%;
+  top: 0;
   display: flex;
   justify-content: center;
 }
