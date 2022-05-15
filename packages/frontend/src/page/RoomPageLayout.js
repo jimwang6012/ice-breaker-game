@@ -168,7 +168,6 @@ function PlayerItem({
 //message list componenet
 function MessageList() {
   const { classes } = useStyles();
-  const [setMessageValue] = useInputState("");
   const [messageList, handlers] = useListState([]);
   const { roomId, name, setIsTyping, players, colors } = useContext(AppContext);
 
@@ -237,7 +236,6 @@ function MessageList() {
       <div className={classes.InputArea}>
         <input
           className={classes.InputField}
-          onChange={setMessageValue}
           onFocus={() => {
             setIsTyping(true);
           }}
