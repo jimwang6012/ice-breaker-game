@@ -1,7 +1,6 @@
 const convertToMS = (time) => {
   let minutes = Math.floor(time / 60);
   let seconds = time - 60 * Math.floor(time / 60);
-
   let minStr = minutes.toString();
   let secStr = seconds.toString();
 

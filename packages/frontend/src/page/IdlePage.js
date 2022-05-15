@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../AppContextProvider";
 import socket from "../Socket";
-import { MainButton } from "../component/Component";
+import { MainButton } from "../component/MainButton";
 import { Modal, NumberInput, Space, Group, Tooltip } from "@mantine/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -126,7 +126,7 @@ export default function IdlePage() {
     <div>
       <button
         onClick={playing ? stop : toggle}
-        className="absolute z-10 top-2 left-2 px-5 py-3 font-semibold text-white rounded-lg text-l bg-ice-6 hover:bg-ice-5"
+        className="absolute z-10 px-5 py-3 font-semibold text-white rounded-lg top-2 left-2 text-l bg-ice-6 hover:bg-ice-5"
       >
         <FontAwesomeIcon icon={playing ? faVolumeHigh : faVolumeMute} />
       </button>
