@@ -287,6 +287,7 @@ export default function IdlePage() {
                 <Tooltip
                   opened={isReadyFail}
                   label={"Please choose a valid color"}
+                  position="right"
                 >
                   <MainButton
                     handleClick={isReady ? playerUnReady : playerReady}
