@@ -78,7 +78,7 @@ function NamePage() {
         mainPrompt={roomPrmpt}
         buttonPrompt={!roomNotFound ? "Join" : "OK"}
         title={
-          <div className="pb-3 pl-[43%] text-4xl text-ice-7">
+          <div className="pb-3 flex flex-row justify-center text-4xl text-ice-7">
             {!roomNotFound ? <BsCheckCircleFill /> : <BsFillXCircleFill />}
           </div>
         }

@@ -47,7 +47,7 @@ export class RoomManager {
    */
   static joinRoom(socket, roomId, name) {
     const room = rooms.get(roomId);
-    if (room && room.isOpen) {
+    if (room && room.isOpen && room.players.size < room.config.roomSize) {
       socket.join(roomId);
       room.addPlayer(new Player(socket.id, name));
       const messageValue = name + " has joined the room!";
