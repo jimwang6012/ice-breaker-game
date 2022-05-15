@@ -27,6 +27,7 @@ exports[`renders correctly 1`] = `
           <input
             className="justify-center text-xl font-bold text-center border rounded-md text-ice-7 px-14 bg-ice-0 border-ice-6"
             onChange={[Function]}
+            placeholder="Enter the room code"
           />
           <div
             className="flex"

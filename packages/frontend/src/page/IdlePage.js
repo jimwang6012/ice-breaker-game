@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from "../AppContextProvider";
 import socket from "../Socket";
 import { MainButton } from "../component/Component";
-import "./IdlePage.css";
 import { Modal, NumberInput, Space, Group, Tooltip } from "@mantine/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

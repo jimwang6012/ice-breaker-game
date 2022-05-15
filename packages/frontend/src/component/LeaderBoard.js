@@ -2,7 +2,6 @@ import { Text, Avatar } from "@mantine/core";
 import classNames from "classnames";
 import { useContext } from "react";
 import { AppContext } from "../AppContextProvider";
-import "./LeaderBoard.css";
 
 export function LeaderBoard({ list, myID }) {
   return (

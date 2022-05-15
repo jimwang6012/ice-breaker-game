@@ -1,18 +1,14 @@
-/* 
-
-This is the CSS style for some of the elements on Main GamePage
- 
+/* This is the CSS style for some of the elements on Main GamePage
 */
 
 .player {
   position: relative;
-  /* display: block; */
 }
+
 .playerme {
   position: absolute;
-  /* top: 15%;
-  left: 15%; */
 }
+
 .timer {
   position: absolute;
   top: 0;
