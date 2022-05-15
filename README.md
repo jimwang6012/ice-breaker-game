@@ -27,16 +27,19 @@ Play now: https://break-ice-game.herokuapp.com/
 ### Get Ready!
 
 Once you are have joined a room, please select a colour for your avatar and click the ready button!
+Background Music is playing, but you can mute it with the button on the top left corner.
 
-![image-20220514215013283](https://user-images.githubusercontent.com/62285883/168422598-1b9f6f2c-0713-4a94-af4b-98881a3e70a0.png)
+![IdlePage](https://user-images.githubusercontent.com/61868315/168454458-b3110682-7c2c-4842-baf2-3600df60c8e5.png)
 
-![image-20220514215224356](https://user-images.githubusercontent.com/62285883/168422604-36616383-141a-4106-8b30-715fc78149b0.png)
+![IdlePageReady](https://user-images.githubusercontent.com/61868315/168454466-e8bab651-18fb-4777-b481-2d8c85dae4dd.png)
+
+
 
 ### Game Configurations
 
 Only the host can change the game configuration. If no seal player is chosen, the host will be the seal by default.
 
-![image-20220514215544779](https://user-images.githubusercontent.com/62285883/168422613-5a2fd901-7997-405f-bde5-552df9c6fad4.png)
+![gameConfig](https://user-images.githubusercontent.com/61868315/168454521-fd8725ec-42ef-4be6-a8ad-7a3f27f1e54b.png)
 
 ### Control and Rules
 
@@ -58,7 +61,15 @@ When all **penguin** players are dead before the time is up, the **seal** player
 
 Otherwise, if there is at least one **penguin** player that is alive at the end, the **penguin** players lose...
 
-![image-20220514222911919](https://user-images.githubusercontent.com/62285883/168422634-9bddb199-b4a5-4a33-aba6-69ac67da04a5.png)
+![GamePage](https://user-images.githubusercontent.com/61868315/168454599-2f8ac712-8abc-4693-9e09-325a3a3504df.png)
+
+**Seal Win**
+![seal_win](https://user-images.githubusercontent.com/61868315/168454604-fc51b77c-31e8-4892-b145-c6d89871e96d.png)
+
+**Penguins win**
+![penguins_win](https://user-images.githubusercontent.com/61868315/168454637-efc54a0f-6194-4a86-8a08-19cab2409953.png)
+
+
 
 ## Installation
 
@@ -76,7 +87,7 @@ $ yarn start:dev
 ```
 
 By default your application will be hosted at `http://localhost:3000`, while the
-socket backend at `http://localhost:8080/api`.
+socket backend at `http://localhost:8080/`.
 
 ## Running tests
 
