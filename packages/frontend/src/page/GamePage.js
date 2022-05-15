@@ -78,7 +78,7 @@ function GamePage() {
         room.players.filter((player) => player.isAlive && !player.isBreaker)
           .length === 0
       ) {
-        setWinner("Seal Win !!!");
+        setWinner("The Seal Wins !!!");
       } else {
         setWinner("Penguins Win !!!");
       }
@@ -212,12 +212,12 @@ function GamePage() {
                 style={{
                   fontSize: 100,
                   textShadow:
-                    "-2px 0 #041F32, 0 2px #041F32, 2px 0 #041F32, 0 -2px #041F32",
+                    "-2px 0 #041F32, 0 2px #FFFFFF, 2px 0 #041F32, 0 -2px #041F32",
                 }}
                 className="text-ice-5 text-9xl"
                 onClick={() => setShowOut(false)}
               >
-                YOU ARE OUT!
+                You're out!
               </div>
             </div>
           )}

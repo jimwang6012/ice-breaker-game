@@ -1,10 +1,9 @@
 <h1 align="center">
   <br>
-  <img src="./resources/Penguin_Front_LeftRight.png?raw=true&sanitize=true" alt="Penguin" width="100">
-  <img src="./resources/seal_left.png?raw=true&sanitize=true" alt="Seal" width="100">
+  <img src="./resources/seal_dance.gif?raw=true&sanitize=true" alt="Seal" width="100">
 </h1>
 
-<h1 align="center">Break Ice Game</h1>
+<h1 align="center">Ice Breakers</h1>
 
 <p align="center">
   <img alt="GitHub" src="https://img.shields.io/badge/license-MIT-blue">
@@ -16,7 +15,7 @@ During the COVID Pandemic, people could hardly meet in person, resulting in a se
 
 **GOOD NEWS**
 
-Here we are, Introducing the **cutting-edge** multiplayer mini-game “Break Ice Game” where players can invite their newly formed group to a quick game for introductory and Ice-Breaking purposes. A live chat is provided during the game for the group to communicate and get accustomed to each other.
+Here we are, Introducing the **cutting-edge** multiplayer mini-game “Ice Breakers” where players can invite their newly formed group to a quick game for introductory and Ice-Breaking purposes. A live chat is provided during the game for the group to communicate and get accustomed to each other.
 
 Play now: https://break-ice-game.herokuapp.com/
 
@@ -32,8 +31,6 @@ Background Music is playing, but you can mute it with the button on the top left
 ![IdlePage](https://user-images.githubusercontent.com/61868315/168454458-b3110682-7c2c-4842-baf2-3600df60c8e5.png)
 
 ![IdlePageReady](https://user-images.githubusercontent.com/61868315/168454466-e8bab651-18fb-4777-b481-2d8c85dae4dd.png)
-
-
 
 ### Game Configurations
 
@@ -68,8 +65,6 @@ Otherwise, if there is at least one **penguin** player that is alive at the end,
 
 **Penguins win**
 ![penguins_win](https://user-images.githubusercontent.com/61868315/168454637-efc54a0f-6194-4a86-8a08-19cab2409953.png)
-
-
 
 ## Installation
 

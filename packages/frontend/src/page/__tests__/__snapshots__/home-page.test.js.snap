@@ -16,7 +16,7 @@ exports[`renders correctly 1`] = `
       <div
         className="text-6xl font-bold text-white"
       >
-        Ice Breaker!
+        Ice Breakers!
       </div>
       <div
         className="z-40 py-16 rounded-lg shadow-lg px-28 bg-ice-2"

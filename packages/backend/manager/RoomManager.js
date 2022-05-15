@@ -237,6 +237,7 @@ export class RoomManager {
     if (room && config) {
       const { roomSize, boardSize, roundTime, breakTime, breakerName } = config;
 
+      // Check all input parameters meet certain conditions
       if (
         isNaN(roomSize) ||
         isNaN(boardSize) ||

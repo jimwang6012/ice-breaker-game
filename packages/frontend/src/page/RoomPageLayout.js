@@ -275,7 +275,7 @@ function MessageItem({ value, colors, colorId }) {
   return (
     <div className="flex flex-row items-start pl-3">
       <div
-        className={`w-1 h-4 mt-1 rounded-md`}
+        className={`w-0.5 h-4 mt-1 rounded-md`}
         style={{ backgroundColor: msgColor }}
       />
       <Text size="md" className={classes.MessageItem}>

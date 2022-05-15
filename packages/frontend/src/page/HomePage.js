@@ -24,7 +24,7 @@ function HomePage() {
         {/* left square */}
         <div className="absolute top-0 rotate-45 -left-96 h-2/3 aspect-square bg-ice-3" />
         <div className="z-40 flex flex-col items-center justify-center gap-20 ">
-          <div className="text-6xl font-bold text-white">Ice Breaker!</div>
+          <div className="text-6xl font-bold text-white">Ice Breakers!</div>
           {/* center modal */}
           <div className="z-40 py-16 rounded-lg shadow-lg px-28 bg-ice-2">
             <div className="flex flex-row justify-start gap-10">
