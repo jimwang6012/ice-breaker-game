@@ -4,6 +4,8 @@ const useAudio = (url) => {
   const initAudio = new Audio(url);
   //Adjust the volume of the audio.
   initAudio.volume = 0.2;
+  //Set audio to loop
+  initAudio.loop = true;
   const [audio] = useState(initAudio);
   const [playing, setPlaying] = useState(false);
   const doNothing = () => {};
