@@ -7,7 +7,7 @@ Object {
     <div>
       <div>
         <button
-          class="absolute z-10 top-2 left-2 px-5 py-3 font-semibold text-white rounded-lg text-l bg-ice-6 hover:bg-ice-5"
+          class="absolute z-10 px-5 py-3 font-semibold text-white rounded-lg top-2 left-2 text-l bg-ice-6 hover:bg-ice-5"
         >
           <svg
             aria-hidden="true"
@@ -152,7 +152,7 @@ Object {
   "container": <div>
     <div>
       <button
-        class="absolute z-10 top-2 left-2 px-5 py-3 font-semibold text-white rounded-lg text-l bg-ice-6 hover:bg-ice-5"
+        class="absolute z-10 px-5 py-3 font-semibold text-white rounded-lg top-2 left-2 text-l bg-ice-6 hover:bg-ice-5"
       >
         <svg
           aria-hidden="true"
