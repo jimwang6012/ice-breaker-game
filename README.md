@@ -17,7 +17,7 @@ During the COVID Pandemic, people could hardly meet in person, resulting in a se
 
 Here we are, Introducing the **cutting-edge** multiplayer mini-game “Ice Breakers” where players can invite their newly formed group to a quick game for introductory and Ice-Breaking purposes. A live chat is provided during the game for the group to communicate and get accustomed to each other.
 
-Play now: https://break-ice-game.herokuapp.com/
+Play now: https://ice-breakers-game.herokuapp.com/
 
 ![image-20220514213325910](https://user-images.githubusercontent.com/62285883/168422575-8eac6b48-9c91-490f-ab14-68314cc02c05.png)
 
