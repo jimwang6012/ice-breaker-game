@@ -51,7 +51,7 @@ Only the host can change the game configuration. If no seal player is chosen, th
 |   D   |                                Move right one ice                                 |
 | Space | Break the neighbouring ice in the direction that the player is facing (seal only) |
 
-**Seal** can only move on the broken ices (squares with light blue borders).
+**Seal** can only move in water (where ice is broken).
 
 **Penguin** can only move on the ices (light blue squares).
 
