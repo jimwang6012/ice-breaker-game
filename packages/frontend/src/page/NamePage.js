@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../AppContextProvider";
 import socket from "../Socket";
-import { MainButton } from "../component/Component";
+import { MainButton } from "../component/MainButton";
 import { Modal } from "../component/Modal";
 import { BsFillXCircleFill, BsCheckCircleFill } from "react-icons/bs";
 

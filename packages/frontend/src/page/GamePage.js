@@ -16,7 +16,7 @@ import { AppContext } from "../AppContextProvider";
 import { LeaderBoard } from "../component/LeaderBoard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVideoCamera } from "@fortawesome/free-solid-svg-icons";
-import { convertToMS } from "../util/timer";
+import { convertToMS } from "../util/GameTimer";
 
 function GamePage() {
   const navigate = useNavigate();
@@ -238,7 +238,7 @@ function GamePage() {
                                 height: Math.round(iceSize),
                                 margin: Math.round(iceSize / board.length),
                               }}
-                              className="flex items-center justify-center m-2 shadow-md player bg-ice-full bg-no-repeat bg-cover"
+                              className="flex items-center justify-center m-2 bg-no-repeat bg-cover shadow-md player bg-ice-full"
                             >
                               {players.map((item, index) => {
                                 if (onThisIce(item, row, col)) {
@@ -260,7 +260,7 @@ function GamePage() {
                                 height: Math.round(iceSize),
                                 margin: Math.round(iceSize / board.length),
                               }}
-                              className="flex items-center justify-center m-2 player bg-ice-broken bg-no-repeat bg-cover"
+                              className="flex items-center justify-center m-2 bg-no-repeat bg-cover player bg-ice-broken"
                             >
                               {players.map((item, index) => {
                                 if (

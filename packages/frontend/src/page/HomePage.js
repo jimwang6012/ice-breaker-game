@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../AppContextProvider";
-import { MainButton } from "../component/Component";
+import { MainButton } from "../component/MainButton";
 
 function HomePage() {
   document.body.style.overflow = "hidden";
