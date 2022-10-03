@@ -17,7 +17,9 @@ During the COVID Pandemic, people could hardly meet in person, resulting in a se
 
 Here we are, Introducing the **cutting-edge** multiplayer mini-game “Ice Breakers” where players can invite their newly formed group to a quick game for introductory and Ice-Breaking purposes. A live chat is provided during the game for the group to communicate and get accustomed to each other.
 
-Play now: https://ice-breakers-game.herokuapp.com/
+Play now: http://ec2-13-236-207-49.ap-southeast-2.compute.amazonaws.com/ (Deployed to **AWS EC2 Instance**)
+
+**Note:** Connection is via HTTP since I do not have a domain.
 
 ![image-20220514213325910](https://user-images.githubusercontent.com/62285883/168422575-8eac6b48-9c91-490f-ab14-68314cc02c05.png)
 
@@ -72,7 +74,7 @@ To clone and run this application, you'll need [Git](https://git-scm.com), [Node
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/UOA-CS732-SE750-Students-2022/break-ice-game
+$ git clone https://github.com/jimwang6012/ice-breaker-game.git
 
 # Install dependencies
 $ yarn install
