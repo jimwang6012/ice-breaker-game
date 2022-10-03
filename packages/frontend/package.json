@@ -15,9 +15,11 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.0",
     "classnames": "^2.3.1",
+    "husky": "^8.0.1",
     "react": "^17.0.2",
     "react-avatar": "^4.0.0",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.4.0",
     "react-keyboard-input-hook": "^1.0.3",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
@@ -54,5 +56,4 @@
     "react-test-renderer": "^17.0.2",
     "tailwindcss": "^3.0.23"
   }
-  
 }
