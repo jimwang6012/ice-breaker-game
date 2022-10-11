@@ -19,7 +19,7 @@ Here we are, Introducing the **cutting-edge** multiplayer mini-game “Ice Break
 
 Play now: http://ec2-13-236-207-49.ap-southeast-2.compute.amazonaws.com/ (Deployed to **AWS EC2 Instance**)
 
-**Note:** Connection is via HTTP since I do not have a domain.
+**Note:** Connection is via HTTP since we do not have a domain.
 
 ![image-20220514213325910](https://user-images.githubusercontent.com/62285883/168422575-8eac6b48-9c91-490f-ab14-68314cc02c05.png)
 
@@ -105,17 +105,13 @@ yarn test
 
 https://dova-s.jp/EN/bgm/play7987.html
 
-## Team
+## **Contributors**
 
-**Team name:** No More Delay
-
-#### **Members**
-
-| Name      | upi     |
-| --------- | ------- |
-| Peter     | tzho416 |
-| Dylan Xin | dxin779 |
-| Owen Wang | wany027 |
-| Jianle Li | jli830  |
-| Jeff Peng | zpen741 |
-| Jimmy     | swan825 |
+| Name       |
+| ---------- |
+| Peter Zhong|
+| Dylan Xin  |
+| Jimmy Wang |
+| Owen Wang  |
+| Jianle Li  |
+| Jeff Peng  |
