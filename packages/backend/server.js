@@ -17,8 +17,6 @@ import {
 } from "./socket/on.js";
 import { initSocketServer, getSocketIO } from "./socket/index.js";
 
-const ROOMS = new Map();
-
 // Setup Express
 const app = express();
 const httpServer = createServer(app);
